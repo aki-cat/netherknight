@@ -6,8 +6,8 @@ prototype.__type = 'prototype'
 local function recursive_construct(obj, super)
   if not super then return end
   recursive_construct(super, super:__super())
-  if super.__construct and type(super.__construct) == 'function' then
-    super.__construct(obj)
+  if super.__init and type(super.__init) == 'function' then
+    super.__init(obj)
   end
 end
 
