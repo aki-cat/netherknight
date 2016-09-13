@@ -1,6 +1,6 @@
 
 
-local view = class.object:new{
+local view = class.object:new {
   __type = 'view'
 }
 

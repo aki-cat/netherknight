@@ -1,5 +1,5 @@
 
-local input = class.object:new{
+local input = class.object:new {
   keymap = {
     quit   = 'f8',
     maru   = 'z',

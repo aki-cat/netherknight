@@ -1,6 +1,7 @@
 
 
-local physics = class.object:new{
+local physics = class.object:new {
+
   __type = 'physics'
 }
 

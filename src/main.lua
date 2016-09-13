@@ -1,15 +1,15 @@
 
 -- libs
 orangelua = require 'lib.orangelua.pack' 'lib.orangelua'
-hump = pack 'lib.hump'
+hump = orangelua.pack 'lib.hump'
 
 -- modules
 local globals = require 'globals'
 local fixedframe = require "fixedframe"
-local class = pack 'class'
-local gamestate = pack 'gamestate'
-local resource = pack 'resource'
-local modules = pack 'modules'
+local class = orangelua.pack 'class'
+local gamestate = orangelua.pack 'gamestate'
+local resource = orangelua.pack 'resource'
+local modules = orangelua.pack 'modules'
 
 -- local
 local framedelay = 0

@@ -1,5 +1,5 @@
 
-local object = lib.orangelua.prototype:new{
+local object = lib.orangelua.prototype:new {
   __type = 'object'
 }
 
@@ -15,7 +15,7 @@ function object:update()
   -- do stuff
 end
 
-function object:render()
+function object:draw()
   -- draw stuff
 end
 
