@@ -5,16 +5,23 @@ hump = orangelua.pack 'lib.hump'
 
 -- modules
 local globals = require 'globals'
-local fixedframe = require "fixedframe"
 local class = orangelua.pack 'class'
 local gamestate = orangelua.pack 'gamestate'
 local resource = orangelua.pack 'resource'
 local modules = orangelua.pack 'modules'
+local input = modules.input:new {}
 
 -- local
 local framedelay = 0
 
 function love.load ()
+  hump.signal.register(
+    'presskey',
+    function(action)
+      if action == 'quit' then
+        love.event.quit()
+      end
+    end)
   hump.gamestate.switch(gamestate.game)
 end
 
@@ -23,10 +30,8 @@ function love.update (dt)
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
     -- update modules
-    modules.input:update()
-    modules.physics:update()
+    input:update()
     hump.gamestate.update()
-    modules.view:update()
   end
 end
 
@@ -35,9 +40,9 @@ function love.draw ()
 end
 
 function love.keypressed (key)
-  modules.input:checkpress(key)
+  input:checkpress(key)
 end
 
 function love.keyreleased (key)
-  modules.input:checkrelease(key)
+  input:checkrelease(key)
 end

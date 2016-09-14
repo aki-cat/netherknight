@@ -1,5 +1,5 @@
 
-local vector = lib.orangelua.prototype:new {
+local vector = orangelua.prototype:new {
   0,
   0,
   0,

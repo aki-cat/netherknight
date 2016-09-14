@@ -1,5 +1,5 @@
 
-local input = class.object:new {
+local input = orangelua.prototype:new {
   keymap = {
     quit   = 'f8',
     maru   = 'z',
@@ -8,16 +8,20 @@ local input = class.object:new {
     right  = 'right',
     down   = 'down',
     left   = 'left',
-  }
+  },
   __type = 'input'
 }
 
-function input:checkpress (key)
-  input:handlepress(key)
+function input:checkpress (k)
+  for action,key in pairs(self.keymap) do
+    if key == k then input:handlepress(action) end
+  end
 end
 
-function input:checkrelease (key)
-  input:handlerelease(key)
+function input:checkrelease (k)
+  for action,key in pairs(self.keymap) do
+    if key == k then input:handlerelease(action) end
+  end
 end
 
 function input:checkhold ()
@@ -45,4 +49,8 @@ function input:update ()
   self:checkhold()
 end
 
-return input:new{}
+function input:__index (k)
+  return getmetatable(self)[k]
+end
+
+return input

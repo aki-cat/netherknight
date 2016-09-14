@@ -1,19 +1,23 @@
 
+local class = orangelua.pack 'class'
 
-local game = {}
+local model, view
+
+local game = class.gamestate:new {}
+
+function game:init()
+end
 
 function game:enter()
-
 end
 
-function game:update(dt)
+function game:update()
 end
 
-function game:draw(dt)
+function game:draw()
 end
 
 function game:leave()
-
 end
 
 return game
