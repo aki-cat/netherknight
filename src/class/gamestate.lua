@@ -6,8 +6,9 @@ local gamestate = orangelua.prototype:new {
 }
 
 function gamestate:__init ()
-  self.model = modules.model:new {}
-  self.view = modules.view:new {}
+  self.control = modules.control:new {}
+  self.physics = modules.physics:new {}
+  self.display = modules.display:new {}
 end
 
 function gamestate:__index (k)
@@ -15,13 +16,15 @@ function gamestate:__index (k)
 end
 
 function gamestate:update ()
-  self.model:update()
-  self.view:update()
+  self.control:update()
+  self.physics:update()
+  self.display:update()
 end
 
 function gamestate:draw ()
-  self.model:draw()
-  self.view:draw()
+  self.control:draw()
+  self.physics:draw()
+  self.display:draw()
 end
 
 return gamestate

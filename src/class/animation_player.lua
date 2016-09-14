@@ -1,11 +1,12 @@
 
 local globals = require 'globals'
+local class = orangelua.pack 'class'
 
 local defaultquad = { 0, 0, globals.unit, globals.unit, globals.unit, globals.unit }
 
 local animation_player = class.object:new {
-  animations = { default = false },
-  current = 'default'
+  animations = { default = class.animation:new{ love.graphics.newQuad(unpack(defaultquad)) } },
+  current = 'default',
   __type = 'animation_player'
 }
 
@@ -30,11 +31,10 @@ function animation_player:stop ()
 end
 
 function animation_player:getquad ()
-  return self.animations[self.current].qid
+  return self.animations[self.current].current
 end
 
-function animation_player:update ()
-  self:__super().update(self)
+function animation_player:__update ()
 end
 
 return animation_player

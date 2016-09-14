@@ -67,9 +67,9 @@ function vector:__div (l, r)
 end
 
 function vector:set (x, y, z)
-  self[1] = x or 0,
-  self[2] = y or 0,
-  self[3] = z or 0,
+  self[1] = x or 0
+  self[2] = y or 0
+  self[3] = z or 0
 end
 
 function vector:unpack ()

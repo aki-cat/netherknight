@@ -4,6 +4,7 @@ orangelua = require 'lib.orangelua.pack' 'lib.orangelua'
 hump = orangelua.pack 'lib.hump'
 
 -- modules
+local input = require 'input'
 local globals = require 'globals'
 local class = orangelua.pack 'class'
 local gamestate = orangelua.pack 'gamestate'
@@ -32,7 +33,7 @@ function love.update (dt)
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
     -- update modules
-    modules.input:update()
+    input:update()
     hump.gamestate.update()
   end
 end
@@ -42,9 +43,9 @@ function love.draw ()
 end
 
 function love.keypressed (key)
-  modules.input:checkpress(key)
+  input:checkpress(key)
 end
 
 function love.keyreleased (key)
-  modules.input:checkrelease(key)
+  input:checkrelease(key)
 end
