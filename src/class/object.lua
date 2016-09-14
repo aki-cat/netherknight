@@ -6,7 +6,6 @@ local object = orangelua.prototype:new {
 }
 
 function object:__init()
-  print(self.__type)
 end
 
 function object:__index (k)

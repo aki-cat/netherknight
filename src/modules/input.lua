@@ -53,4 +53,4 @@ function input:__index (k)
   return getmetatable(self)[k]
 end
 
-return input
+return input:new {}

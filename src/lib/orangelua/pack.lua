@@ -3,7 +3,6 @@ local package_mt = {}
 package_mt.__mode = 'kv'
 
 function package_mt:__index(module)
-  print('requesting...', self[package_mt] .. '.' .. module)
   local file = require (self[package_mt] .. '.' .. module)
   if file then
     self[module] = file

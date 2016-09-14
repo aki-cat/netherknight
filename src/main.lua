@@ -9,10 +9,12 @@ local class = orangelua.pack 'class'
 local gamestate = orangelua.pack 'gamestate'
 local resource = orangelua.pack 'resource'
 local modules = orangelua.pack 'modules'
-local input = modules.input:new {}
 
 -- local
 local framedelay = 0
+
+-- game_id
+local game_id = {}
 
 function love.load ()
   hump.signal.register(
@@ -30,7 +32,7 @@ function love.update (dt)
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
     -- update modules
-    input:update()
+    modules.input:update()
     hump.gamestate.update()
   end
 end
@@ -40,9 +42,9 @@ function love.draw ()
 end
 
 function love.keypressed (key)
-  input:checkpress(key)
+  modules.input:checkpress(key)
 end
 
 function love.keyreleased (key)
-  input:checkrelease(key)
+  modules.input:checkrelease(key)
 end
