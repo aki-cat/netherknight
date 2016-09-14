@@ -65,7 +65,6 @@ function sprite:__update ()
 end
 
 function sprite:__draw ()
-  print(unpack(self))
   love.graphics.draw(unpack(self))
 end
 

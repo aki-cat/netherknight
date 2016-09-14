@@ -1,4 +1,5 @@
 
+local globals = require 'globals'
 local class = orangelua.pack 'class'
 
 local view = class.object:new {
@@ -6,11 +7,9 @@ local view = class.object:new {
 }
 --[[
 function view:update ()
-  --self:__super().update(self)
 end
 
 function view:draw ()
-  --self:__super().draw(self)
 end
 ]]
 return view

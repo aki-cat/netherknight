@@ -34,7 +34,7 @@ function love.update (dt)
     framedelay = framedelay - globals.frameunit
     -- update modules
     input:update()
-    hump.gamestate.update()
+    hump.gamestate.update(dt)
   end
 end
 
