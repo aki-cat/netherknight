@@ -36,4 +36,12 @@ function gamestate:del_drawable (name)
   self.drawables[name] = nil
 end
 
+function gamestate:synchronize (bodyname)
+  if self.drawables[bodyname] then
+    local body = self.bodies[bodyname]
+    local drawable = self.drawables[bodyname]
+    drawable.pos:set(body.pos:unpack())
+  end
+end
+
 return gamestate

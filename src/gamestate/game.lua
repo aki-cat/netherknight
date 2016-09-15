@@ -21,18 +21,13 @@ function game:enter ()
   controller:connect()
 end
 
-function game:synchronize (bodyname)
-  if self.drawables[bodyname] then
-    local body = self.bodies[bodyname]
-    local drawable = self.drawables[bodyname]
-    drawable.pos:set(body.pos:unpack())
-  end
-end
-
 function game:update ()
   for bname,body in pairs(self.bodies) do
     self:synchronize(bname)
     body:update()
+    for _,anybody in pairs(self.bodies) do
+      if body ~= anybody then body:checkandcollide(anybody) end
+    end
   end
   for _,drawable in pairs(self.drawables) do
     drawable:update()
@@ -47,8 +42,6 @@ function game:draw ()
 
   for _,body in pairs(self.bodies) do
     body:draw()
-    local pos = body.pos - body.size / 2
-    love.graphics.rectangle('fill', pos.x, pos.y, body.size:unpack())
   end
   for _,drawable in pairs(self.drawables) do
     drawable:draw()

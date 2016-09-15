@@ -9,6 +9,7 @@ local sprite = basic.prototype:new {
 function sprite:__init ()
   local resource = self[1]
   self.pos = basic.vector:new { resource[3], resource[4] }
+  self.offset = basic.vector:new { resource[8], resource[9] }
   self.scale = (resource[6] + resource[7]) / 2
   self.rotation = 0
   self.fliph = false
@@ -47,6 +48,7 @@ function sprite:update ()
   self.drawable[5] = self.rotation
   self.drawable[6] = self.fliph and -self.scale or self.scale
   self.drawable[7] = self.flipv and -self.scale or self.scale
+  self.drawable[8], self.drawable[9] = self.offset.x, self.offset.y
 end
 
 function sprite:draw ()

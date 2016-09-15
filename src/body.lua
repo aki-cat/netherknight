@@ -16,6 +16,8 @@ local directions = {
 }
 
 function body:__init ()
+  self.maxhp = 10
+  self.dmg = 0
   self.locktimer = hump.timer.new()
   self.locked = false
   self.pos = basic.vector:new { self[1], self[2] }
@@ -26,6 +28,7 @@ function body:__init ()
 end
 
 function body:update ()
+  print('body', self.pos:unpack(), self.speed:unpack())
   self.locktimer:update(delta)
   self:deaccelerate()
   self.pos:add(self.speed)
@@ -60,6 +63,23 @@ end
 
 function body:unlock ()
   self.locked = false
+end
+
+function body:checkandcollide (anybody)
+  local body_top_left = self.pos - self.size / 2
+  local body_bottom_right = self.pos + self.size / 2
+  local anybody_top_left = anybody.pos - anybody.size / 2
+  local anybody_bottom_right = anybody.pos + anybody.size / 2
+
+  local colliding = true
+  if body_top_left.x > anybody_bottom_right.x then colliding = false end
+  if body_top_left.y > anybody_bottom_right.y then colliding = false end
+  if body_bottom_right.x < anybody_top_left.x then colliding = false end
+  if body_bottom_right.y < anybody_top_left.y then colliding = false end
+
+  if colliding then
+    hump.signal.emit('body_collision', self, anybody)
+  end
 end
 
 return body

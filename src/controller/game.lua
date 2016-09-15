@@ -1,7 +1,7 @@
 
 local sprites = basic.pack 'database.sprites'
 
-local inputactions = {}
+local gamecontroller = {}
 
 local slash = require 'sprite' :new { sprites.slash }
 local dash_speed = 0.3
@@ -41,7 +41,7 @@ local function shortattack (player, dirangle)
   animateslash(player, dist)
 end
 
-inputactions.input_attack = {
+gamecontroller.input_attack = {
   signal = 'presskey',
   func = function (action)
     if action ~= 'maru' then return end
@@ -57,7 +57,7 @@ inputactions.input_attack = {
   end
 }
 
-inputactions.input_move_player = {
+gamecontroller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
@@ -71,4 +71,12 @@ inputactions.input_move_player = {
   end
 }
 
-return require 'controller' :new { actions = inputactions }
+gamecontroller.stop_body_on_collision = {
+  signal = 'body_collision',
+  func = function (body, somebody)
+    body.pos:sub(body.speed)
+    body.speed:set()
+  end
+}
+
+return require 'controller' :new { actions = gamecontroller }
