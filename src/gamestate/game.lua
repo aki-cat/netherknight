@@ -3,18 +3,27 @@ local game = basic.prototype:new {}
 local controls = controls.game
 
 local element_list = {}
-local player
 
 function game.getplayer ()
-  return player
+  return element_list.player
+end
+
+function game:addelement (name, element)
+  assert(not element_list[name], "Cannot add second element of same name.")
+  element_list[name] = element
+end
+
+function game:delelement (name)
+  assert(element_list[name], "Cannot remove element that doesn't exist.")
+  element_list[name] = nil
 end
 
 function game:init()
-  player = require 'player' :new { globals.width / 2, globals.height / 2 }
+  local player = require 'body' :new { globals.width / 2, globals.height / 2 }
+  self:addelement('player', player)
 end
 
 function game:enter()
-  table.insert(element_list, player)
   controls:connect()
 end
 

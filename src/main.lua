@@ -36,6 +36,7 @@ function love.update (dt)
     -- update modules
     delta = dt
     input:update()
+    hump.timer.update(dt)
     hump.gamestate.update()
   end
 end

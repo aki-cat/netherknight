@@ -1,33 +1,72 @@
 
+local sprites = basic.pack 'database.sprites'
+
 local gameactions = {}
 
+local slash = require 'body' :new { sprite = sprites.slash }
+local dash_speed = 0.3
+local directions = {
+  right      = math.pi * 0/4,
+  down_right = math.pi * 1/4,
+  down       = math.pi * 2/4,
+  down_left  = math.pi * 3/4,
+  left       = math.pi * 4/4,
+  up_left    = math.pi * 5/4,
+  up         = math.pi * 6/4,
+  up_right   = math.pi * 7/4
+}
+
+local function animateslash(player, dist)
+  slash.sprite[5] = math.atan2(dist.y, dist.x)
+  dist:add{0, -1/4, 0}
+  slash.pos:set((player.pos + dist/4):unpack())
+  hump.gamestate.current():addelement('slash', slash)
+  hump.timer.after(0.2, function() hump.gamestate.current():delelement('slash') hump.timer.clear() end)
+  hump.timer.every(globals.frameunit, function()
+    slash.pos:set((player.pos + dist/4):unpack())
+  end)
+end
+
+local function longattack(player, dirangle)
+  local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
+  animateslash(player, dist*1)
+  dist:mul(dash_speed)
+  player:lock(0.5)
+  player.speed:add(dist)
+end
+
+local function shortattack(player, dirangle)
+  local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
+  player:lock(0.3)
+  animateslash(player, dist)
+end
+
+gameactions.input_attack = {
+  signal = 'presskey',
+  func = function (action)
+    if action ~= 'maru' then return end
+    local player = hump.gamestate.current().getplayer()
+    if player.locked then return end
+    local dir = player:getdirection()
+
+    if player.speed * player.speed > 0.001 then
+      longattack(player, dir)
+    else
+      shortattack(player, dir)
+    end
+  end
+}
 
 gameactions.input_move_player = {
   signal = 'holdkey',
   func = function (action)
+    if action == 'maru' or action == 'batsu' or action == 'quit' then return end
     local player = hump.gamestate.current().getplayer()
+    if player.locked then return end
     local movement = basic.vector:new {}
     local speed = globals.frameunit * globals.unit / 64
-    local angle = math.pi -- 180 degrees
-    local condition = false
-    local directions = {
-      right      = angle * 0/4,
-      down_right = angle * 1/4,
-      down       = angle * 2/4,
-      down_left  = angle * 3/4,
-      left       = angle * 4/4,
-      up_left    = angle * 5/4,
-      up         = angle * 6/4,
-      up_right   = angle * 7/4
-    }
-    for dir,_ in pairs(directions) do
-      if dir == action then
-        condition = true
-        break
-      end
-    end
-    if not condition then return end
     movement:set(speed * math.cos(directions[action]), speed * math.sin(directions[action]))
+    player:face(action)
     player:move(movement)
   end
 }

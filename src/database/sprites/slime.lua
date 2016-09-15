@@ -15,7 +15,7 @@ slime[8]  = 32
 slime[9]  = 80
 
 slime.animations = {
-  idle = {
+  default = {
     default = true,
     quads = {
       love.graphics.newQuad(0*64, 0, 64, 96, w, h),

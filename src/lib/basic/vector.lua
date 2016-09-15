@@ -46,9 +46,9 @@ end
 
 function vector.__mul (l, r)
   if type(l) == 'number' then
-    scalar_product(r, l)
+    return scalar_product(r, l)
   elseif type(r) == 'number' then
-    scalar_product(l, r)
+    return scalar_product(l, r)
   else
     return l[1] * r[1] + l[2] * r[2] + l[3] * r[3]
   end
@@ -56,7 +56,7 @@ end
 
 function vector.__div (l, r)
   if type(r) == 'number' then
-    scalar_product(l, 1.0/r)
+    return scalar_product(l, 1.0/r)
   else
     return error "Can't divide " .. type(l) .. " by " .. type(r) .. "."
   end
@@ -81,7 +81,7 @@ function vector:normalized ()
 end
 
 function vector:normalize ()
-  return self:mul(1/self:size())
+  self:mul(1/self:size())
 end
 
 function vector:add (v)
