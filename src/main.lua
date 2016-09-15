@@ -3,6 +3,7 @@
 globals = require 'globals'
 basic = require 'lib.basic.pack' 'lib.basic'
 hump = basic.pack 'lib.hump'
+controls = basic.pack 'controls'
 delta = 0
 
 -- modules

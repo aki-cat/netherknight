@@ -1,37 +1,16 @@
 
 local game = basic.prototype:new {}
+local controls = controls.game
 
 local element_list = {}
-local player = require 'player' :new { globals.width / 2, globals.height / 2 }
-
-local function move_player(action)
-  local movement = basic.vector:new {}
-  local speed = globals.frameunit * globals.unit / 64
-  local angle = math.pi -- 180 degrees
-
-  if action == 'up' then
-    movement:set(math.cos(angle * 3/2) * speed, math.sin(angle * 3/2) * speed)
-    player:move(movement)
-  elseif action == 'right' then
-    movement:set(math.cos(angle * 0/2) * speed, math.sin(angle * 0/2) * speed)
-    player:move(movement)
-  elseif action == 'down' then
-    movement:set(math.cos(angle * 1/2) * speed, math.sin(angle * 1/2) * speed)
-    player:move(movement)
-  elseif action == 'left' then
-    movement:set(math.cos(angle * 2/2) * speed, math.sin(angle * 2/2) * speed)
-    player:move(movement)
-  end
-end
 
 function game:init()
-  table.insert(element_list, player)
+  player = require 'player' :new { globals.width / 2, globals.height / 2 }
 end
 
 function game:enter()
-  hump.signal.register(
-    'holdkey',
-    move_player)
+  table.insert(element_list, player)
+  controls:connect()
 end
 
 function game:update()
@@ -52,7 +31,7 @@ function game:draw()
 end
 
 function game:leave()
-  hump.signal.remove('holdkey', move_player)
+  controls:disconnect()
 end
 
 return game
