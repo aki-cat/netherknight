@@ -1,37 +1,39 @@
 
-local game = basic.prototype:new {}
+local game = require 'gamestate' :new {}
 local controller = controllers.game
+local sprites = basic.pack 'database.sprites'
 
-local element_list = {}
-
-function game.getplayer ()
-  return element_list.player
-end
-
-function game:addelement (name, element)
-  assert(not element_list[name], "Cannot add second element of same name.")
-  element_list[name] = element
-end
-
-function game:delelement (name)
-  assert(element_list[name], "Cannot remove element that doesn't exist.")
-  element_list[name] = nil
-end
+local bodies = {}
+local drawables = {}
 
 function game:init ()
-  local player = require 'body' :new { globals.width / 2, globals.height / 2 }
-  self:addelement('player', player)
+  local player_body = require 'body' :new { globals.width / 2, globals.height / 2 }
+  local player_sprite = require 'sprite' :new { sprites.slime }
+  self:add_body('player', player_body)
+  self:add_drawable('player', player_sprite)
 end
 
 function game:enter ()
   --local slime = require 'body' :new { globals.width / 4, globals.height / 4 }
-  --self:addelement('slime00', slime)
+  --self:add_body('slime00', slime)
   controller:connect()
 end
 
+function game:synchronize (bodyname)
+  if self.drawables[bodyname] then
+    local body = self.bodies[bodyname]
+    local drawable = self.drawables[bodyname]
+    drawable.pos:set(body.pos:unpack())
+  end
+end
+
 function game:update ()
-  for _,element in pairs(element_list) do
-    element:update()
+  for bname,body in pairs(self.bodies) do
+    self:synchronize(bname)
+    body:update()
+  end
+  for _,drawable in pairs(self.drawables) do
+    drawable:update()
   end
 end
 
@@ -39,8 +41,11 @@ function game:draw ()
   love.graphics.push()
 
   love.graphics.scale(globals.unit)
-  for _,element in pairs(element_list) do
-    element:draw()
+  for _,body in pairs(self.bodies) do
+    body:draw()
+  end
+  for _,drawable in pairs(self.drawables) do
+    drawable:draw()
   end
 
   love.graphics.pop()

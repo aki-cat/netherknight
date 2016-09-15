@@ -1,9 +1,6 @@
 
-local sprites = basic.pack 'database.sprites'
-
 local body = basic.prototype:new {
   0, 0,
-  sprite = sprites.slime,
   __type = 'body'
 }
 
@@ -19,28 +16,21 @@ local directions = {
 }
 
 function body:__init ()
-  self.locktime = hump.timer.new()
+  self.locktimer = hump.timer.new()
   self.locked = false
   self.pos = basic.vector:new { self[1], self[2] }
   self.dir = 'down'
   self.speed = basic.vector:new {}
-  self.sprite = basic.prototype:new (self.sprite)
-  self.animation = 'default'
-  self.qid = 1
-  self.sprite[2] = self.sprite.animations[self.animation].quads[self.qid]
   self[1], self[2] = nil, nil
 end
 
 function body:update ()
-  self.locktime:update(delta)
+  self.locktimer:update(delta)
   self:deaccelerate()
   self.pos:add(self.speed)
-  self.sprite[2] = self.sprite.animations[self.animation].quads[self.qid]
-  self.sprite[3], self.sprite[4] = self.pos:unpack()
 end
 
 function body:draw ()
-  love.graphics.draw(unpack(self.sprite))
 end
 
 function body:move (acc)
@@ -54,21 +44,21 @@ function body:deaccelerate ()
   end
 end
 
-function body:lock (time)
-  self.locktime:after(time, function() self:unlock() end)
-  self.locked = true
-end
-
-function body:unlock ()
-  self.locked = false
-end
-
 function body:face(dname)
   self.dir = dname
 end
 
 function body:getdirection()
   return directions[self.dir]
+end
+
+function body:lock (time)
+  self.locktimer:after(time, function() self:unlock() end)
+  self.locked = true
+end
+
+function body:unlock ()
+  self.locked = false
 end
 
 return body

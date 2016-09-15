@@ -3,7 +3,7 @@ local sprites = basic.pack 'database.sprites'
 
 local inputactions = {}
 
-local slash = require 'body' :new { sprite = sprites.slash }
+local slash = require 'sprite' :new { sprites.slash }
 local dash_speed = 0.3
 local directions = {
   right      = math.pi * 0/4,
@@ -17,11 +17,11 @@ local directions = {
 }
 
 local function animateslash (player, dist)
-  slash.sprite[5] = math.atan2(dist.y, dist.x)
+  slash:setrotation(math.atan2(dist.y, dist.x))
   dist:add{0, -1/4, 0}
   slash.pos:set((player.pos + dist/4):unpack())
-  hump.gamestate.current():addelement('slash', slash)
-  hump.timer.after(0.2, function() hump.gamestate.current():delelement('slash') hump.timer.clear() end)
+  hump.gamestate.current():add_drawable('slash', slash)
+  hump.timer.after(0.2, function() hump.gamestate.current():del_drawable('slash') hump.timer.clear() end)
   hump.timer.every(globals.frameunit, function()
     slash.pos:set((player.pos + dist/4):unpack())
   end)
@@ -45,7 +45,7 @@ inputactions.input_attack = {
   signal = 'presskey',
   func = function (action)
     if action ~= 'maru' then return end
-    local player = hump.gamestate.current().getplayer()
+    local player = hump.gamestate.current():getplayerbody()
     if player.locked then return end
     local dir = player:getdirection()
 
@@ -61,7 +61,7 @@ inputactions.input_move_player = {
   signal = 'holdkey',
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
-    local player = hump.gamestate.current().getplayer()
+    local player = hump.gamestate.current():getplayerbody()
     if player.locked then return end
     local movement = basic.vector:new {}
     local speed = globals.frameunit * globals.unit / 64
