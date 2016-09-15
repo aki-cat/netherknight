@@ -1,5 +1,5 @@
 
-local input = orangelua.prototype:new {
+local input = basic.prototype:new {
   keymap = {
     quit   = 'f8',
     maru   = 'z',

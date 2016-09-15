@@ -1,5 +1,5 @@
 
-local vector = orangelua.prototype:new {
+local vector = require 'prototype' :new {
   0,
   0,
   0,

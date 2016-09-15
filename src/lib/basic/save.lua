@@ -1,6 +1,4 @@
 
-local modules = orangelua.pack 'modules'
-
 local save = {}
 
 function save.write(filepath, str)
