@@ -1,6 +1,6 @@
 
 local body = basic.prototype:new {
-  0, 0,
+  0, 0, 0, 0,
   __type = 'body'
 }
 
@@ -19,6 +19,7 @@ function body:__init ()
   self.locktimer = hump.timer.new()
   self.locked = false
   self.pos = basic.vector:new { self[1], self[2] }
+  self.size = basic.vector:new { self[3], self[4] }
   self.dir = 'down'
   self.speed = basic.vector:new {}
   self[1], self[2] = nil, nil
