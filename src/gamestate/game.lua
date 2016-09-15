@@ -18,22 +18,24 @@ function game:delelement (name)
   element_list[name] = nil
 end
 
-function game:init()
+function game:init ()
   local player = require 'body' :new { globals.width / 2, globals.height / 2 }
   self:addelement('player', player)
 end
 
-function game:enter()
+function game:enter ()
+  --local slime = require 'body' :new { globals.width / 4, globals.height / 4 }
+  --self:addelement('slime00', slime)
   controller:connect()
 end
 
-function game:update()
+function game:update ()
   for _,element in pairs(element_list) do
     element:update()
   end
 end
 
-function game:draw()
+function game:draw ()
   love.graphics.push()
 
   love.graphics.scale(globals.unit)
@@ -44,7 +46,7 @@ function game:draw()
   love.graphics.pop()
 end
 
-function game:leave()
+function game:leave ()
   controller:disconnect()
 end
 

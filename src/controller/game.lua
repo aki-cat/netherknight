@@ -16,7 +16,7 @@ local directions = {
   up_right   = math.pi * 7/4
 }
 
-local function animateslash(player, dist)
+local function animateslash (player, dist)
   slash.sprite[5] = math.atan2(dist.y, dist.x)
   dist:add{0, -1/4, 0}
   slash.pos:set((player.pos + dist/4):unpack())
@@ -27,7 +27,7 @@ local function animateslash(player, dist)
   end)
 end
 
-local function longattack(player, dirangle)
+local function longattack (player, dirangle)
   local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
   animateslash(player, dist*1)
   dist:mul(dash_speed)
@@ -35,7 +35,7 @@ local function longattack(player, dirangle)
   player.speed:add(dist)
 end
 
-local function shortattack(player, dirangle)
+local function shortattack (player, dirangle)
   local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
   player:lock(0.3)
   animateslash(player, dist)
