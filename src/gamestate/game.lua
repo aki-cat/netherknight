@@ -1,54 +1,58 @@
 
-local globals = require 'globals'
-local sprite = basic.pack 'database.sprites'
-
 local game = basic.prototype:new {}
 
-local drawable_list = {}
-local slime
+local element_list = {}
+local player = require 'player' :new { globals.width / 2, globals.height / 2 }
 
-local function move_slime(action)
-  local speed = .05
+local function move_player(action)
+  local movement = basic.vector:new {}
+  local speed = globals.frameunit * globals.unit / 64
+  local angle = math.pi -- 180 degrees
+
   if action == 'up' then
-    slime[4] = slime[4] - speed
+    movement:set(math.cos(angle * 3/2) * speed, math.sin(angle * 3/2) * speed)
+    player:move(movement)
   elseif action == 'right' then
-    slime[3] = slime[3] + speed
+    movement:set(math.cos(angle * 0/2) * speed, math.sin(angle * 0/2) * speed)
+    player:move(movement)
   elseif action == 'down' then
-    slime[4] = slime[4] + speed
+    movement:set(math.cos(angle * 1/2) * speed, math.sin(angle * 1/2) * speed)
+    player:move(movement)
   elseif action == 'left' then
-    slime[3] = slime[3] - speed
+    movement:set(math.cos(angle * 2/2) * speed, math.sin(angle * 2/2) * speed)
+    player:move(movement)
   end
 end
 
 function game:init()
-  slime = basic.prototype:new (sprite.slime)
-  slime[2] = slime.animations.idle.quads[1]
-  slime[3], slime[4] = globals.width / 2, globals.height / 2
-  table.insert(drawable_list, slime)
+  table.insert(element_list, player)
 end
 
 function game:enter()
   hump.signal.register(
     'holdkey',
-    move_slime)
+    move_player)
 end
 
 function game:update()
+  for _,element in pairs(element_list) do
+    element:update()
+  end
 end
 
 function game:draw()
   love.graphics.push()
 
   love.graphics.scale(globals.unit)
-  for _,drawable in pairs(drawable_list) do
-    love.graphics.draw(unpack(drawable))
+  for _,element in pairs(element_list) do
+    element:draw()
   end
 
   love.graphics.pop()
 end
 
 function game:leave()
-  hump.signal.remove('holdkey', move_slime)
+  hump.signal.remove('holdkey', move_player)
 end
 
 return game

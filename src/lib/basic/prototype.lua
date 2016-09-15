@@ -23,4 +23,8 @@ function prototype:__super()
   return getmetatable(self)
 end
 
+function prototype:__index (k)
+  return getmetatable(self)[k]
+end
+
 return prototype

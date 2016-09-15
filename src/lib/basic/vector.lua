@@ -1,5 +1,5 @@
 
-local vector = require 'prototype' :new {
+local vector = basic.prototype :new {
   0,
   0,
   0,
@@ -20,7 +20,7 @@ function vector:__newindex (k, v)
   else rawset(self, k, v) end
 end
 
-function vector:__add (l, r)
+function vector.__add (l, r)
   return vector:new{
     l[1] + r[1],
     l[2] + r[2],
@@ -28,7 +28,7 @@ function vector:__add (l, r)
   }
 end
 
-function vector:__sub (l, r)
+function vector.__sub (l, r)
   return vector:new{
     l[1] - r[1],
     l[2] - r[2],
@@ -44,21 +44,17 @@ local function scalar_product (v, f)
   }
 end
 
-function vector:__mul (l, r)
+function vector.__mul (l, r)
   if type(l) == 'number' then
     scalar_product(r, l)
   elseif type(r) == 'number' then
     scalar_product(l, r)
   else
-    return vector:new{
-      l[1] * r[1],
-      l[2] * r[2],
-      l[3] * r[3]
-    }
+    return l[1] * r[1] + l[2] * r[2] + l[3] * r[3]
   end
 end
 
-function vector:__div (l, r)
+function vector.__div (l, r)
   if type(r) == 'number' then
     scalar_product(l, 1.0/r)
   else
@@ -82,6 +78,10 @@ end
 
 function vector:normalized ()
   return self/self:size()
+end
+
+function vector:normalize ()
+  return self:mul(1/self:size())
 end
 
 function vector:add (v)

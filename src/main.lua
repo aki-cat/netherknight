@@ -1,12 +1,12 @@
 
 -- libs
+globals = require 'globals'
 basic = require 'lib.basic.pack' 'lib.basic'
 hump = basic.pack 'lib.hump'
 delta = 0
 
 -- modules
 local input = require 'input'
-local globals = require 'globals'
 local gamestate = basic.pack 'gamestate'
 
 -- local
