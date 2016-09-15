@@ -3,6 +3,11 @@ local game = basic.prototype:new {}
 local controls = controls.game
 
 local element_list = {}
+local player
+
+function game.getplayer ()
+  return player
+end
 
 function game:init()
   player = require 'player' :new { globals.width / 2, globals.height / 2 }
