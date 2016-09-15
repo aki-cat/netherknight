@@ -1,6 +1,6 @@
 
 local game = basic.prototype:new {}
-local controls = controls.game
+local controller = controllers.game
 
 local element_list = {}
 
@@ -24,7 +24,7 @@ function game:init()
 end
 
 function game:enter()
-  controls:connect()
+  controller:connect()
 end
 
 function game:update()
@@ -45,7 +45,7 @@ function game:draw()
 end
 
 function game:leave()
-  controls:disconnect()
+  controller:disconnect()
 end
 
 return game
