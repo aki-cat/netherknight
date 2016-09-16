@@ -1,5 +1,8 @@
 
-local behaviour = false
+local slime = {
+  maxhp = 3,
+  attack = 1,
+}
 
 local function action(self)
   while true do
@@ -23,14 +26,15 @@ local function action(self)
       end
     end
   end
-
 end
 
-return function(self)
-  if not behaviour then
-    behaviour = coroutine.create(action)
+function slime:update()
+  if not self.behaviour then
+    self.behaviour = coroutine.create(action)
     print("new coroutine!")
   end
-  assert(coroutine.resume(behaviour, self), 'Coroutine died!')
+  assert(coroutine.resume(self.behaviour, self), 'Coroutine died!')
 
 end
+
+return slime

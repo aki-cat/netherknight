@@ -16,7 +16,7 @@ local directions = {
 
 function dynamic_body:__init ()
   self.maxhp = 10
-  self.dmg = 0
+  self.damage = 0
   self.timer = hump.timer.new()
   self.speed = basic.vector:new {}
   self.dir = 'down'
@@ -27,13 +27,21 @@ function dynamic_body:update ()
   self:deaccelerate()
   self.pos:add(self.speed)
   if self.think and type(self.think) == 'function' then self:think() end
+  if self.maxhp == self.damage then self:die() end
+end
+
+function dynamic_body:take_damage (dmg)
+  self.damage = self.damage + dmg
+end
+
+function dynamic_body:die ()
+  hump.signal.emit('body_death', self)
 end
 
 function dynamic_body:on_collision (somebody)
   if somebody:get_type() == 'collision_body' then
     self:stop()
   end
-  self:stop()
 end
 
 function dynamic_body:move (acc)

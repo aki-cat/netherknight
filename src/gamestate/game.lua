@@ -2,7 +2,6 @@
 local game = require 'gamestate' :new {}
 local controller = controllers.game
 local sprites = basic.pack 'database.sprites'
-local monsters = basic.pack 'database.monsters'
 
 local indexed_drawables = {}
 
@@ -14,7 +13,7 @@ function game:init ()
 end
 
 function game:enter ()
-  local slime_body = physics.dynamic_body:new { globals.width / 4, globals.height / 4, 1/2, 1/4, think = monsters.slime }
+  local slime_body = require 'monster' :new { globals.width / 4, globals.height / 4, 1/2, 1/4, species = 'slime' }
   local slime_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('slime00', slime_body)
   self:add_drawable('slime00', slime_sprite)
