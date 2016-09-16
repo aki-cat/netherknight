@@ -44,15 +44,13 @@ end
 gamecontroller.input_attack = {
   signal = 'presskey',
   func = function (action)
-    if action ~= 'maru' then return end
     local player = hump.gamestate.current():getplayerbody()
     if player.locked then return end
     local dir = player:getdirection()
-
-    if player.speed * player.speed > 0.001 then
-      longattack(player, dir)
-    else
+    if action == 'maru' then
       shortattack(player, dir)
+    elseif action == 'batsu' then
+      longattack(player, dir)
     end
   end
 }
