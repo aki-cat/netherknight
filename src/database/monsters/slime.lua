@@ -14,12 +14,10 @@ local function action(self)
 
     if idle == 1 then
       for i=1, globals.framerate * 0.5 do
-        print('idling!')
         coroutine.yield()
       end
     else
       for i=1, globals.framerate * 1.0 do
-        print('moving!')
         self:move(movement)
         coroutine.yield()
       end

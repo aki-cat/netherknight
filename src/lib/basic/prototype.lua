@@ -19,6 +19,10 @@ function prototype:new (object)
   return object
 end
 
+function prototype:get_type (args)
+  return self.__type
+end
+
 function prototype:__super ()
   return getmetatable(self)
 end

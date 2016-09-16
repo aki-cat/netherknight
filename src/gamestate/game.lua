@@ -7,14 +7,14 @@ local monsters = basic.pack 'database.monsters'
 local indexed_drawables = {}
 
 function game:init ()
-  local player_body = require 'body' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
+  local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('player', player_body)
   self:add_drawable('player', player_sprite)
 end
 
 function game:enter ()
-  local slime_body = require 'body' :new { globals.width / 4, globals.height / 4, 1/2, 1/4, think = monsters.slime }
+  local slime_body = physics.dynamic_body:new { globals.width / 4, globals.height / 4, 1/2, 1/4, think = monsters.slime }
   local slime_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('slime00', slime_body)
   self:add_drawable('slime00', slime_sprite)

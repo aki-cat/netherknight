@@ -1,9 +1,10 @@
 
 -- libs
-globals = require 'globals'
-basic = require 'lib.basic.pack' 'lib.basic'
-hump = basic.pack 'lib.hump'
+globals =     require 'globals'
+basic =       require 'lib.basic.pack' 'lib.basic'
+hump =        basic.pack 'lib.hump'
 controllers = basic.pack 'controller'
+physics =     basic.pack 'physics'
 delta = 0
 
 -- modules

@@ -69,11 +69,10 @@ gamecontroller.input_move_player = {
   end
 }
 
-gamecontroller.stop_body_on_collision = {
+gamecontroller.body_collision = {
   signal = 'body_collision',
   func = function (body, somebody)
-    body.pos:sub(body.speed)
-    body.speed:set()
+    body:on_collision(somebody)
   end
 }
 
