@@ -18,20 +18,20 @@ local directions = {
 function body:__init ()
   self.maxhp = 10
   self.dmg = 0
-  self.locktimer = hump.timer.new()
+  self.timer = hump.timer.new()
   self.locked = false
   self.pos = basic.vector:new { self[1], self[2] }
   self.size = basic.vector:new { self[3], self[4] }
-  self.dir = 'down'
   self.speed = basic.vector:new {}
+  self.dir = 'down'
   self[1], self[2] = nil, nil
 end
 
 function body:update ()
-  print('body', self.pos:unpack(), self.speed:unpack())
-  self.locktimer:update(delta)
+  self.timer:update(delta)
   self:deaccelerate()
   self.pos:add(self.speed)
+  if self.think and type(self.think) == 'function' then self:think() end
 end
 
 function body:draw ()
@@ -57,7 +57,7 @@ function body:getdirection()
 end
 
 function body:lock (time)
-  self.locktimer:after(time, function() self:unlock() end)
+  self.timer:after(time, function() self:unlock() end)
   self.locked = true
 end
 

@@ -18,6 +18,7 @@ local framecount = 0
 local game_id = {}
 
 function love.load ()
+  math.randomseed(os.time())
   hump.signal.register(
     'presskey',
     function(action)
