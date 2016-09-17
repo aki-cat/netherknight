@@ -13,7 +13,15 @@ function monster:__init ()
 end
 
 function monster:on_collision (somebody)
-  self:stop()
+  if somebody:get_type() == 'player' then
+    somebody:take_damage(self.attack)
+    somebody:repulse(self.pos)
+  elseif somebody:get_type() == 'attack' then
+    self:take_damage(somebody.attack)
+    self:repulse(somebody.pos)
+  else
+    self:stop()
+  end
 end
 
 return monster

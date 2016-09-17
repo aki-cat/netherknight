@@ -3,7 +3,8 @@ local sprites = basic.pack 'database.sprites'
 
 local gamecontroller = {}
 
-local slash = require 'sprite' :new { sprites.slash }
+local slash_body = require 'attack' :new { 0, 0, 1, 1 }
+local slash_sprite = require 'sprite' :new { sprites.slash }
 local dash_speed = 0.3
 local directions = {
   right      = math.pi * 0/4,
@@ -17,14 +18,24 @@ local directions = {
 }
 
 local function animateslash (player, dist)
-  slash:setrotation(math.atan2(dist.y, dist.x))
+  slash_sprite:setrotation(math.atan2(dist.y, dist.x))
   dist:add{0, -1/4, 0}
-  slash.pos:set((player.pos + dist/4):unpack())
-  hump.gamestate.current():add_drawable('slash', slash)
-  hump.timer.after(0.2, function() hump.gamestate.current():del_drawable('slash') hump.timer.clear() end)
-  hump.timer.every(globals.frameunit, function()
-    slash.pos:set((player.pos + dist/4):unpack())
-  end)
+  slash_body.pos:set((player.pos + dist/4):unpack())
+  hump.gamestate.current():add_body('slash', slash_body)
+  hump.gamestate.current():add_drawable('slash', slash_sprite)
+  hump.timer.after(
+    0.2,
+    function()
+      hump.gamestate.current():del_body('slash') hump.timer.clear()
+      hump.gamestate.current():del_drawable('slash') hump.timer.clear()
+    end
+  )
+  hump.timer.every(
+    globals.frameunit,
+    function()
+      slash_body.pos:set((player.pos + dist/4):unpack())
+    end
+  )
 end
 
 local function longattack (player, dirangle)

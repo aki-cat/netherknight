@@ -30,6 +30,24 @@ function dynamic_body:update ()
   if self.maxhp == self.damage then self:die() end
 end
 
+function dynamic_body:draw ()
+  love.graphics.push()
+  love.graphics.scale(1/globals.unit)
+  love.graphics.printf(
+    "HP: " .. tostring(self.maxhp - self.damage) .. "/" .. tostring(self.maxhp),
+    globals.unit * (self.pos.x - self.size.x), globals.unit * ((self.pos.y - self.size.y) + 0.5),
+    globals.unit * self.size.x * 2,
+    "center"
+  )
+  love.graphics.pop()
+end
+
+function dynamic_body:repulse (point)
+  local antigravity = self.pos - point
+  local distsqr = antigravity * antigravity
+  self:move(0.04 * antigravity:normalized() / distsqr)
+end
+
 function dynamic_body:take_damage (dmg)
   self.damage = self.damage + dmg
 end

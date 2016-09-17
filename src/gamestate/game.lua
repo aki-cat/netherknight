@@ -22,11 +22,11 @@ end
 
 function game:update ()
   for bname,body in pairs(self.bodies) do
-    self:synchronize(bname)
     body:update()
     for _,anybody in pairs(self.bodies) do
       if body ~= anybody then body:checkandcollide(anybody) end
     end
+    self:synchronize(bname)
   end
 
   local dcount = 0
