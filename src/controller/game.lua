@@ -56,7 +56,7 @@ gamecontroller.input_attack = {
   signal = 'presskey',
   func = function (action)
     local player = hump.gamestate.current():getbody('player')
-    if player.locked then return end
+    if not player or player.locked then return end
     local dir = player:getdirection()
     if action == 'maru' then
       shortattack(player, dir)
@@ -71,7 +71,7 @@ gamecontroller.input_move_player = {
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
     local player = hump.gamestate.current():getbody('player')
-    if player.locked then return end
+    if not player or player.locked then return end
     local movement = basic.vector:new {}
     local speed = globals.frameunit * globals.unit / 64
     movement:set(speed * math.cos(directions[action]), speed * math.sin(directions[action]))
@@ -90,8 +90,12 @@ gamecontroller.body_collision = {
 gamecontroller.body_death = {
   signal = 'body_death',
   func = function(somebody)
-    local bodyname = hump.gamestate.current():findbody(somebody)
-    if bodyname then hump.gamestate.current():del_body(bodyname) end
+    local scene = hump.gamestate.current()
+    local bodyname = scene:find_body(somebody)
+    if bodyname then
+      scene:del_body(bodyname)
+      scene:del_drawable(bodyname)
+    end
   end
 }
 

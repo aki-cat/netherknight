@@ -27,7 +27,7 @@ function dynamic_body:update ()
   self:deaccelerate()
   self.pos:add(self.speed)
   if self.think and type(self.think) == 'function' then self:think() end
-  if self.maxhp == self.damage then self:die() end
+  if self.damage >= self.maxhp then self:die() end
 end
 
 function dynamic_body:draw ()
@@ -50,6 +50,17 @@ end
 
 function dynamic_body:take_damage (dmg)
   self.damage = self.damage + dmg
+end
+
+function dynamic_body:stagger (time)
+  self.invincible = true
+  self.timer:after(
+    time,
+    function()
+      self.invincible = false
+      hump.signal.emit('body_stagger', self)
+    end
+  )
 end
 
 function dynamic_body:die ()

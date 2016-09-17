@@ -22,23 +22,27 @@ end
 
 function game:update ()
   for bname,body in pairs(self.bodies) do
-    body:update()
-    for _,anybody in pairs(self.bodies) do
-      if body ~= anybody then body:checkandcollide(anybody) end
+    if bname ~= '__length' then
+      body:update()
+      for anybname, anybody in pairs(self.bodies) do
+        if anybname ~= '__length' then
+          if body ~= anybody then body:checkandcollide(anybody) end
+        end
+      end
+      self:synchronize(bname)
     end
-    self:synchronize(bname)
   end
 
-  for _,drawable in pairs(self.drawables) do
-    drawable:update()
+  if not self:getbody('player') then
+    hump.signal.emit('presskey', 'quit')
   end
 
-  if self.drawables.__length ~= #indexed_drawables then
-    for i,v in ipairs(indexed_drawables) do indexed_drawables[i] = nil end
-    for k,drawable in pairs(self.drawables) do table.insert(indexed_drawables, drawable) end
+  for dname, drawable in pairs(self.drawables) do
+    if dname ~= '__length' then
+      drawable:update()
+    end
   end
-  table.sort(indexed_drawables, function(a,b) return a.pos.y < b.pos.y end)
-
+  self:orderdrawables()
 end
 
 function game:draw ()
@@ -47,19 +51,32 @@ function game:draw ()
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
 
-  for _,body in pairs(self.bodies) do
-    body:draw()
+  for bname, body in pairs(self.bodies) do
+    if bname ~= '__length' then
+      body:draw()
+    end
   end
-  for _,drawable in ipairs(indexed_drawables) do
+  for dname, drawable in ipairs(indexed_drawables) do
     drawable:draw()
   end
-
 
   love.graphics.pop()
 end
 
 function game:leave ()
   controller:disconnect()
+end
+
+function game:orderdrawables ()
+  if self.drawables.__length ~= #indexed_drawables then
+    for i,v in ipairs(indexed_drawables) do indexed_drawables[i] = nil end
+    for k,drawable in pairs(self.drawables) do
+      if k ~= '__length' then
+        table.insert(indexed_drawables, drawable)
+      end
+    end
+  end
+  table.sort(indexed_drawables, function(a,b) return a.pos.y < b.pos.y end)
 end
 
 return game
