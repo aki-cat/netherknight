@@ -8,11 +8,11 @@ function gamestate:__init ()
   self.drawables = { __length = 0 }
 end
 
-function gamestate:getbody (name)
+function gamestate:get_body (name)
   return self.bodies[name]
 end
 
-function gamestate:getsprite (name)
+function gamestate:get_sprite (name)
   return self.drawables[name]
 end
 

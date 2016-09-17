@@ -39,6 +39,7 @@ local function animateslash (player, dist)
 end
 
 local function longattack (player, dirangle)
+  print('long attack!')
   local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
   animateslash(player, dist*1)
   dist:mul(dash_speed)
@@ -47,6 +48,7 @@ local function longattack (player, dirangle)
 end
 
 local function shortattack (player, dirangle)
+  print('short attack!')
   local dist = basic.vector:new { math.cos(dirangle), math.sin(dirangle) }
   player:lock(0.3)
   animateslash(player, dist)
@@ -55,7 +57,7 @@ end
 gamecontroller.input_attack = {
   signal = 'presskey',
   func = function (action)
-    local player = hump.gamestate.current():getbody('player')
+    local player = hump.gamestate.current():get_body('player')
     if not player or player.locked then return end
     local dir = player:getdirection()
     if action == 'maru' then
@@ -70,7 +72,7 @@ gamecontroller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
-    local player = hump.gamestate.current():getbody('player')
+    local player = hump.gamestate.current():get_body('player')
     if not player or player.locked then return end
     local movement = basic.vector:new {}
     local speed = globals.frameunit * globals.unit / 64

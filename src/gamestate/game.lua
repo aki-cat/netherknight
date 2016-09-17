@@ -33,7 +33,7 @@ function game:update ()
     end
   end
 
-  if not self:getbody('player') then
+  if not self:get_body('player') then
     hump.signal.emit('presskey', 'quit')
   end
 

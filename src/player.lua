@@ -11,7 +11,7 @@ function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
-  else
+  elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end
 end

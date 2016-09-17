@@ -1,6 +1,7 @@
 
 local collision_body = basic.prototype:new {
   0, 0, 0, 0,
+  centred = true,
   __type = 'collision_body'
 }
 
@@ -20,12 +21,27 @@ function collision_body:on_collision (somebody)
 end
 
 function collision_body:checkandcollide (anybody)
-  local body_top_left = self.pos - self.size / 2
-  local body_bottom_right = self.pos + self.size / 2
-  local anybody_top_left = anybody.pos - anybody.size / 2
-  local anybody_bottom_right = anybody.pos + anybody.size / 2
-
+  local body_top_left
+  local body_bottom_right
+  local anybody_top_left
+  local anybody_bottom_right
   local colliding = true
+
+  if self.centred then
+    body_top_left = self.pos - self.size / 2
+    body_bottom_right = self.pos + self.size / 2
+  else
+    body_top_left = self.pos
+    body_bottom_right = self.pos + self.size
+  end
+  if anybody.centred then
+    anybody_top_left = anybody.pos - anybody.size / 2
+    anybody_bottom_right = anybody.pos + anybody.size / 2
+  else
+    anybody_top_left = anybody.pos
+    anybody_bottom_right = anybody.pos + anybody.size
+  end
+
   if body_top_left.x > anybody_bottom_right.x then colliding = false end
   if body_top_left.y > anybody_bottom_right.y then colliding = false end
   if body_bottom_right.x < anybody_top_left.x then colliding = false end
