@@ -55,7 +55,7 @@ end
 gamecontroller.input_attack = {
   signal = 'presskey',
   func = function (action)
-    local player = hump.gamestate.current():getplayerbody()
+    local player = hump.gamestate.current():getbody('player')
     if player.locked then return end
     local dir = player:getdirection()
     if action == 'maru' then
@@ -70,7 +70,7 @@ gamecontroller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
-    local player = hump.gamestate.current():getplayerbody()
+    local player = hump.gamestate.current():getbody('player')
     if player.locked then return end
     local movement = basic.vector:new {}
     local speed = globals.frameunit * globals.unit / 64

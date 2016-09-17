@@ -29,13 +29,11 @@ function game:update ()
     self:synchronize(bname)
   end
 
-  local dcount = 0
   for _,drawable in pairs(self.drawables) do
-    dcount = dcount + 1
     drawable:update()
   end
 
-  if dcount ~= #indexed_drawables then
+  if self.drawables.__length ~= #indexed_drawables then
     for i,v in ipairs(indexed_drawables) do indexed_drawables[i] = nil end
     for k,drawable in pairs(self.drawables) do table.insert(indexed_drawables, drawable) end
   end
