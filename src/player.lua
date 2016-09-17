@@ -8,13 +8,11 @@ function player:__init ()
 end
 
 function player:on_collision (somebody)
-  if somebody:get_type() == 'collision_body' then
-    self:stop()
-  elseif somebody:get_type() == 'dynamic_body' then
-    self:repulse(somebody.pos)
-  elseif somebody:get_type() == 'monster' then
+  if somebody:get_type() == 'monster' then
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
+  else
+    self:stop()
   end
 end
 
