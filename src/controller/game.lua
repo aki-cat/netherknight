@@ -87,4 +87,12 @@ gamecontroller.body_collision = {
   end
 }
 
+gamecontroller.body_death = {
+  signal = 'body_death',
+  func = function(somebody)
+    local bodyname = hump.gamestate.current():findbody(somebody)
+    if bodyname then hump.gamestate.current():del_body(bodyname) end
+  end
+}
+
 return require 'controller' :new { actions = gamecontroller }
