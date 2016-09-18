@@ -71,7 +71,7 @@ dungeon_controller.input_attack = {
 dungeon_controller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
-    if action == 'maru' or action == 'batsu' or action == 'quit' then return end
+    if action == 'maru' or action == 'batsu' or action == 'quit' or action == 'marco' then return end
     local player = hump.gamestate.current():get_body('player')
     if not player or player.locked then return end
     local movement = basic.vector:new {}

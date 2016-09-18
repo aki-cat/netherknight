@@ -10,6 +10,7 @@ end
 function attack:on_collision (somebody)
   if somebody:get_type() == 'monster' then
     somebody:take_damage(self.attack)
+    print(frameid)
     somebody:repulse(self.pos)
     somebody:stagger(globals.stagger)
   end

@@ -26,10 +26,15 @@ function love.load ()
     'presskey',
     function(action)
       if action == 'quit' then
-        print("quit game")
+        print "QUIT GAME"
         love.event.quit()
       end
-    end)
+      if action == 'marco' then
+        print "MARCO!"
+        print ("POLO!", hump.gamestate.current():get_body('player').pos:unpack())
+      end
+    end
+  )
   hump.gamestate.switch(gamestate.dungeon)
 end
 

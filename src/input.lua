@@ -8,6 +8,7 @@ local input = basic.prototype:new {
     right  = 'right',
     down   = 'down',
     left   = 'left',
+    marco  = 'm',
   },
   __type = 'input'
 }
