@@ -69,6 +69,10 @@ function dynamic_body:die ()
   hump.signal.emit('body_death', self)
 end
 
+function dynamic_body:isdead ()
+  return self.maxhp <= self.damage
+end
+
 function dynamic_body:on_collision (somebody)
   if somebody:get_type() == 'collision_body' then
     self:stop()

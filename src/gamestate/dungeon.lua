@@ -4,10 +4,12 @@ local controller = controllers.dungeon
 local sprites = basic.pack 'database.sprites'
 local maps = basic.pack 'database.maps'
 
+local enemies = {}
 local indexed_drawables = {}
 local room
 
 function dungeon:init ()
+  self:changeroom('default')
   room = require 'room' :new { map = maps.default }
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
@@ -24,14 +26,44 @@ function dungeon:enter ()
       species = 'slime' }
     local slime_sprite = require 'sprite' :new { sprites.slime }
     local name = 'slime' .. tostring(i)
+    enemies[name] = { slime_body, slime_sprite }
     self:add_body(name, slime_body)
     self:add_drawable(name, slime_sprite)
   end
   controller:connect()
 end
 
+function dungeon:changeroom (roomname)
+  if room and room.name == roomname then return end
+  room = require 'room' :new { map = maps[roomname] }
+end
+
 function dungeon:update ()
   room:update()
+
+  local player = self:get_body('player')
+  if not player then hump.signal.emit('presskey', 'quit') end
+  if player.pos.x < 0 or player.pos.x > #room.map[1][1] or
+     player.pos.y < 0 or player.pos.y > #room.map[1] then
+    if room.name == 'default' then
+      self:changeroom('empty')
+      player.pos:set(globals.width / 2, 1/2)
+      for name, enemy in pairs(enemies) do
+        self:del_body(name)
+        self:del_drawable(name)
+      end
+    elseif room.name == 'empty' then
+      self:changeroom('default')
+      player.pos:set(globals.width / 2, globals.height - 1/2)
+      for name, enemy in pairs(enemies) do
+        if not enemy[1]:isdead() then
+          self:add_body(name, enemy[1])
+          self:add_drawable(name, enemy[2])
+        end
+      end
+    end
+  end
+
   for bname,body in pairs(self.bodies) do
     if bname ~= '__length' then
       body:update()
@@ -45,29 +77,23 @@ function dungeon:update ()
     end
   end
 
-  if not self:get_body('player') then
-    hump.signal.emit('presskey', 'quit')
+  for dname, drawable in pairs(self.drawables) do
+    if dname ~= '__length' then drawable:update() end
   end
 
-  for dname, drawable in pairs(self.drawables) do
-    if dname ~= '__length' then
-      drawable:update()
-    end
-  end
   self:orderdrawables()
 end
 
 function dungeon:draw ()
   love.graphics.push()
+
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
 
   room:draw()
 
   for bname, body in pairs(self.bodies) do
-    if bname ~= '__length' then
-      body:draw()
-    end
+    if bname ~= '__length' then body:draw() end
   end
   for dname, drawable in ipairs(indexed_drawables) do
     drawable:draw()

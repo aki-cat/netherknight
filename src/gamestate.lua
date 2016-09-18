@@ -63,9 +63,7 @@ end
 function gamestate:synchronize (bodyname)
   local body = self.bodies[bodyname]
   local drawable = self.drawables[bodyname]
-  if body and drawable then
-    drawable.pos:set(body.pos:unpack())
-  end
+  if body and drawable then drawable.pos:set(body.pos:unpack()) end
 end
 
 return gamestate

@@ -86,6 +86,7 @@ local function get_obstacles (map, blacklist, tilesize)
 end
 
 function room:__init ()
+  self.name = self.map.name
   self.tileset = tilesets[self.map.tileset]
   self.spritebatch = love.graphics.newSpriteBatch(self.tileset.img, 2048, 'stream')
   self.quads = get_quads(self.tileset.img, self.tileset.tilesize)
