@@ -1,6 +1,8 @@
 
 local slime = {
-  maxhp = 3,
+  width  = 1/2,
+  height = 1/4,
+  maxhp  = 3,
   attack = 1,
 }
 

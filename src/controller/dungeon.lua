@@ -104,7 +104,6 @@ dungeon_controller.body_death = {
 dungeon_controller.body_immunity = {
   signal = 'body_immunity',
   func = function(body, immune)
-    print(body, immune)
     local scene = hump.gamestate.current()
     local name = scene:find_body(body)
     local sprite = scene:get_sprite(name)

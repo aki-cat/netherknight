@@ -21,7 +21,6 @@ function dungeon:enter ()
     local slime_body = require 'monster' :new {
       (i % 3 + 1) * globals.width / 4,
       j * globals.height / 4,
-      1/2, 1/4,
       species = 'slime' }
     local slime_sprite = require 'sprite' :new { sprites.slime }
     local name = 'slime' .. tostring(i)

@@ -6,6 +6,7 @@ hump =        basic.pack 'lib.hump'
 controllers = basic.pack 'controller'
 physics =     basic.pack 'physics'
 delta = 0
+frameid = {}
 
 -- modules
 local input = require 'input'
@@ -39,6 +40,8 @@ function love.update (dt)
   fps_update:update(delta)
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
+    frameid = nil
+    frameid = {}
 
     -- update modules
     fps_update:tick()
