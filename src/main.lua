@@ -2,6 +2,7 @@
 -- libs
 globals =     require 'globals'
 basic =       require 'lib.basic.pack' 'lib.basic'
+audio =       require 'audio'
 hump =        basic.pack 'lib.hump'
 controllers = basic.pack 'controller'
 physics =     basic.pack 'physics'

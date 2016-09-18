@@ -49,7 +49,7 @@ function dungeon:update ()
   room:update()
 
   local player = self:get_body('player')
-  if not player then hump.signal.emit('presskey', 'quit') end
+  if not player then hump.signal.emit('presskey', 'quit') return end
   if player.pos.x < 0 or player.pos.x > #room.map[1][1] or
      player.pos.y < 0 or player.pos.y > #room.map[1] then
     if room.name == 'default' then

@@ -9,6 +9,7 @@ end
 
 function attack:on_collision (somebody)
   if somebody:get_type() == 'monster' then
+    audio:playSFX('Hurt')
     somebody:take_damage(self.attack)
     print(frameid)
     somebody:repulse(self.pos)

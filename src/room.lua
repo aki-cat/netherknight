@@ -68,7 +68,6 @@ local function get_quads(image, tilesize)
 end
 
 local function get_obstacles (map, blacklist, tilesize)
-  print(map, blacklist, tilesize)
   local obstacles = {}
   for layer, tile, i, j in iterate_tiles(map) do
     if blacklist[tile] then

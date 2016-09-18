@@ -9,6 +9,7 @@ end
 
 function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
+    audio:playSFX('Hit')
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
     self:stagger(globals.stagger)
