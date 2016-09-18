@@ -57,7 +57,12 @@ end
 
 function dynamic_body:stagger (time)
   self.invincible = true
-  self.timer:after(time, function() self.invincible = false end)
+  hump.signal.emit('body_immunity', self, true)
+  self.timer:after(time, function()
+    self.invincible = false
+    hump.signal.emit('body_immunity', self, false)
+  end)
+
 end
 
 function dynamic_body:die ()

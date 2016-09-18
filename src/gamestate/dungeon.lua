@@ -60,7 +60,6 @@ end
 
 function dungeon:draw ()
   love.graphics.push()
-
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
 

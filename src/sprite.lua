@@ -1,5 +1,6 @@
 
 local sprites = basic.pack 'database.sprites'
+local color = require 'color'
 
 local sprite = basic.prototype:new {
   sprites.dummy,
@@ -14,6 +15,7 @@ function sprite:__init ()
   self.rotation = 0
   self.fliph = false
   self.flipv = false
+  self.shine = 0
   self.animations = resource.animations
   self.state = 'default'
   self.drawable = {}
@@ -52,7 +54,15 @@ function sprite:update ()
 end
 
 function sprite:draw ()
+  if self.shine > 0 then
+    love.graphics.setColor(color.HSL(0, 0, 120 + self.shine*80, 255))
+    self.shine = self.shine - 1
+  end
+
   love.graphics.draw(unpack(self.drawable))
+
+  -- reset effects
+  love.graphics.setColor(255,255,255)
 end
 
 return sprite

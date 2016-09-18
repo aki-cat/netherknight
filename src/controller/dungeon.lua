@@ -101,4 +101,16 @@ dungeon_controller.body_death = {
   end
 }
 
+dungeon_controller.body_immunity = {
+  signal = 'body_immunity',
+  func = function(body, immune)
+    print(body, immune)
+    local scene = hump.gamestate.current()
+    local name = scene:find_body(body)
+    local sprite = scene:get_sprite(name)
+    local shine = immune and 40 or 0
+    if name and sprite then sprite.shine = shine end
+  end
+}
+
 return require 'controller' :new { actions = dungeon_controller }
