@@ -16,10 +16,18 @@ function game:init ()
 end
 
 function game:enter ()
-  local slime_body = require 'monster' :new { globals.width / 4, globals.height / 4, 1/2, 1/4, species = 'slime' }
-  local slime_sprite = require 'sprite' :new { sprites.slime }
-  self:add_body('slime00', slime_body)
-  self:add_drawable('slime00', slime_sprite)
+  for i = 1, 5 do
+    local j = i < 3 and 1 or 3
+    local slime_body = require 'monster' :new {
+      (i % 3 + 1) * globals.width / 4,
+      j * globals.height / 4,
+      1/2, 1/4,
+      species = 'slime' }
+    local slime_sprite = require 'sprite' :new { sprites.slime }
+    local name = 'slime' .. tostring(i)
+    self:add_body(name, slime_body)
+    self:add_drawable(name, slime_sprite)
+  end
   controller:connect()
 end
 

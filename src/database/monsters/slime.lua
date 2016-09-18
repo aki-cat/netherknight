@@ -33,8 +33,8 @@ function slime:update()
     self.behaviour = coroutine.create(action)
     print("new coroutine!")
   end
-  assert(coroutine.resume(self.behaviour, self), 'Coroutine died!')
-
+  local status = coroutine.resume(self.behaviour, self)
+  assert(status, "Coroutine error!", status)
 end
 
 return slime

@@ -25,6 +25,7 @@ function love.load ()
     'presskey',
     function(action)
       if action == 'quit' then
+        print("quit game")
         love.event.quit()
       end
     end)
