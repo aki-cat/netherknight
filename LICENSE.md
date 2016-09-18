@@ -22,10 +22,9 @@ SOFTWARE.
 
 ---
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">
-![Creative Commons License][CCL]</a>
-Anything that isn't software in this repository is licensed under a
-[Creative Commons Attribution-NonCommercial 4.0 International License][CCL link]
+Anything that isn't software in this repository is licensed under a  
+[Creative Commons Attribution-NonCommercial 4.0 International License][CCL link]  
+[ ![Creative Commons License][CCL] ][CCL link]
 
 [CCL link]: http://creativecommons.org/licenses/by-nc/4.0/
 [CCL]: https://i.creativecommons.org/l/by-nc/4.0/88x31.png
