@@ -1,7 +1,7 @@
 
 local sprites = basic.pack 'database.sprites'
 
-local gamecontroller = {}
+local dungeon_controller = {}
 
 local slash_body = require 'attack' :new { 0, 0, 1, 1 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
@@ -54,7 +54,7 @@ local function shortattack (player, dirangle)
   animateslash(player, dist)
 end
 
-gamecontroller.input_attack = {
+dungeon_controller.input_attack = {
   signal = 'presskey',
   func = function (action)
     local player = hump.gamestate.current():get_body('player')
@@ -68,7 +68,7 @@ gamecontroller.input_attack = {
   end
 }
 
-gamecontroller.input_move_player = {
+dungeon_controller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
     if action == 'maru' or action == 'batsu' or action == 'quit' then return end
@@ -82,14 +82,14 @@ gamecontroller.input_move_player = {
   end
 }
 
-gamecontroller.body_collision = {
+dungeon_controller.body_collision = {
   signal = 'body_collision',
   func = function (body, somebody)
     body:on_collision(somebody)
   end
 }
 
-gamecontroller.body_death = {
+dungeon_controller.body_death = {
   signal = 'body_death',
   func = function(somebody)
     local scene = hump.gamestate.current()
@@ -101,4 +101,4 @@ gamecontroller.body_death = {
   end
 }
 
-return require 'controller' :new { actions = gamecontroller }
+return require 'controller' :new { actions = dungeon_controller }

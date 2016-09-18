@@ -1,13 +1,13 @@
 
-local game = require 'gamestate' :new {}
-local controller = controllers.game
+local dungeon = require 'gamestate' :new {}
+local controller = controllers.dungeon
 local sprites = basic.pack 'database.sprites'
 local tilemaps = basic.pack 'database.tilemaps'
 
 local indexed_drawables = {}
 local room
 
-function game:init ()
+function dungeon:init ()
   room = require 'room' :new (tilemaps.default)
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
@@ -15,7 +15,7 @@ function game:init ()
   self:add_drawable('player', player_sprite)
 end
 
-function game:enter ()
+function dungeon:enter ()
   for i = 1, 5 do
     local j = i < 3 and 1 or 3
     local slime_body = require 'monster' :new {
@@ -31,7 +31,7 @@ function game:enter ()
   controller:connect()
 end
 
-function game:update ()
+function dungeon:update ()
   room:update()
   for bname,body in pairs(self.bodies) do
     if bname ~= '__length' then
@@ -58,7 +58,7 @@ function game:update ()
   self:orderdrawables()
 end
 
-function game:draw ()
+function dungeon:draw ()
   love.graphics.push()
 
   love.graphics.setColor(255,255,255,255)
@@ -78,11 +78,11 @@ function game:draw ()
   love.graphics.pop()
 end
 
-function game:leave ()
+function dungeon:leave ()
   controller:disconnect()
 end
 
-function game:orderdrawables ()
+function dungeon:orderdrawables ()
   if self.drawables.__length ~= #indexed_drawables then
     for i,v in ipairs(indexed_drawables) do indexed_drawables[i] = nil end
     for k,drawable in pairs(self.drawables) do
@@ -94,4 +94,4 @@ function game:orderdrawables ()
   table.sort(indexed_drawables, function(a,b) return a.pos.y < b.pos.y end)
 end
 
-return game
+return dungeon

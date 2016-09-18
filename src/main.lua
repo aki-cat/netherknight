@@ -29,7 +29,7 @@ function love.load ()
         love.event.quit()
       end
     end)
-  hump.gamestate.switch(gamestate.game)
+  hump.gamestate.switch(gamestate.dungeon)
 end
 
 function love.update (dt)

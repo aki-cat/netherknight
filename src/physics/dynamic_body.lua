@@ -40,27 +40,24 @@ function dynamic_body:draw ()
     "center"
   )
   love.graphics.pop()
+  if self.statusdraw and type(self.statusdraw) == 'function' then self:statusdraw() end
 end
 
 function dynamic_body:repulse (point)
+  if self.invincible then return end
   local antigravity = self.pos - point
   local distsqr = antigravity * antigravity
   self:move(0.04 * antigravity:normalized() / distsqr)
 end
 
 function dynamic_body:take_damage (dmg)
+  if self.invincible then return end
   self.damage = self.damage + dmg
 end
 
 function dynamic_body:stagger (time)
   self.invincible = true
-  self.timer:after(
-    time,
-    function()
-      self.invincible = false
-      hump.signal.emit('body_stagger', self)
-    end
-  )
+  self.timer:after(time, function() self.invincible = false end)
 end
 
 function dynamic_body:die ()

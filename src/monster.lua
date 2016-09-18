@@ -14,11 +14,13 @@ end
 
 function monster:on_collision (somebody)
   if somebody:get_type() == 'player' then
-    somebody:take_damage(self.attack)
-    somebody:repulse(self.pos)
+    --somebody:take_damage(self.attack)
+    --somebody:repulse(self.pos)
+    --somebody:stagger(globals.stagger)
   elseif somebody:get_type() == 'attack' then
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
+    self:stagger(globals.stagger)
   else
     self:stop()
   end

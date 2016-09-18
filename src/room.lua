@@ -82,7 +82,7 @@ local function get_obstacles (map, blacklist, tilesize)
 end
 
 function room:__init ()
-  self.spritebatch = love.graphics.newSpriteBatch(self.img, 2048, 'dynamic')
+  self.spritebatch = love.graphics.newSpriteBatch(self.img, 2048, 'stream')
   self.quads = get_quads(self.img, self.tilesize)
   self.obstacles = get_obstacles(self.map, self.obstacles_ids, self.tilesize)
   self:setup_buffer()
@@ -105,6 +105,7 @@ function room:update_collision (body)
 end
 
 function room:update ()
+  self:setup_buffer()
 end
 
 function room:draw ()

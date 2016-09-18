@@ -11,6 +11,7 @@ function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
+    self:stagger(globals.stagger)
   elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end
@@ -23,6 +24,18 @@ end
 
 function player:unlock ()
   self.locked = false
+end
+
+function player:statusdraw ()
+  love.graphics.push()
+  love.graphics.scale(1/globals.unit)
+  love.graphics.printf(
+    "PLAYER",
+    globals.unit * (self.pos.x - self.size.x), globals.unit * ((self.pos.y - self.size.y) - 0.5),
+    globals.unit * self.size.x * 2,
+    "center"
+  )
+  love.graphics.pop()
 end
 
 return player
