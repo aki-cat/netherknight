@@ -13,7 +13,8 @@ local gamestate = basic.pack 'gamestate'
 
 -- local
 local framedelay = 0
-local framecount = 0
+local fps_update = require 'fps' :new {}
+local fps_draw = require 'fps' :new {}
 
 -- game_id
 local game_id = {}
@@ -31,12 +32,15 @@ function love.load ()
 end
 
 function love.update (dt)
-  framedelay = framedelay + dt
   delta = dt
+  framedelay = framedelay + dt
+
+  fps_update:update(delta)
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
-    framecount = framecount + 1
+
     -- update modules
+    fps_update:tick()
     input:update()
     hump.timer.update(dt)
     hump.gamestate.update()
@@ -44,7 +48,11 @@ function love.update (dt)
 end
 
 function love.draw ()
+  fps_draw:update(delta)
+  fps_draw:tick()
   hump.gamestate.draw()
+  love.graphics.printf('LOGIC FPS: ' .. tostring(fps_update.fps), 32, 32, 640-64, 'left')
+  love.graphics.printf('RENDER FPS: ' .. tostring(fps_draw.fps), 32, 48, 640-64, 'left')
 end
 
 function love.keypressed (key)
