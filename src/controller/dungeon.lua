@@ -64,6 +64,33 @@ dungeon_controller.input_attack = {
       shortattack(player, dir)
     elseif action == 'batsu' then
       longattack(player, dir)
+    elseif action == 'marco' then
+      local alpha = 255
+      hump.timer.every(
+        globals.frameunit,
+        function ()
+          local text = {}
+          local marco = "MARCO!"
+          local polo = "POLO!"
+          local pos = tostring(hump.gamestate.current():get_body('player').pos.x) .. ', ' .. tostring(hump.gamestate.current():get_body('player').pos.y)
+          alpha = alpha - 1
+          text.string = marco
+          text.alpha = alpha
+          hump.signal.emit('debug_print', text)
+          text = {}
+          text.string = polo
+          text.alpha = alpha
+          hump.signal.emit('debug_print', text)
+          text = {}
+          text.string = pos
+          text.alpha = alpha
+          hump.signal.emit('debug_print', text)
+        end,
+        240
+      )
+    elseif action == 'menu' then
+
+    elseif action == 'pause' then
     end
   end
 }
@@ -71,7 +98,11 @@ dungeon_controller.input_attack = {
 dungeon_controller.input_move_player = {
   signal = 'holdkey',
   func = function (action)
-    if action == 'maru' or action == 'batsu' or action == 'quit' or action == 'marco' then return end
+    if     action == 'maru' or action == 'batsu'
+        or action == 'quit' or action == 'marco'
+        or action == 'menu' or action == 'pause'
+      then return
+    end
     local player = hump.gamestate.current():get_body('player')
     if not player or player.locked then return end
     local movement = basic.vector:new {}

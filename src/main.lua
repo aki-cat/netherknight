@@ -18,6 +18,7 @@ local gamestate = basic.pack 'gamestate'
 local framedelay = 0
 local fps_update = require 'fps' :new {}
 local fps_draw = require 'fps' :new {}
+local debug_prints = {}
 
 -- game_id
 local game_id = {}
@@ -31,10 +32,13 @@ function love.load ()
         print "QUIT GAME"
         love.event.quit()
       end
-      if action == 'marco' then
-        print "MARCO!"
-        print ("POLO!", hump.gamestate.current():get_body('player').pos:unpack())
-      end
+    end
+  )
+  hump.signal.register(
+    'debug_print',
+    function(text)
+      assert(type(text) == 'table', "Debug print must be a table with string and alpha!")
+      table.insert(debug_prints, text)
     end
   )
   hump.gamestate.switch(gamestate.dungeon)
@@ -64,6 +68,14 @@ function love.draw ()
   hump.gamestate.draw()
   love.graphics.printf('LOGIC FPS: ' .. tostring(fps_update.fps), 32, 32, 640-64, 'left')
   love.graphics.printf('RENDER FPS: ' .. tostring(fps_draw.fps), 32, 48, 640-64, 'left')
+  local i = -1
+  for debugger, text in pairs(debug_prints) do
+    i = i + 1
+    love.graphics.setColor(255, 255, 255, text.alpha or 255)
+    love.graphics.printf(text.string or 'debug!', 0, 240 + i * globals.unit / 2, 1024, 'center')
+    love.graphics.setColor(255, 255, 255, 255)
+    debug_prints[debugger] = nil
+  end
 end
 
 function love.keypressed (key)
