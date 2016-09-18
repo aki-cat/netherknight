@@ -5,6 +5,7 @@ local sprites = basic.pack 'database.sprites'
 local rooms = basic.pack 'database.rooms'
 
 local enemies = {}
+local items = {}
 local indexed_drawables = {}
 local map = {}
 local current_room
@@ -18,6 +19,13 @@ end
 
 function dungeon:enter ()
   self:changeroom('default')
+  local drumstick_body = require 'collectable' :new {
+    item = 'drumstick',
+    globals.width /2, globals.height /2,
+    36/globals.unit, 24/globals.unit
+  }
+  local drumstick_sprite = require 'sprite' :new { sprites.drumstick }
+  items['drumstick'] = { drumstick_body, drumstick_sprite }
   for i = 1, 5 do
     local j = i < 3 and 1 or 3
     local slime_body = require 'monster' :new {
@@ -59,6 +67,10 @@ function dungeon:update ()
         self:del_body(name)
         self:del_drawable(name)
       end
+      if not items.drumstick[1]:isdead() then
+        self:add_body('drumstick', items.drumstick[1])
+        self:add_drawable('drumstick', items.drumstick[2])
+      end
     elseif current_room.name == 'empty' then
       self:changeroom('default')
       player.pos:set(globals.width / 2, globals.height - 1/2)
@@ -68,6 +80,8 @@ function dungeon:update ()
           self:add_drawable(name, enemy[2])
         end
       end
+      self:del_body('drumstick')
+      self:del_drawable('drumstick')
     end
   end
 

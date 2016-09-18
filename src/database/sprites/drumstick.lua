@@ -13,6 +13,12 @@ drumstick[7]  = 1 / globals.unit
 drumstick[8]  = w / 2
 drumstick[9]  = h / 2
 
-drumstick.animations = {}
+drumstick.animations = {
+  default = {
+    default = true,
+    quads = { drumstick[2] },
+    step = 1
+  },
+}
 
 return drumstick

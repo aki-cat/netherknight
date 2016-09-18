@@ -69,22 +69,20 @@ dungeon_controller.input_attack = {
       hump.timer.every(
         globals.frameunit,
         function ()
-          local text = {}
-          local marco = "MARCO!"
-          local polo = "POLO!"
           local pos = tostring(hump.gamestate.current():get_body('player').pos.x) .. ', ' .. tostring(hump.gamestate.current():get_body('player').pos.y)
           alpha = alpha - 1
-          text.string = marco
-          text.alpha = alpha
-          hump.signal.emit('debug_print', text)
-          text = {}
-          text.string = polo
-          text.alpha = alpha
-          hump.signal.emit('debug_print', text)
-          text = {}
-          text.string = pos
-          text.alpha = alpha
-          hump.signal.emit('debug_print', text)
+          hump.signal.emit('debug_print', {
+            string = "MARCO...",
+            alpha = alpha
+          })
+          hump.signal.emit('debug_print', {
+            string = "POLO!",
+            alpha = alpha
+          })
+          hump.signal.emit('debug_print', {
+            string = pos,
+            alpha = alpha
+          })
         end,
         240
       )

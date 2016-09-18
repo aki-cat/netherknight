@@ -13,6 +13,11 @@ function player:on_collision (somebody)
     self:take_damage(somebody.attack)
     self:repulse(somebody.pos)
     self:stagger(globals.stagger)
+  elseif somebody:get_type() == 'collectable' then
+    audio:playSFX('Get')
+    table.insert(gamedata.inventory, somebody.item)
+    somebody.damage = 99999
+    somebody:die()
   elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end
