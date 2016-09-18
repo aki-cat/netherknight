@@ -36,12 +36,12 @@ function input:checkhold ()
 end
 
 function input:handlepress (action)
-  print("pressed:", action)
+  --print("pressed:", action)
   hump.signal.emit('presskey', action)
 end
 
 function input:handlerelease (action)
-  print("released:", action)
+  --print("released:", action)
   hump.signal.emit('releasekey', action)
 end
 
@@ -74,7 +74,7 @@ function input:handlehold (actions)
   handle_direction(actions)
   for action,acting in pairs(actions) do
     if acting then
-      print("held:", action)
+      --print("held:", action)
       hump.signal.emit('holdkey', action)
     end
   end

@@ -95,6 +95,7 @@ dungeon_controller.body_death = {
     local scene = hump.gamestate.current()
     local bodyname = scene:find_body(somebody)
     if bodyname then
+      print("DEATH:", bodyname)
       scene:del_body(bodyname)
       scene:del_drawable(bodyname)
     end
