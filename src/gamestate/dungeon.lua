@@ -2,13 +2,13 @@
 local dungeon = require 'gamestate' :new {}
 local controller = controllers.dungeon
 local sprites = basic.pack 'database.sprites'
-local tilemaps = basic.pack 'database.tilemaps'
+local maps = basic.pack 'database.maps'
 
 local indexed_drawables = {}
 local room
 
 function dungeon:init ()
-  room = require 'room' :new (tilemaps.default)
+  room = require 'room' :new { map = maps.default }
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('player', player_body)

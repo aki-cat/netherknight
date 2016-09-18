@@ -1,9 +1,12 @@
 
+local tilesets = basic.pack 'database.tilesets'
+local maps = basic.pack 'database.maps'
+
 local room = basic.prototype:new {
-  img = love.graphics.newImage('assets/images/tileset.png'),
   pos = basic.vector:new {},
-  tilesize = globals.unit,
-  obstacles_ids = {},
+  map = maps.default,
+  --tileset = tilesets.default,
+  obstacles = {},
   map = {
     {
       {0, 0, 0},
@@ -65,6 +68,7 @@ local function get_quads(image, tilesize)
 end
 
 local function get_obstacles (map, blacklist, tilesize)
+  print(map, blacklist, tilesize)
   local obstacles = {}
   for layer, tile, i, j in iterate_tiles(map) do
     if blacklist[tile] then
@@ -82,9 +86,10 @@ local function get_obstacles (map, blacklist, tilesize)
 end
 
 function room:__init ()
-  self.spritebatch = love.graphics.newSpriteBatch(self.img, 2048, 'stream')
-  self.quads = get_quads(self.img, self.tilesize)
-  self.obstacles = get_obstacles(self.map, self.obstacles_ids, self.tilesize)
+  self.tileset = tilesets[self.map.tileset]
+  self.spritebatch = love.graphics.newSpriteBatch(self.tileset.img, 2048, 'stream')
+  self.quads = get_quads(self.tileset.img, self.tileset.tilesize)
+  self.obstacles = get_obstacles(self.map, self.tileset.obstacles, self.tileset.tilesize)
   self:setup_buffer()
 end
 
