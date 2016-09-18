@@ -2,10 +2,13 @@
 local game = require 'gamestate' :new {}
 local controller = controllers.game
 local sprites = basic.pack 'database.sprites'
+local tilemaps = basic.pack 'database.tilemaps'
 
 local indexed_drawables = {}
+local room
 
 function game:init ()
+  room = require 'room' :new (tilemaps.default)
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('player', player_body)
@@ -21,6 +24,7 @@ function game:enter ()
 end
 
 function game:update ()
+  room:update()
   for bname,body in pairs(self.bodies) do
     if bname ~= '__length' then
       body:update()
@@ -29,6 +33,7 @@ function game:update ()
           if body ~= anybody then body:checkandcollide(anybody) end
         end
       end
+      room:update_collision(body)
       self:synchronize(bname)
     end
   end
@@ -50,6 +55,8 @@ function game:draw ()
 
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
+
+  room:draw()
 
   for bname, body in pairs(self.bodies) do
     if bname ~= '__length' then
