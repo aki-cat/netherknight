@@ -1,29 +1,16 @@
 
 local tilesets = basic.pack 'database.tilesets'
-local maps = basic.pack 'database.maps'
+local rooms = basic.pack 'database.rooms'
 
 local room = basic.prototype:new {
   pos = basic.vector:new {},
-  map = maps.default,
-  --tileset = tilesets.default,
+  tilemap = rooms.default,
   obstacles = {},
-  map = {
-    {
-      {0, 0, 0},
-      {0, 0, 0},
-      {0, 0, 0},
-    },
-    {
-      {0, 0, 0},
-      {0, 0, 0},
-      {0, 0, 0},
-    }
-  },
   __type = 'room'
 }
 
-local function iterate_tiles (map)
-  local init_s = { tbl = map, 1, 1, 0 }
+local function iterate_tiles (tilemap)
+  local init_s = { tbl = tilemap, 1, 1, 0 }
   return
     function(s, tile)
       local t = s.tbl
@@ -67,9 +54,9 @@ local function get_quads(image, tilesize)
   return quads
 end
 
-local function get_obstacles (map, blacklist, tilesize)
+local function get_obstacles (tilemap, blacklist, tilesize)
   local obstacles = {}
-  for layer, tile, i, j in iterate_tiles(map) do
+  for layer, tile, i, j in iterate_tiles(tilemap) do
     if blacklist[tile] then
       local o = physics.collision_body:new {
         (j - 1),
@@ -85,18 +72,18 @@ local function get_obstacles (map, blacklist, tilesize)
 end
 
 function room:__init ()
-  self.name = self.map.name
-  self.tileset = tilesets[self.map.tileset]
+  self.name = self.tilemap.name
+  self.tileset = tilesets[self.tilemap.tileset]
   self.spritebatch = love.graphics.newSpriteBatch(self.tileset.img, 2048, 'stream')
   self.quads = get_quads(self.tileset.img, self.tileset.tilesize)
-  self.obstacles = get_obstacles(self.map, self.tileset.obstacles, self.tileset.tilesize)
+  self.obstacles = get_obstacles(self.tilemap, self.tileset.obstacles, self.tileset.tilesize)
   self:setup_buffer()
 end
 
 function room:setup_buffer ()
   local buffer = self.spritebatch
   buffer:clear()
-  for layer, tile, i, j in iterate_tiles(self.map) do
+  for layer, tile, i, j in iterate_tiles(self.tilemap) do
     if self.quads[tile] then
       buffer:add(self.quads[tile], j-1, i-1, 0, 1 / globals.unit, 1 / globals.unit)
     end

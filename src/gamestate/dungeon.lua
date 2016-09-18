@@ -2,12 +2,12 @@
 local dungeon = require 'gamestate' :new {}
 local controller = controllers.dungeon
 local sprites = basic.pack 'database.sprites'
-local maps = basic.pack 'database.maps'
+local rooms = basic.pack 'database.rooms'
 
 local enemies = {}
 local indexed_drawables = {}
-local rooms = {}
-local room
+local map = {}
+local current_room
 
 function dungeon:init ()
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
@@ -34,10 +34,10 @@ function dungeon:enter ()
 end
 
 local function load_room (room_name)
-  if not rooms[room_name] then
-    rooms[room_name] = require 'room' :new { map = maps[room_name] }
+  if not map[room_name] then
+    map[room_name] = require 'room' :new { tilemap = rooms[room_name] }
   end
-  room = rooms[room_name]
+  current_room = map[room_name]
 end
 
 function dungeon:changeroom (room_name)
@@ -46,20 +46,20 @@ function dungeon:changeroom (room_name)
 end
 
 function dungeon:update ()
-  room:update()
+  current_room:update()
 
   local player = self:get_body('player')
   if not player then hump.signal.emit('presskey', 'quit') return end
-  if player.pos.x < 0 or player.pos.x > #room.map[1][1] or
-     player.pos.y < 0 or player.pos.y > #room.map[1] then
-    if room.name == 'default' then
+  if player.pos.x < 0 or player.pos.x > #current_room.tilemap[1][1] or
+     player.pos.y < 0 or player.pos.y > #current_room.tilemap[1] then
+    if current_room.name == 'default' then
       self:changeroom('empty')
       player.pos:set(globals.width / 2, 1/2)
       for name, enemy in pairs(enemies) do
         self:del_body(name)
         self:del_drawable(name)
       end
-    elseif room.name == 'empty' then
+    elseif current_room.name == 'empty' then
       self:changeroom('default')
       player.pos:set(globals.width / 2, globals.height - 1/2)
       for name, enemy in pairs(enemies) do
@@ -79,7 +79,7 @@ function dungeon:update ()
           if body ~= anybody then body:checkandcollide(anybody) end
         end
       end
-      room:update_collision(body)
+      current_room:update_collision(body)
       self:synchronize(bname)
     end
   end
@@ -97,7 +97,7 @@ function dungeon:draw ()
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
 
-  room:draw()
+  current_room:draw()
 
   for bname, body in pairs(self.bodies) do
     if bname ~= '__length' then body:draw() end
