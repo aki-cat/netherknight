@@ -1,16 +1,16 @@
 
 local input = basic.prototype:new {
   keymap = {
-    quit   = 'f8',
-    maru   = 'z',
-    batsu  = 'x',
-    menu   = 'c',
-    pause  = 'escape',
-    up     = 'up',
-    right  = 'right',
-    down   = 'down',
-    left   = 'left',
-    marco  = 'm',
+    quit        = 'f8',
+    maru        = 'z',
+    batsu       = 'x',
+    inventory   = 'c',
+    pause       = 'escape',
+    up          = 'up',
+    right       = 'right',
+    down        = 'down',
+    left        = 'left',
+    marco       = 'm',
   },
   __type = 'input'
 }

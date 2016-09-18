@@ -86,8 +86,15 @@ dungeon_controller.input_attack = {
         end,
         240
       )
-    elseif action == 'menu' then
-
+    elseif action == 'inventory' then
+      for key, item in pairs(gamedata.inventory) do
+        if item == 'drumstick' then
+          hump.gamestate.current():get_body('player').damage = 0
+          gamedata.inventory[key] = nil
+          audio:playSFX('Heal')
+          return
+        end
+      end
     elseif action == 'pause' then
     end
   end
@@ -98,7 +105,7 @@ dungeon_controller.input_move_player = {
   func = function (action)
     if     action == 'maru' or action == 'batsu'
         or action == 'quit' or action == 'marco'
-        or action == 'menu' or action == 'pause'
+        or action == 'inventory' or action == 'pause'
       then return
     end
     local player = hump.gamestate.current():get_body('player')
