@@ -6,11 +6,10 @@ local maps = basic.pack 'database.maps'
 
 local enemies = {}
 local indexed_drawables = {}
+local rooms = {}
 local room
 
 function dungeon:init ()
-  self:changeroom('default')
-  room = require 'room' :new { map = maps.default }
   local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
   local player_sprite = require 'sprite' :new { sprites.slime }
   self:add_body('player', player_body)
@@ -18,6 +17,7 @@ function dungeon:init ()
 end
 
 function dungeon:enter ()
+  self:changeroom('default')
   for i = 1, 5 do
     local j = i < 3 and 1 or 3
     local slime_body = require 'monster' :new {
@@ -33,9 +33,16 @@ function dungeon:enter ()
   controller:connect()
 end
 
-function dungeon:changeroom (roomname)
-  if room and room.name == roomname then return end
-  room = require 'room' :new { map = maps[roomname] }
+local function load_room (room_name)
+  if not rooms[room_name] then
+    rooms[room_name] = require 'room' :new { map = maps[room_name] }
+  end
+  room = rooms[room_name]
+end
+
+function dungeon:changeroom (room_name)
+  if room and room.name == room_name then return end
+  load_room(room_name)
 end
 
 function dungeon:update ()
