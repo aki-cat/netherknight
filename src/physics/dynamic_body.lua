@@ -4,14 +4,14 @@ local dynamic_body = physics.collision_body:new {
 }
 
 local directions = {
-  right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), }
-  down_right = basic.vector:new { math.cos(math.pi * 1/4), math.sin(math.pi * 1/4), }
-  down       = basic.vector:new { math.cos(math.pi * 2/4), math.sin(math.pi * 2/4), }
-  down_left  = basic.vector:new { math.cos(math.pi * 3/4), math.sin(math.pi * 3/4), }
-  left       = basic.vector:new { math.cos(math.pi * 4/4), math.sin(math.pi * 4/4), }
-  up_left    = basic.vector:new { math.cos(math.pi * 5/4), math.sin(math.pi * 5/4), }
-  up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), }
-  up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), }
+  right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
+  down_right = basic.vector:new { math.cos(math.pi * 1/4), math.sin(math.pi * 1/4), },
+  down       = basic.vector:new { math.cos(math.pi * 2/4), math.sin(math.pi * 2/4), },
+  down_left  = basic.vector:new { math.cos(math.pi * 3/4), math.sin(math.pi * 3/4), },
+  left       = basic.vector:new { math.cos(math.pi * 4/4), math.sin(math.pi * 4/4), },
+  up_left    = basic.vector:new { math.cos(math.pi * 5/4), math.sin(math.pi * 5/4), },
+  up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), },
+  up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), },
 }
 
 function dynamic_body:__init ()
@@ -32,6 +32,9 @@ function dynamic_body:repulse (point)
   local distsqr = antigravity * antigravity
   self:move(0.04 * antigravity:normalized() / distsqr)
 end
+
+--function dynamic_body:checkandcollide (somebody)
+--end
 
 function dynamic_body:on_collision (somebody)
   -- do stuff

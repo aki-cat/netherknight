@@ -18,6 +18,7 @@ function collision_body:draw ()
 end
 
 function collision_body:on_collision (somebody)
+  somebody:stop()
 end
 
 function collision_body:checkandcollide (anybody)

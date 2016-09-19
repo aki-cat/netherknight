@@ -32,6 +32,11 @@ function player:unlock ()
   self.locked = false
 end
 
+function player:update ()
+  entity.update(self) -- call entity update
+  hump.signal.emit('check_player_position', self.pos)
+end
+
 function player:draw ()
   entity.draw(self) -- call entity draw
   love.graphics.push()

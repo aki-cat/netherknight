@@ -3,7 +3,6 @@ local dungeon_entities = require 'controller' :new {}
 
 local dungeon = hump.gamestate.current()
 local entities = {}
-local roomtiles = {}
 
 local function other(t, index)
   return function(s, var)
@@ -12,20 +11,18 @@ local function other(t, index)
   end, t, index
 end
 
-function dungeon_entities:update()
+function dungeon_entities:update ()
   for name, entity in pairs(entities) do
     entity:update()
     for bname, body in other(entities, name) do
       entity:checkandcollide(body)
     end
-    for i, tile in pairs(roomtiles) do
-      entity:checkandcollide(tile)
-    end
+    hump.signal.emit('check_collision', entity)
     hump.signal.emit('update_position', name, entity.pos)
   end
 end
 
-function dungeon_entities:draw()
+function dungeon_entities:draw ()
   for name, entity in pairs(entities) do
     entity:draw()
   end
@@ -35,13 +32,23 @@ function dungeon_entities:get (name)
   return entities[name]
 end
 
+local function find_entity (entity)
+  for name, e in pairs(entities) do
+    if entity == e then return name end
+  end
+end
+
 function dungeon_entities:__init ()
   self.actions = {
     {
       signal = 'add_entity',
       func = function(name, entity)
-        assert(entities[name], "Can't add second " .. name)
-        entities[name] = entity
+        if entities[name] then
+          return error("Can't add second " .. name)
+        end
+        if not entity:isdead() then
+          entities[name] = entity
+        end
       end
     },
     {
@@ -49,18 +56,6 @@ function dungeon_entities:__init ()
       func = function(name)
         entities[name] = nil
         hump.signal.emit('remove_sprite', name)
-      end
-    },
-    {
-      signal = 'addtile',
-      func = function(tile)
-        table.insert(roomtiles, tile)
-      end
-    },
-    {
-      signal = 'cleartiles',
-      func = function()
-        for i, tile in ipairs(roomtiles) do roomtiles[i] = nil end
       end
     },
     {
@@ -72,22 +67,11 @@ function dungeon_entities:__init ()
     {
       signal = 'entity_death',
       func = function(entity)
-        local name = dungeon:find_entity(entity)
+        local name = find_entity(entity)
         if name then
-          dungeon:del_entity(entity)
-          dungeon:del_sprite(name)
+          hump.signal.emit('remove_entity', name)
           print("DEATH:", bodyname)
         end
-      end
-    },
-    {
-      signal = 'entity_immunity',
-      func = function(body, immune)
-        local scene = hump.gamestate.current()
-        local name = scene:find_body(body)
-        local sprite = scene:get_sprite(name)
-        local shine = immune and 40 or 0
-        if name and sprite then sprite.shine = shine end
       end
     },
   }
