@@ -5,7 +5,6 @@ local rooms = basic.pack 'database.rooms'
 local room = basic.prototype:new {
   pos = basic.vector:new {},
   tilemap = rooms.default,
-  obstacles = {},
   __type = 'room'
 }
 

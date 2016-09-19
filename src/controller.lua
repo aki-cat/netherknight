@@ -11,6 +11,14 @@ function controller:connect()
   end
 end
 
+function controller:update()
+  -- implement on instance
+end
+
+function controller:draw()
+  -- implement on instance
+end
+
 function controller:disconnect()
   for _,action in pairs(self.actions) do
     hump.signal.remove(action.signal, action.func)

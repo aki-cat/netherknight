@@ -1,6 +1,5 @@
 
 local package_mt = {}
-package_mt.__mode = 'kv'
 
 function package_mt:__index(module)
   local file = require (self[package_mt] .. '.' .. module)

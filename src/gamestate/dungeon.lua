@@ -4,10 +4,9 @@ local controller = controllers.dungeon
 local sprites = basic.pack 'database.sprites'
 local rooms = basic.pack 'database.rooms'
 
-local enemies = {}
-local items = {}
 local indexed_drawables = {}
 local map = {}
+local roomdata = {}
 local current_room
 
 function dungeon:init ()
@@ -18,6 +17,7 @@ function dungeon:init ()
 end
 
 function dungeon:enter ()
+  self:changeroom('empty')
   self:changeroom('default')
   local drumstick_body = require 'collectable' :new {
     item = 'drumstick',
@@ -25,7 +25,7 @@ function dungeon:enter ()
     36/globals.unit, 24/globals.unit
   }
   local drumstick_sprite = require 'sprite' :new { sprites.drumstick }
-  items['drumstick'] = { drumstick_body, drumstick_sprite }
+  roomdata.empty.entities.drumstick = drumstick_body
   for i = 1, 5 do
     local j = i < 3 and 1 or 3
     local slime_body = require 'monster' :new {
@@ -45,7 +45,10 @@ local function load_room (room_name)
   if not map[room_name] then
     map[room_name] = require 'room' :new { tilemap = rooms[room_name] }
   end
-  current_room = map[room_name]
+  if not roomdata[room_name] then
+    roomdata[room_name] = { enemies = {}, items = {} }
+  end
+  current_room = room_name
 end
 
 function dungeon:changeroom (room_name)
@@ -54,13 +57,13 @@ function dungeon:changeroom (room_name)
 end
 
 function dungeon:update ()
-  current_room:update()
+  map[current_room]:update()
 
   local player = self:get_body('player')
   if not player then hump.signal.emit('gameover') return end
-  if player.pos.x < 0 or player.pos.x > #current_room.tilemap[1][1] or
-     player.pos.y < 0 or player.pos.y > #current_room.tilemap[1] then
-    if current_room.name == 'default' then
+  if player.pos.x < 0 or player.pos.x > #map[current_room].tilemap[1][1] or
+     player.pos.y < 0 or player.pos.y > #map[current_room].tilemap[1] then
+    if map[current_room].name == 'default' then
       self:changeroom('empty')
       player.pos:set(globals.width / 2, 1/2)
       for name, enemy in pairs(enemies) do
@@ -71,7 +74,7 @@ function dungeon:update ()
         self:add_body('drumstick', items.drumstick[1])
         self:add_drawable('drumstick', items.drumstick[2])
       end
-    elseif current_room.name == 'empty' then
+    elseif map[current_room].name == 'empty' then
       self:changeroom('default')
       player.pos:set(globals.width / 2, globals.height - 1/2)
       for name, enemy in pairs(enemies) do
@@ -93,7 +96,7 @@ function dungeon:update ()
           if body ~= anybody then body:checkandcollide(anybody) end
         end
       end
-      current_room:update_collision(body)
+      map[current_room]:update_collision(body)
       self:synchronize(bname)
     end
   end
@@ -111,7 +114,7 @@ function dungeon:draw ()
   love.graphics.setColor(255,255,255,255)
   love.graphics.scale(globals.unit)
 
-  current_room:draw()
+  map[current_room]:draw()
 
   for bname, body in pairs(self.bodies) do
     if bname ~= '__length' then body:draw() end
