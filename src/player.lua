@@ -12,12 +12,10 @@ end
 
 function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
-    audio:playSFX('Hurt')
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'collectable' then
-    audio:playSFX('Get')
-    table.insert(gamedata.inventory, somebody.item)
-    somebody.damage = 99999
+    hump.signal.emit('get_item', somebody.item)
+    somebody.damage = 999
   elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end

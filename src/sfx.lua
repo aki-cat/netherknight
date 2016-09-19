@@ -1,7 +1,7 @@
 
 local sfx = basic.prototype:new {
   'Ok.wav',
-  poolsize = 1,
+  poolsize = 3,
   __type = 'sfx'
 }
 

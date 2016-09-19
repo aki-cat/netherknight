@@ -51,9 +51,9 @@ local presskey = {
     local player = getplayer()
     for key, item in pairs(gamedata.inventory) do
       if item == 'drumstick' then
+        audio:playSFX('Heal')
         player.damage = 0
         gamedata.inventory[key] = nil
-        audio:playSFX('Heal')
         return
       end
     end
@@ -78,6 +78,13 @@ function dungeon_player:__init ()
       signal = 'presskey',
       func = function (action)
         if presskey[action] then presskey[action]() end
+      end
+    },
+    {
+      signal = 'get_item',
+      func = function (item)
+        audio:playSFX('Get')
+        table.insert(gamedata.inventory, item)
       end
     }
   }

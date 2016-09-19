@@ -11,6 +11,7 @@ end
 
 function entity:take_damage (dmg, dir)
   if self.invincible then return end
+  audio:playSFX('Hurt')
   self.damage = self.damage + dmg
   self:stagger(globals.stagger)
   self:repulse(dir)

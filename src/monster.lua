@@ -15,10 +15,8 @@ end
 
 function monster:on_collision (somebody)
   if somebody:get_type() == 'attack' then
-    audio:playSFX('Hurt')
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'player' then
-    audio:playSFX('Hurt')
     somebody:take_damage(self.attack, self.pos)
   else
     self:stop()
