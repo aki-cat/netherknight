@@ -14,4 +14,8 @@ function attack:on_collision (somebody)
   end
 end
 
+function attack:draw ()
+  -- deletes parent draw call
+end
+
 return attack

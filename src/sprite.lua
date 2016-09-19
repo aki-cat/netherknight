@@ -52,7 +52,6 @@ function sprite:shine (time)
     time,
     function()
       shinelevel = shinelevel - step * delta
-      print("bright!", shinelevel)
       self.brightness = shinelevel
     end,
     function()
@@ -73,9 +72,6 @@ end
 
 function sprite:draw ()
   -- set color effects
-  if self.brightness > 0 then
-    print("bright!", self.brightness)
-  end
   love.graphics.setColor(color.HSL(0, 0, 255 + self.brightness * 80))
 
   love.graphics.draw(unpack(self.drawable))
