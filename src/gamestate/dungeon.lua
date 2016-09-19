@@ -57,7 +57,7 @@ function dungeon:update ()
   current_room:update()
 
   local player = self:get_body('player')
-  if not player then hump.signal.emit('presskey', 'quit') return end
+  if not player then hump.signal.emit('gameover') return end
   if player.pos.x < 0 or player.pos.x > #current_room.tilemap[1][1] or
      player.pos.y < 0 or player.pos.y > #current_room.tilemap[1] then
     if current_room.name == 'default' then

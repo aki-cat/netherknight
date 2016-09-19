@@ -29,9 +29,21 @@ function love.load ()
     'presskey',
     function(action)
       if action == 'quit' then
-        print "QUIT GAME"
-        love.event.quit()
+        hump.signal.emit('quit_game')
       end
+    end
+  )
+  hump.signal.register(
+    'gameover',
+    function()
+      hump.signal.emit('quit_game')
+    end
+  )
+  hump.signal.register(
+    'quit_game',
+    function()
+      print "QUIT GAME"
+      love.event.quit()
     end
   )
   hump.signal.register(
