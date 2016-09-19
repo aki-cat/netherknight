@@ -3,7 +3,7 @@ local dungeon_player = require 'controller' :new {}
 
 local sprites = basic.pack 'database.sprites'
 
-local slash_entity = require 'attack' :new { 0, 0, 1, 1 }
+local slash_entity = require 'attack' :new { 0, 0, 1/3 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
 
 local function getplayer()

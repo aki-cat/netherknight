@@ -41,8 +41,9 @@ function player:draw ()
   love.graphics.scale(1/globals.unit)
   love.graphics.printf(
     "PLAYER",
-    globals.unit * (self.pos.x - self.size.x), globals.unit * ((self.pos.y - self.size.y) - 0.5),
-    globals.unit * self.size.x * 2,
+    globals.unit * (self.pos.x - 1),
+    globals.unit * (self.pos.y - self.size - 0.5),
+    globals.unit * 2,
     "center"
   )
   love.graphics.pop()

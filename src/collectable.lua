@@ -17,8 +17,8 @@ function collectable:on_collision (somebody)
   end
 end
 
-function collectable:draw ()
+--function collectable:draw ()
   -- just so it doesn't use its super's method
-end
+--end
 
 return collectable

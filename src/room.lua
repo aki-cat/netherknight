@@ -62,8 +62,7 @@ local function get_obstacles (tilemap, blacklist, tilesize)
         (j - 1),
         (i - 1),
         tilesize / globals.unit,
-        tilesize / globals.unit,
-        centred = false
+        tilesize / globals.unit
       }
       table.insert(obstacles, o)
     end

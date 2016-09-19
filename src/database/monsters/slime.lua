@@ -1,7 +1,6 @@
 
 local slime = {
-  width  = 1/2,
-  height = 1/4,
+  size = 1/5,
   maxhp  = 3,
   attack = 1,
 }
@@ -35,8 +34,9 @@ function slime:update()
     self.behaviour = coroutine.create(action)
     print("new coroutine!")
   end
-  local status = coroutine.resume(self.behaviour, self)
-  assert(status, "Coroutine error!", status)
+  local status, info = coroutine.resume(self.behaviour, self)
+  if not status then print(info) end
+  assert(status, "Coroutine error!")
 end
 
 return slime
