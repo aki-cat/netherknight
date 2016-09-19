@@ -15,68 +15,26 @@ local directions = {
 }
 
 function dynamic_body:__init ()
-  self.maxhp = 10
-  self.damage = 0
-  self.timer = hump.timer.new()
   self.speed = basic.vector:new {}
   self.dir = 'down'
 end
 
 function dynamic_body:update ()
-  self.timer:update(delta)
   self:deaccelerate()
   self.pos:add(self.speed)
-  if self.think and type(self.think) == 'function' then self:think() end
-  if self.damage >= self.maxhp then self:die() end
 end
 
 function dynamic_body:draw ()
-  love.graphics.push()
-  love.graphics.scale(1/globals.unit)
-  love.graphics.printf(
-    "HP: " .. tostring(self.maxhp - self.damage) .. "/" .. tostring(self.maxhp),
-    globals.unit * (self.pos.x - self.size.x), globals.unit * ((self.pos.y - self.size.y) + 0.5),
-    globals.unit * self.size.x * 2,
-    "center"
-  )
-  love.graphics.pop()
-  if self.statusdraw and type(self.statusdraw) == 'function' then self:statusdraw() end
 end
 
 function dynamic_body:repulse (point)
-  if self.invincible then return end
   local antigravity = self.pos - point
   local distsqr = antigravity * antigravity
   self:move(0.04 * antigravity:normalized() / distsqr)
 end
 
-function dynamic_body:take_damage (dmg)
-  if self.invincible then return end
-  self.damage = self.damage + dmg
-end
-
-function dynamic_body:stagger (time)
-  self.invincible = true
-  hump.signal.emit('body_immunity', self, true)
-  self.timer:after(time, function()
-    self.invincible = false
-    hump.signal.emit('body_immunity', self, false)
-  end)
-
-end
-
-function dynamic_body:die ()
-  hump.signal.emit('body_death', self)
-end
-
-function dynamic_body:isdead ()
-  return self.maxhp <= self.damage
-end
-
 function dynamic_body:on_collision (somebody)
-  if somebody:get_type() == 'collision_body' then
-    self:stop()
-  end
+  -- do stuff
 end
 
 function dynamic_body:move (acc)

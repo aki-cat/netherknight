@@ -1,7 +1,7 @@
 
 local monsters = basic.pack 'database.monsters'
 
-local monster = physics.dynamic_body:new {
+local monster = require 'entity' :new {
   species = 'slime',
   __type = 'monster'
 }
@@ -14,7 +14,13 @@ function monster:__init ()
 end
 
 function monster:on_collision (somebody)
-  if not somebody:get_type() == 'attack' then self:stop() end
+  if somebody:get_type() == 'attack' then
+    audio:playSFX('Hurt')
+    self:take_damage(somebody.attack, somebody.pos)
+  elseif somebody:get_type() ~= 'player' then
+    print("I am a bad monster and I should stop", self)
+    self:stop()
+  end
 end
 
 return monster

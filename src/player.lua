@@ -1,5 +1,7 @@
 
-local player = physics.dynamic_body:new {
+local entity = require 'entity'
+
+local player = entity:new {
   __type = 'player'
 }
 
@@ -9,15 +11,12 @@ end
 
 function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
-    audio:playSFX('Hit')
-    self:take_damage(somebody.attack)
-    self:repulse(somebody.pos)
-    self:stagger(globals.stagger)
+    audio:playSFX('Hurt')
+    self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'collectable' then
     audio:playSFX('Get')
     table.insert(gamedata.inventory, somebody.item)
     somebody.damage = 99999
-    somebody:die()
   elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end
@@ -32,7 +31,8 @@ function player:unlock ()
   self.locked = false
 end
 
-function player:statusdraw ()
+function player:draw ()
+  entity.draw(self) -- call entity draw
   love.graphics.push()
   love.graphics.scale(1/globals.unit)
   love.graphics.printf(
