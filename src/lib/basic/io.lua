@@ -35,6 +35,8 @@ end
 
 function basic_io.write (filepath, str)
   local file = io.open(filepath, 'w')
+  assert(file, "Could not open file to write\n" .."path: " .. filepath)
+  print(filepath)
   file:write(str)
   file:close()
 end
