@@ -11,7 +11,7 @@ drumstick[5]  = 0
 drumstick[6]  = 1 / globals.unit
 drumstick[7]  = 1 / globals.unit
 drumstick[8]  = w / 2
-drumstick[9]  = h / 2
+drumstick[9]  = 3 * h / 5
 
 drumstick.animations = {
   default = {
