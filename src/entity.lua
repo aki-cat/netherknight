@@ -26,7 +26,7 @@ function entity:stagger (time)
 end
 
 function entity:die ()
-  hump.signal.emit('body_death', self)
+  hump.signal.emit('entity_death', self)
 end
 
 function entity:isdead ()

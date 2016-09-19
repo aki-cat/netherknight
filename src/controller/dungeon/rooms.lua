@@ -76,7 +76,7 @@ local function load_room (room_id)
   end
 end
 
-local function goto_room (id)
+function dungeon_rooms:goto_room (id)
   map.current = id
   map.up =    id % #rooms + 1
   map.down =  id % #rooms + 1
@@ -99,28 +99,28 @@ function dungeon_rooms:__init ()
       signal = 'check_player_position',
       func = function (pos)
         if pos.x < current_room().pos.x then
-          goto_room(map.left)
+          self:goto_room(map.left)
           pos:set(
             current_room().pos.x + current_room().size.x - 1/2,
             current_room().pos.y + pos.y
           )
         end
         if pos.x > current_room().pos.x + current_room().size.x then
-          goto_room(map.right)
+          self:goto_room(map.right)
           pos:set(
             current_room().pos.x + 1/2,
             current_room().pos.y + pos.y
           )
         end
         if pos.y < current_room().pos.y then
-          goto_room(map.up)
+          self:goto_room(map.up)
           pos:set(
             current_room().pos.x + pos.x,
             current_room().pos.y + current_room().size.y - 1/2
           )
         end
         if pos.y > current_room().pos.y + current_room().size.y then
-          goto_room(map.down)
+          self:goto_room(map.down)
           pos:set(
             current_room().pos.x + pos.x,
             current_room().pos.y + 1/2
@@ -129,7 +129,7 @@ function dungeon_rooms:__init ()
       end
     },
     {
-      signal = 'check_collision',
+      signal = 'check_tilemap_collision',
       func = function (entity)
         current_room():check_collision(entity)
       end

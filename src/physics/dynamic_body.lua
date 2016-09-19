@@ -29,8 +29,7 @@ end
 
 function dynamic_body:repulse (point)
   local antigravity = self.pos - point
-  local distsqr = antigravity * antigravity
-  self:move(0.04 * antigravity:normalized() / distsqr)
+  self:move(0.5 * antigravity:normalized())
 end
 
 --function dynamic_body:checkandcollide (somebody)
@@ -62,7 +61,7 @@ end
 
 function dynamic_body:getdirection ()
   if type(self) == 'string' then
-    return directions[self] * 1
+    return directions[self] and directions[self] * 1
   else
     return directions[self.dir] * 1
   end

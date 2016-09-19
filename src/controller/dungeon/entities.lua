@@ -17,7 +17,7 @@ function dungeon_entities:update ()
     for bname, body in other(entities, name) do
       entity:checkandcollide(body)
     end
-    hump.signal.emit('check_collision', entity)
+    hump.signal.emit('check_tilemap_collision', entity)
     hump.signal.emit('update_position', name, entity.pos)
   end
 end
@@ -70,7 +70,7 @@ function dungeon_entities:__init ()
         local name = find_entity(entity)
         if name then
           hump.signal.emit('remove_entity', name)
-          print("DEATH:", bodyname)
+          print("DEATH:", name)
         end
       end
     },

@@ -1,5 +1,5 @@
 
-local attack = physics.collision_body:new {
+local attack = require 'entity' :new {
   __type = 'attack'
 }
 

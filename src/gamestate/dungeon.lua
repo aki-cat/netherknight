@@ -22,11 +22,13 @@ local function unload_player ()
 end
 
 function dungeon:enter ()
-  -- print every controller so they are loaded by pack
+  -- connect every controller so they are loaded by pack
   controllers.player:connect()
   controllers.entities:connect()
   controllers.rooms:connect()
   controllers.sprites:connect()
+  -- load room and player
+  controllers.rooms:goto_room(1)
   load_player()
 end
 
