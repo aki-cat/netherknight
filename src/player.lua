@@ -6,6 +6,7 @@ local player = entity:new {
 }
 
 function player:__init ()
+  self.maxhp = 10
   self.locked = false
 end
 
