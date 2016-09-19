@@ -42,7 +42,7 @@ function dungeon_entities:__init ()
   self.actions = {
     {
       signal = 'add_entity',
-      func = function(name, entity)
+      func = function (name, entity)
         if entities[name] then
           return error("Can't add second " .. name)
         end
@@ -53,7 +53,7 @@ function dungeon_entities:__init ()
     },
     {
       signal = 'remove_entity',
-      func = function(name)
+      func = function (name)
         entities[name] = nil
         hump.signal.emit('remove_sprite', name)
       end
@@ -66,7 +66,7 @@ function dungeon_entities:__init ()
     },
     {
       signal = 'entity_death',
-      func = function(entity)
+      func = function (entity)
         local name = find_entity(entity)
         if name then
           hump.signal.emit('remove_entity', name)
@@ -74,6 +74,15 @@ function dungeon_entities:__init ()
         end
       end
     },
+    {
+      signal = 'entity_immunity',
+      func = function (entity)
+        local name = find_entity(entity)
+        if name then
+          hump.signal.emit('shine_sprite', name, globals.stagger)
+        end
+      end
+    }
   }
 end
 

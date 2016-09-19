@@ -15,11 +15,12 @@ function sprite:__init ()
   self.rotation = 0
   self.fliph = false
   self.flipv = false
-  self.shine = 0
   self.animations = resource.animations
   self.state = 'default'
   self.drawable = {}
   self.qid = 1
+  self.brightness = 0
+  self.timer = hump.timer.new()
   for i,attr in ipairs(resource) do self.drawable[i] = attr end
 end
 
@@ -44,7 +45,24 @@ function sprite:setrotation (r)
   self.rotation = r
 end
 
+function sprite:shine (time)
+  local shinelevel = 100
+  local step = shinelevel/time
+  self.timer:during(
+    time,
+    function()
+      shinelevel = shinelevel - step * delta
+      print("bright!", shinelevel)
+      self.brightness = shinelevel
+    end,
+    function()
+      self.brightness = 0
+    end
+  )
+end
+
 function sprite:update ()
+  self.timer:update(delta)
   self.drawable[2] = self:getquad()
   self.drawable[3], self.drawable[4] = self.pos:unpack()
   self.drawable[5] = self.rotation
@@ -54,10 +72,11 @@ function sprite:update ()
 end
 
 function sprite:draw ()
-  if self.shine > 0 then
-    love.graphics.setColor(color.HSL(0, 0, 120 + self.shine*80, 255))
-    self.shine = self.shine - 1
+  -- set color effects
+  if self.brightness > 0 then
+    print("bright!", self.brightness)
   end
+  love.graphics.setColor(color.HSL(0, 0, 255 + self.brightness * 80))
 
   love.graphics.draw(unpack(self.drawable))
 

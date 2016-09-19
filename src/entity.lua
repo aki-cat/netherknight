@@ -18,10 +18,9 @@ end
 
 function entity:stagger (time)
   self.invincible = true
-  hump.signal.emit('body_immunity', self, true)
+  hump.signal.emit('entity_immunity', self, true)
   self.timer:after(time, function()
     self.invincible = false
-    hump.signal.emit('body_immunity', self, false)
   end)
 end
 
@@ -41,7 +40,6 @@ function entity:update ()
 end
 
 function entity:draw ()
-  print("drawing entity meta")
   love.graphics.push()
   love.graphics.scale(1/globals.unit)
   love.graphics.printf(

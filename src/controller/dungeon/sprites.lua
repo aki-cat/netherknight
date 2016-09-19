@@ -63,7 +63,9 @@ function dungeon_sprites:__init ()
     {
       signal = 'shine_sprite',
       func = function(name, time)
-        if sprites[name] then end
+        if sprites[name] then
+          sprites[name]:shine(time)
+        end
       end
     },
   }
