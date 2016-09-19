@@ -21,14 +21,43 @@ local fps_draw = require 'fps' :new {}
 local debug_prints = {}
 
 -- game_id
-local game_id = {}
+local game_id = tostring({}):sub(-7)
+
+local function save_game ()
+  love.filesystem.createDirectory('.')
+  local savepath = love.filesystem.getSaveDirectory() .. '/.save_' .. gamedata.name .. '_' .. game_id
+  local savedata = basic.io.serialise_table(gamedata)
+  basic.io.write(savepath, savedata)
+end
+
+local function load_game (id)
+  local loadpath = love.filesystem.getSaveDirectory() .. '/.save_' .. gamedata.name .. '_' .. id
+  if love.filesystem.exists(savepath) then
+    gamedata = require(loadpath)
+    game_id = id
+  end
+end
+
+local function delete_game ()
+  local savepath = love.filesystem.getSaveDirectory() .. '/.save_' .. gamedata.name .. '_' .. game_id
+  if love.filesystem.exists(savepath) then love.filesystem.remove(savepath) end
+end
 
 function love.load ()
-  math.randomseed(os.time())
+  -- set save/load/write directory
+  love.filesystem.setIdentity('everknight2', true)
+
+  -- set random seed
+  local seed = os.time()
+  math.randomseed(seed)
+  print("SEED: " .. tostring(seed))
+
+  -- set quit and debug signals
   hump.signal.register(
     'presskey',
     function(action)
       if action == 'quit' then
+        save_game()
         hump.signal.emit('quit_game')
       end
     end
@@ -36,6 +65,7 @@ function love.load ()
   hump.signal.register(
     'gameover',
     function()
+      delete_game()
       hump.signal.emit('quit_game')
     end
   )
@@ -53,6 +83,8 @@ function love.load ()
       table.insert(debug_prints, text)
     end
   )
+
+  -- set current gamestate
   hump.gamestate.switch(gamestate.dungeon)
 end
 
