@@ -4,8 +4,8 @@ local rooms = basic.pack 'database.rooms'
 
 local room = basic.prototype:new {
   pos = basic.vector:new {},
+  size = basic.vector:new {},
   tilemap = rooms.default,
-  obstacles = {},
   __type = 'room'
 }
 
@@ -74,6 +74,7 @@ end
 function room:__init ()
   self.name = self.tilemap.name
   self.tileset = tilesets[self.tilemap.tileset]
+  self.size:set(#self.tilemap[1][1], #self.tilemap[1])
   self.spritebatch = love.graphics.newSpriteBatch(self.tileset.img, 2048, 'stream')
   self.quads = get_quads(self.tileset.img, self.tileset.tilesize)
   self.obstacles = get_obstacles(self.tilemap, self.tileset.obstacles, self.tileset.tilesize)
@@ -90,9 +91,9 @@ function room:setup_buffer ()
   end
 end
 
-function room:update_collision (body)
+function room:check_collision (body)
   for i, tile in ipairs(self.obstacles) do
-    body:checkandcollide(tile)
+    tile:checkandcollide(body)
   end
 end
 

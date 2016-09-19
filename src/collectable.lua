@@ -1,7 +1,7 @@
 
 local sprites = basic.pack 'database.sprites'
 
-local collectable = physics.dynamic_body:new {
+local collectable = require 'entity' :new {
   item = 'drumstick',
   __type = 'collectable'
 }
@@ -14,7 +14,6 @@ function collectable:on_collision (somebody)
     audio:playSFX('Get')
     table.insert(gamedata.inventory, self.item)
     self.damage = 99999
-    self:die()
   end
 end
 

@@ -18,6 +18,7 @@ function collision_body:draw ()
 end
 
 function collision_body:on_collision (somebody)
+  somebody:stop()
 end
 
 function collision_body:checkandcollide (anybody)
@@ -48,7 +49,7 @@ function collision_body:checkandcollide (anybody)
   if body_bottom_right.y < anybody_top_left.y then colliding = false end
 
   if colliding then
-    hump.signal.emit('body_collision', self, anybody)
+    hump.signal.emit('entity_collision', self, anybody)
   end
 end
 

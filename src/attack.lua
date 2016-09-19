@@ -1,5 +1,5 @@
 
-local attack = physics.collision_body:new {
+local attack = require 'entity' :new {
   __type = 'attack'
 }
 
@@ -10,10 +10,7 @@ end
 function attack:on_collision (somebody)
   if somebody:get_type() == 'monster' then
     audio:playSFX('Hurt')
-    somebody:take_damage(self.attack)
-    print(frameid)
-    somebody:repulse(self.pos)
-    somebody:stagger(globals.stagger)
+    somebody:take_damage(self.attack, self.pos)
   end
 end
 
