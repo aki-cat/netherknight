@@ -21,7 +21,6 @@ function monster:on_collision (somebody)
     audio:playSFX('Hurt')
     somebody:take_damage(self.attack, self.pos)
   else
-    print("I am a bad monster and I should stop", self)
     self:stop()
   end
 end
