@@ -41,11 +41,13 @@ function entity:update ()
 end
 
 function entity:draw ()
+  print("drawing entity meta")
   love.graphics.push()
   love.graphics.scale(1/globals.unit)
   love.graphics.printf(
     "HP: " .. tostring(self.maxhp - self.damage) .. "/" .. tostring(self.maxhp),
-    globals.unit * (self.pos.x - self.size.x), globals.unit * ((self.pos.y - self.size.y) + 0.5),
+    globals.unit * (self.pos.x - self.size.x),
+    globals.unit * (self.pos.y - self.size.y/2 + 0.25),
     globals.unit * self.size.x * 2,
     "center"
   )
