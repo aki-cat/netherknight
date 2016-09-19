@@ -7,7 +7,7 @@ local monster = require 'entity' :new {
 }
 
 function monster:__init ()
-  self.size:set(monsters[self.species].width, monsters[self.species].height)
+  self.size = monsters[self.species].size
   self.maxhp = monsters[self.species].maxhp or self.maxhp
   self.attack = monsters[self.species].attack
   self.think = monsters[self.species].update

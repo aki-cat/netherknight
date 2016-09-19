@@ -39,6 +39,7 @@ local room_elements = {
       require 'monster' :new {
         2 * globals.width  / 4,
         3 * globals.height / 4,
+        1/4,
         species = 'slime'
       },
       require 'sprite' :new { sprites.slime }
@@ -50,7 +51,7 @@ local room_elements = {
         item = 'drumstick',
         globals.width  / 2,
         globals.height / 2,
-        36/globals.unit, 24/globals.unit
+        1/5
       },
       require 'sprite' :new { sprites.drumstick }
     },
