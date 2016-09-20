@@ -82,6 +82,19 @@ function dungeon_entities:__init ()
           hump.signal.emit('shine_sprite', name, globals.stagger)
         end
       end
+    },
+    {
+      signal = 'entity_turn',
+      func = function (entity, dir)
+        local name = find_entity(entity)
+        if name then
+          if dir == 'left' or dir == 'up_left' or dir == 'down_left' then
+            hump.signal.emit('flip_horizontal', name, false)
+          elseif dir == 'right' or dir == 'up_right' or dir == 'down_right' then
+            hump.signal.emit('flip_horizontal', name, true)
+          end
+        end
+      end
     }
   }
 end

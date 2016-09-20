@@ -6,6 +6,8 @@ local sprites = basic.pack 'database.sprites'
 local slash_entity = require 'attack' :new { 0, 0, 1/3 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
 
+local player_speed = globals.frameunit * 2/4
+
 local function getplayer()
   return hump.gamestate.current():getentity('player')
 end
@@ -69,9 +71,8 @@ function dungeon_player:__init ()
         local direction = physics.dynamic_body.getdirection(action)
         if not direction then return end
         if player.locked then return end
-        local speed = globals.frameunit * globals.unit / 64
         player:face(action)
-        player:move(direction * speed)
+        player:move(direction * player_speed)
       end
     },
     {

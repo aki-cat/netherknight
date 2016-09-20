@@ -1,7 +1,9 @@
 
 local monsters = basic.pack 'database.monsters'
 
-local monster = require 'entity' :new {
+local entity = require 'entity'
+
+local monster = entity:new {
   species = 'slime',
   __type = 'monster'
 }
@@ -21,6 +23,12 @@ function monster:on_collision (somebody)
   else
     self:stop()
   end
+end
+
+function monster:update (args)
+  entity.update(self)
+  if self.think and type(self.think) == 'function' then self:think() end
+  hump.signal.emit('entity_turn', self, self.dir)
 end
 
 return monster

@@ -36,22 +36,10 @@ end
 function entity:update ()
   physics.dynamic_body.update(self) -- call dynamic body update
   self.timer:update(delta)
-  if self.think and type(self.think) == 'function' then self:think() end
   if self:isdead() then self:die() end
 end
 
 function entity:draw ()
-  physics.dynamic_body.draw(self)
-  love.graphics.push()
-  love.graphics.scale(1/globals.unit)
-  love.graphics.printf(
-    "HP: " .. tostring(self.maxhp - self.damage) .. "/" .. tostring(self.maxhp),
-    globals.unit * (self.pos.x - 1),
-    globals.unit * (self.pos.y + 0.25),
-    globals.unit * 2,
-    "center"
-  )
-  love.graphics.pop()
 end
 
 return entity

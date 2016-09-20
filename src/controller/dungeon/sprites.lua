@@ -39,7 +39,7 @@ function dungeon_sprites:__init ()
   self.actions = {
     {
       signal = 'add_sprite',
-      func = function(name, sprite)
+      func = function (name, sprite)
         if sprite[name] then
           return error("Can't add second " .. name)
         end
@@ -62,9 +62,25 @@ function dungeon_sprites:__init ()
     },
     {
       signal = 'shine_sprite',
-      func = function(name, time)
+      func = function (name, time)
         if sprites[name] then
           sprites[name]:shine(time)
+        end
+      end
+    },
+    {
+      signal = 'change_animation',
+      func = function (name, animation)
+        if sprites[name] then
+          sprites:setanimation(animation)
+        end
+      end
+    },
+    {
+      signal = 'flip_horizontal',
+      func = function (name, flip)
+        if sprites[name] then
+          sprites[name]:setflip('h', flip)
         end
       end
     },

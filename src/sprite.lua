@@ -22,6 +22,26 @@ function sprite:__init ()
   self.brightness = 0
   self.timer = hump.timer.new()
   for i,attr in ipairs(resource) do self.drawable[i] = attr end
+  self:playanimation()
+end
+
+function sprite:playanimation ()
+  local animation = self.animations[self.state]
+  self.timer:every(
+    animation.step,
+    function ()
+      self.qid = self.qid % #animation.quads + 1
+    end
+  )
+end
+
+function sprite:setanimation (animation)
+  if self.state ~= animation and self.animations[animation] then
+    self.state = animation
+    self.qid = 1
+    self.timer:clear()
+    self:playanimation()
+  end
 end
 
 function sprite:setquad (i)

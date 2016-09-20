@@ -37,16 +37,6 @@ end
 
 function player:draw ()
   entity.draw(self) -- call entity draw
-  love.graphics.push()
-  love.graphics.scale(1/globals.unit)
-  love.graphics.printf(
-    "PLAYER",
-    globals.unit * (self.pos.x - 1),
-    globals.unit * (self.pos.y - self.size - 0.5),
-    globals.unit * 2,
-    "center"
-  )
-  love.graphics.pop()
 end
 
 return player
