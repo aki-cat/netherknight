@@ -3,18 +3,17 @@ local dynamic_body = physics.collision_body:new {
   [3] = 0.5,
   shape = 'circle',
   centred = true,
+  direction = {
+    right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
+    down_right = basic.vector:new { math.cos(math.pi * 1/4), math.sin(math.pi * 1/4), },
+    down       = basic.vector:new { math.cos(math.pi * 2/4), math.sin(math.pi * 2/4), },
+    down_left  = basic.vector:new { math.cos(math.pi * 3/4), math.sin(math.pi * 3/4), },
+    left       = basic.vector:new { math.cos(math.pi * 4/4), math.sin(math.pi * 4/4), },
+    up_left    = basic.vector:new { math.cos(math.pi * 5/4), math.sin(math.pi * 5/4), },
+    up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), },
+    up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), },
+  },
   __type = 'dynamic_body'
-}
-
-local directions = {
-  right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
-  down_right = basic.vector:new { math.cos(math.pi * 1/4), math.sin(math.pi * 1/4), },
-  down       = basic.vector:new { math.cos(math.pi * 2/4), math.sin(math.pi * 2/4), },
-  down_left  = basic.vector:new { math.cos(math.pi * 3/4), math.sin(math.pi * 3/4), },
-  left       = basic.vector:new { math.cos(math.pi * 4/4), math.sin(math.pi * 4/4), },
-  up_left    = basic.vector:new { math.cos(math.pi * 5/4), math.sin(math.pi * 5/4), },
-  up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), },
-  up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), },
 }
 
 function dynamic_body:__init ()
@@ -90,11 +89,7 @@ function dynamic_body:face(dir)
 end
 
 function dynamic_body:getdirection ()
-  if type(self) == 'string' then
-    return directions[self] and directions[self] * 1
-  else
-    return directions[self.dir] * 1
-  end
+  return self.direction[self.dir] * 1
 end
 
 return dynamic_body

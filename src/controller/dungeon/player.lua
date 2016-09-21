@@ -70,7 +70,7 @@ function dungeon_player:__init ()
       signal = 'holdkey',
       func = function (action)
         local player = getplayer()
-        local direction = physics.dynamic_body.getdirection(action)
+        local direction = physics.dynamic_body.direction[action]
         if not direction then return end
         if player.locked then return end
         player:face(action)
