@@ -18,6 +18,8 @@ local function animateslash (player, direction)
   slash_entity.pos:set((player.pos + direction/4):unpack())
   hump.signal.emit('add_entity', 'slash', slash_entity)
   hump.signal.emit('add_sprite', 'slash', slash_sprite)
+  hump.signal.emit('update_position', 'slash', slash_entity.pos)
+  audio:playSFX('Slash')
   hump.timer.during(
     0.2,
     function()

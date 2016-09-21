@@ -7,6 +7,7 @@ local indexed_sprites = {}
 
 local function ordersprites(sprites)
   if #indexed_sprites ~= sprites.__length then
+    print("Reordering sprite list")
     for i,_ in pairs(indexed_sprites) do indexed_sprites[i] = nil end
     for name, sprite in pairs(sprites) do
       if name ~= '__length' then table.insert(indexed_sprites, sprite) end
@@ -50,8 +51,10 @@ function dungeon_sprites:__init ()
     {
       signal = 'remove_sprite',
       func = function (name)
-        sprites[name] = nil
-        sprites.__length = sprites.__length - 1
+        if sprites[name] ~= nil then
+          sprites[name] = nil
+          sprites.__length = sprites.__length - 1
+        end
       end
     },
     {
