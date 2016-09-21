@@ -93,7 +93,7 @@ function collision_body:checkandcollide (somebody)
   end
   if colliding then
     print('collision!', self:get_type(), somebody:get_type())
-    hump.signal.emit('entity_collision', self, somebody)
+    self:on_collision(somebody)
   end
 end
 

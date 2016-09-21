@@ -6,17 +6,15 @@ local sprites = { __length = 0 }
 local indexed_sprites = {}
 
 local function ordersprites(sprites)
-  if #indexed_sprites ~= sprites.__length then
-    print("Reordering sprite list")
-    for i,_ in pairs(indexed_sprites) do indexed_sprites[i] = nil end
-    for name, sprite in pairs(sprites) do
-      if name ~= '__length' then table.insert(indexed_sprites, sprite) end
-    end
+  print("Reordering sprite list")
+  for i,_ in pairs(indexed_sprites) do indexed_sprites[i] = nil end
+  for name, sprite in pairs(sprites) do
+    if name ~= '__length' then table.insert(indexed_sprites, name) end
   end
   table.sort(
     indexed_sprites,
     function(a,b)
-      return a.pos.y < b.pos.y
+      return sprites[a].pos.y < sprites[b].pos.y
     end
   )
 end
@@ -29,7 +27,9 @@ function dungeon_sprites:update()
 end
 
 function dungeon_sprites:draw()
-  for i, sprite in pairs(indexed_sprites) do sprite:draw() end
+  for i, name in ipairs(indexed_sprites) do
+    if name ~= '__length' then sprites[name]:draw() end
+  end
 end
 
 function dungeon_sprites:get (name)

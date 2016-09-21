@@ -73,7 +73,7 @@ local function load_room (room_id)
         end
       else
         hump.signal.emit('remove_entity', entity:get_type() .. tostring(e_id))
-        -- sprites can remove themselves
+        hump.signal.emit('remove_sprite', entity:get_type() .. tostring(e_id))
       end
     end
   end
