@@ -7,18 +7,19 @@ local collectable = require 'entity' :new {
 }
 
 function collectable:__init ()
+  self.maxhp = 1
 end
 
 function collectable:on_collision (somebody)
   if somebody:get_type() == 'player' then
-    audio:playSFX('Get')
-    table.insert(gamedata.inventory, self.item)
-    self.damage = 99999
+    self.damage = 999
   end
 end
 
---function collectable:draw ()
-  -- just so it doesn't use its super's method
---end
+function collectable:on_death ()
+  table.insert(gamedata.inventory, self.item)
+  audio:playSFX('Get')
+  hump.signal.emit('entity_death', self)
+end
 
 return collectable

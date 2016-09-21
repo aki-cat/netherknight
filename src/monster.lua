@@ -15,6 +15,14 @@ function monster:__init ()
   self.think = monsters[self.species].update
 end
 
+function monster:on_death ()
+  hump.signal.emit('entity_dying', self)
+  audio:playSFX('Die')
+  self.timer:after(0.4, function()
+    hump.signal.emit('entity_death', self)
+  end)
+end
+
 function monster:on_collision (somebody)
   if somebody:get_type() == 'attack' then
     self:take_damage(somebody.attack, somebody.pos)

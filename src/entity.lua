@@ -19,14 +19,16 @@ end
 
 function entity:stagger (time)
   self.invincible = true
+  self.timer:after(time, function() self.invincible = false end)
   hump.signal.emit('entity_immunity', self, true)
-  self.timer:after(time, function()
-    self.invincible = false
-  end)
+end
+
+function entity:on_death ()
+  -- implement on instance
 end
 
 function entity:die ()
-  hump.signal.emit('entity_death', self)
+  self:on_death()
 end
 
 function entity:isdead ()

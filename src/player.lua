@@ -21,6 +21,13 @@ function player:on_collision (somebody)
   end
 end
 
+function player:on_death ()
+  audio:playSFX('Die')
+  self.timer:after(0.3, function ()
+    hump.signal.emit('gameover')
+  end)
+end
+
 function player:lock (time)
   self.timer:after(time, function() self:unlock() end)
   self.locked = true

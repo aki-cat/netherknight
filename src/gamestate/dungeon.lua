@@ -4,7 +4,7 @@ local sprites = basic.pack 'database.sprites'
 
 local dungeon = {}
 
-local player_body = require 'player' :new { globals.width / 2, globals.height / 2, 1/5 }
+local player_entity = require 'player' :new { globals.width / 2, globals.height / 2, 1/5 }
 local player_sprite = require 'sprite' :new { sprites.slime }
 
 function dungeon:init ()
@@ -12,12 +12,13 @@ end
 
 local function load_player ()
   print("loading player...")
-  hump.signal.emit('add_entity', 'player', player_body)
+  player_entity.damage = 0
+  hump.signal.emit('add_entity', 'player', player_entity)
   hump.signal.emit('add_sprite', 'player', player_sprite)
 end
 
 local function unload_player ()
-  hump.signal.emit('remove_entity', player_body)
+  hump.signal.emit('remove_entity', player_entity)
   hump.signal.emit('remove_sprite', player_sprite)
 end
 
