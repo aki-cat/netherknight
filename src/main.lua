@@ -48,7 +48,7 @@ function love.load ()
 
   -- set random seed
   local seed = os.time()
-  math.randomseed(seed)
+  love.math.setRandomSeed(seed)
   print("SEED: " .. tostring(seed))
 
   -- set quit and debug signals
