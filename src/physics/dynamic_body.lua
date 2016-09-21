@@ -1,4 +1,19 @@
 
+--[[ Dynamic Body (extends from Collision Body)
+new -> {
+  [1]: x
+  [2]: y
+  [3]: width/radius
+  [4]: height
+  shape: 'rectangle' | 'circle'
+  centred: true | false
+}
+
+Call `move()` and pass acceleration vector to move body.
+Call `update()` to update position and speed.
+
+]]
+
 local dynamic_body = physics.collision_body:new {
   [3] = 0.5,
   shape = 'circle',
@@ -27,13 +42,6 @@ function dynamic_body:update ()
 end
 
 function dynamic_body:draw ()
-  love.graphics.setColor(255,255,255,128)
-  if self.shape == 'rectangle' then
-    love.graphics.rectangle('fill', self.pos.x, self.pos.y, self.size.x, self.size.y)
-  elseif self.shape == 'circle' then
-    love.graphics.circle('fill', self.pos.x, self.pos.y, self.size)
-  end
-  love.graphics.setColor(255,255,255,255)
 end
 
 function dynamic_body:repulse (point)

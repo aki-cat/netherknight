@@ -1,4 +1,19 @@
 
+--[[ Collision Body
+new -> {
+  [1]: x
+  [2]: y
+  [3]: width/radius
+  [4]: height
+  shape: 'rectangle' | 'circle'
+  centred: true | false
+}
+
+To verify collision, call `collision_body:checkandcollide()` and pass the other body as parameter
+To specify what happens on collision, rewrite on instance the method `collision_body:on_collision()`
+
+]]
+
 local collision_body = basic.prototype:new {
   0, 0, 0, 0,
   shape = 'rectangle',
