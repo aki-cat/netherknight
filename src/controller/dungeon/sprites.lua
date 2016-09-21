@@ -6,7 +6,6 @@ local sprites = { __length = 0 }
 local indexed_sprites = {}
 
 local function ordersprites(sprites)
-  print("Reordering sprite list")
   for i,_ in pairs(indexed_sprites) do indexed_sprites[i] = nil end
   for name, sprite in pairs(sprites) do
     if name ~= '__length' then table.insert(indexed_sprites, name) end

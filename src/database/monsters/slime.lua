@@ -7,8 +7,8 @@ local slime = {
 
 local function action(self)
   while true do
-    local angle = math.pi * 2 * math.random()
-    local idle = math.random(0, 1)
+    local angle = math.pi * 2 * love.math.random()
+    local idle = love.math.random(0, 1)
     local count = 0
     local speed = globals.frameunit / 4
     local movement = speed * basic.vector:new{
