@@ -7,6 +7,7 @@ function entity:__init ()
   self.maxhp = 1
   self.damage = 0
   self.timer = hump.timer.new()
+  self.dead = false
 end
 
 function entity:take_damage (dmg, dir)
@@ -28,6 +29,8 @@ function entity:on_death ()
 end
 
 function entity:die ()
+  if self.dead then return end
+  self.dead = true
   self:on_death()
 end
 

@@ -13,10 +13,10 @@ end
 
 function dungeon_entities:update ()
   for name, entity in pairs(entities) do
-    entity:update()
     for bname, body in other(entities, name) do
       entity:checkandcollide(body)
     end
+    entity:update()
     hump.signal.emit('check_tilemap_collision', entity)
     hump.signal.emit('update_position', name, entity.pos)
   end
