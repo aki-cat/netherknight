@@ -40,9 +40,9 @@ function monster:on_collision (somebody)
 end
 
 function monster:update (args)
-  entity.update(self)
   if self.think and type(self.think) == 'function' then self:think() end
   hump.signal.emit('entity_turn', self, self.dir)
+  entity.update(self)
 end
 
 return monster
