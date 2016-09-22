@@ -107,7 +107,7 @@ function collision_body:checkandcollide (somebody)
     colliding = circle_circle_collision(self, somebody)
   end
   if colliding then
-    print('collision!', self:get_type(), somebody:get_type())
+    --print('collision!', self:get_type(), somebody:get_type())
     self:on_collision(somebody)
   end
 end
