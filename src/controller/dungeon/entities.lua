@@ -44,7 +44,7 @@ function dungeon_entities:__init ()
       signal = 'add_entity',
       func = function (name, entity)
         if entities[name] then
-          return error("Can't add second " .. name)
+          return error("Can't add second entity " .. name)
         end
         if not entity:isdead() then
           entities[name] = entity

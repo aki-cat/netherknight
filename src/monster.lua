@@ -1,5 +1,6 @@
 
 local monsters = basic.pack 'database.monsters'
+local sprites = basic.pack 'database.sprites'
 
 local entity = require 'entity'
 
@@ -19,6 +20,11 @@ function monster:on_death ()
   hump.signal.emit('entity_dying', self)
   audio:playSFX('Die')
   self.timer:after(0.4, function()
+    local strength = self.maxhp + self.attack
+    local rupee_entity = require 'money' :new { self.pos.x, self.pos.y, ammount = love.math.random(math.floor(0.5*strength), math.floor(1.5*strength)) }
+    local rupee_sprite = require 'sprite' :new { sprites.money }
+    hump.signal.emit('add_entity', tostring(rupee_entity):sub(-7) .. '_money', rupee_entity)
+    hump.signal.emit('add_sprite', tostring(rupee_entity):sub(-7) .. '_money', rupee_sprite)
     hump.signal.emit('entity_death', self)
   end)
 end

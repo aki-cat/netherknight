@@ -41,7 +41,7 @@ function dungeon_sprites:__init ()
       signal = 'add_sprite',
       func = function (name, sprite)
         if sprite[name] then
-          return error("Can't add second " .. name)
+          return error("Can't add second sprite " .. name)
         end
         sprites[name] = sprite
         sprites.__length = sprites.__length + 1

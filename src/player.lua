@@ -13,9 +13,8 @@ end
 function player:on_collision (somebody)
   if somebody:get_type() == 'monster' then
     self:take_damage(somebody.attack, somebody.pos)
-  elseif somebody:get_type() == 'collectable' then
-    hump.signal.emit('get_item', somebody.item)
-    somebody.damage = 999
+  elseif somebody:get_type() == 'collectable' or somebody:get_type() == 'money' then
+    somebody:on_collision(self)
   elseif somebody:get_type() ~= 'attack' then
     self:stop()
   end
