@@ -17,5 +17,23 @@ default.obstacles = {
   [15] = true,
   [16] = true,
 }
+default.dictionary = {
+  [01] = 'ceiling',
+  [02] = 'floor',
+  [03] = 'floor-detail1',
+  [04] = 'floor-detail2',
+  [05] = 'wall-corner-top-left',
+  [06] = 'wall-corner-top-right',
+  [07] = 'wall-corner-inverted-top-left',
+  [08] = 'wall-corner-inverted-top-right',
+  [09] = 'wall-top',
+  [09] = 'wall-right',
+  [09] = 'wall-bottom',
+  [09] = 'wall-left',
+  [13] = 'wall-corner-bottom-left',
+  [14] = 'wall-corner-bottom-right',
+  [15] = 'wall-corner-inverted-bottom-left',
+  [16] = 'wall-corner-inverted-bottom-right',
+}
 
 return default
