@@ -3,6 +3,7 @@ local controllers = basic.pack 'controller.dungeon'
 local sprites = basic.pack 'database.sprites'
 
 local dungeon = {}
+local camera = require 'camera' :new {}
 
 local player_entity = require 'player' :new { globals.width / 2, globals.height / 2, 1/5 }
 local player_sprite = require 'sprite' :new { sprites.slime }
@@ -31,6 +32,7 @@ function dungeon:enter ()
   -- load room and player
   controllers.rooms:goto_room(1)
   load_player()
+  camera:set_target(player_entity)
 end
 
 function dungeon:update ()
@@ -38,11 +40,13 @@ function dungeon:update ()
   controllers.entities:update()
   controllers.rooms:update()
   controllers.sprites:update()
+  camera:update()
 end
 
 function dungeon:draw ()
   love.graphics.push()
   love.graphics.scale(globals.unit)
+  camera:draw()
   controllers.player:draw()
   controllers.rooms:draw()
   controllers.entities:draw()

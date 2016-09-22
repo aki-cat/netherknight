@@ -74,6 +74,9 @@ function love.load ()
     end
   )
 
+  -- set default filter drawing mode
+  love.graphics.setDefaultFilter('nearest', 'nearest', 5)
+
   -- set current gamestate
   hump.gamestate.switch(gamestate.dungeon)
 end

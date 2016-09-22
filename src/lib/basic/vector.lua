@@ -62,6 +62,10 @@ function vector.__div (l, r)
   end
 end
 
+function vector:__unm ()
+  return self * -1
+end
+
 function vector:set (x, y, z)
   self[1] = x or 0
   self[2] = y or 0
