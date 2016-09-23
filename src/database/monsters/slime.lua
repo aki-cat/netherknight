@@ -1,6 +1,6 @@
 
 local slime = {
-  size = 1/5,
+  size = basic.vector:new{ 1/2, 1/4 },
   maxhp  = 3,
   attack = 1,
 }
