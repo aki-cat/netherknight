@@ -1,29 +1,29 @@
 
-local drawtext = require 'controller' :new {
-  __type = 'drawtext'
+local notifications = require 'controller' :new {
+  __type = 'notifications'
 }
 
 local texts = {}
 
-function drawtext:clear ()
+function notifications:clear ()
   for index, text in pairs(texts) do
     texts[index] = nil
   end
 end
 
-function drawtext:update ()
+function notifications:update ()
   for index, text in pairs(texts) do
     text:update()
   end
 end
 
-function drawtext:draw ()
+function notifications:draw ()
   for _, text in pairs(texts) do
     text:draw()
   end
 end
 
-function drawtext:__init ()
+function notifications:__init ()
   self.actions = {
     {
       signal = 'add_text',
@@ -37,7 +37,13 @@ function drawtext:__init ()
         texts[text] = nil
       end
     },
+    {
+      signal = 'clear_notifications',
+      func = function ()
+        self:clear()
+      end
+    },
   }
 end
 
-return drawtext:new {}
+return notifications:new {}

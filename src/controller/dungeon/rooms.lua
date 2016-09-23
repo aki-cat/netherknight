@@ -84,6 +84,7 @@ function dungeon_rooms:goto_room (id)
   map.left =  id % #rooms + 1
   map.right = id % #rooms + 1
   load_room(map.current)
+  hump.signal.emit('clear_notifications')
 end
 
 function dungeon_rooms:update ()
