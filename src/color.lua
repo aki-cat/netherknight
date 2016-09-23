@@ -1,7 +1,9 @@
 
-local color = {}
+local color = basic.prototype:new {
+  __type = 'color'
+}
 
-function color.HSL (h, s, l, a)
+local function HSL (h, s, l, a)
   h = math.fmod(h, 256*6 + 1)
   if s<=0 then return l,l,l,a end
   h, s, l = h/256*6, s/255, l/255
@@ -17,4 +19,16 @@ function color.HSL (h, s, l, a)
   end return (r+m)*255,(g+m)*255,(b+m)*255,a
 end
 
-return color
+function color:setHSLA (h,s,l,a)
+  love.graphics.setColor(HSL(h,s,l,a))
+end
+
+function color:setRGBA (r,g,b,a)
+  love.graphics.setColor(r,g,b,a)
+end
+
+function color:reset ()
+  love.graphics.setColor(255,255,255,255)
+end
+
+return color:new {}

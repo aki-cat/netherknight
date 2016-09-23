@@ -91,13 +91,12 @@ function sprite:update ()
 end
 
 function sprite:draw ()
-  -- set color effects
-  love.graphics.setColor(color.HSL(0, 0, 255 + self.brightness * 80))
+  -- set color effect
+  color:setHSLA(0, 0, 255 + self.brightness * 80)
 
   love.graphics.draw(unpack(self.drawable))
 
-  -- reset effects
-  love.graphics.setColor(255,255,255)
+  color:reset()
 end
 
 return sprite

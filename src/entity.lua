@@ -1,4 +1,6 @@
 
+local notification = require 'notification'
+
 local entity = physics.dynamic_body :new {
   __type = 'entity'
 }
@@ -13,6 +15,7 @@ end
 function entity:take_damage (dmg, dir)
   if self.invincible then return end
   audio:playSFX('Hurt')
+  notification:new{ 'damage', self.pos.x, self.pos.y, value = dmg, }
   self.damage = self.damage + dmg
   self:stagger(globals.stagger)
   self:repulse(dir)
@@ -45,10 +48,10 @@ function entity:update ()
 end
 
 function entity:draw ()
-  love.graphics.setColor(255,255,255,128)
+  color:setRGBA(255,255,255,128)
   local x, y = (self.pos - self.size/2):unpack()
   love.graphics.rectangle('fill', x, y, self.size.x, self.size.y)
-  love.graphics.setColor(255,255,255,255)
+  color:reset()
 end
 
 return entity

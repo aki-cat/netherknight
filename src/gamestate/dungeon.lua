@@ -29,6 +29,7 @@ function dungeon:enter ()
   controllers.entities:connect()
   controllers.rooms:connect()
   controllers.sprites:connect()
+  controllers.notifications:connect()
   -- load room and player
   controllers.rooms:goto_room(1)
   load_player()
@@ -40,6 +41,7 @@ function dungeon:update ()
   controllers.entities:update()
   controllers.rooms:update()
   controllers.sprites:update()
+  controllers.notifications:update()
   camera:update()
 end
 
@@ -51,6 +53,7 @@ function dungeon:draw ()
   controllers.rooms:draw()
   controllers.entities:draw()
   controllers.sprites:draw()
+  controllers.notifications:draw()
   love.graphics.pop()
 end
 
@@ -59,6 +62,7 @@ function dungeon:leave ()
   controllers.entities:disconnect()
   controllers.rooms:disconnect()
   controllers.sprites:disconnect()
+  controllers.notifications:disconnect()
   unload_player()
 end
 
