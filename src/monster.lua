@@ -29,13 +29,13 @@ function monster:on_death ()
   end)
 end
 
-function monster:on_collision (somebody)
+function monster:on_collision (somebody, h, v)
   if somebody:get_type() == 'attack' then
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'player' then
     somebody:take_damage(self.attack, self.pos)
   else
-    self:stop()
+    self:stop(h, v)
   end
 end
 
@@ -43,6 +43,10 @@ function monster:update (args)
   if self.think and type(self.think) == 'function' then self:think() end
   hump.signal.emit('entity_turn', self, self.dir)
   entity.update(self)
+end
+
+function monster:draw ()
+  entity.draw(self) -- call entity draw
 end
 
 return monster

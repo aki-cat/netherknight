@@ -10,13 +10,13 @@ function player:__init ()
   self.locked = false
 end
 
-function player:on_collision (somebody)
+function player:on_collision (somebody, h, v)
   if somebody:get_type() == 'monster' then
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'collectable' or somebody:get_type() == 'money' then
     somebody:on_collision(self)
   elseif somebody:get_type() ~= 'attack' then
-    self:stop()
+    self:stop(h, v)
   end
 end
 

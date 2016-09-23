@@ -3,9 +3,8 @@
 new -> {
   [1]: x
   [2]: y
-  [3]: width/radius
+  [3]: width
   [4]: height
-  shape: 'rectangle' | 'circle'
   centred: true | false
 }
 
@@ -15,8 +14,8 @@ Call `update()` to update position and speed.
 ]]
 
 local dynamic_body = physics.collision_body:new {
-  [3] = 0.5,
-  shape = 'circle',
+  [3] = 1/2,
+  [4] = 1/2,
   centred = true,
   direction = {
     right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
@@ -61,9 +60,11 @@ function dynamic_body:move (acc)
   self:face(acc)
 end
 
-function dynamic_body:stop ()
+function dynamic_body:stop (h, v)
   self.pos:sub(self.speed)
-  self.speed:set()
+  if h then self.speed.x = 0 end
+  if v then self.speed.y = 0 end
+  self.pos:add(self.speed)
 end
 
 function dynamic_body:deaccelerate ()

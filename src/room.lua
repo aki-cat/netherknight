@@ -92,7 +92,7 @@ end
 
 function room:check_collision (body)
   for i, tile in ipairs(self.obstacles) do
-    tile:checkandcollide(body)
+    body:checkandcollide(tile)
   end
 end
 

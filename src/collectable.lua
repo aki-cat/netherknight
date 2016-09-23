@@ -1,7 +1,10 @@
 
 local sprites = basic.pack 'database.sprites'
+local entity = require 'entity'
 
-local collectable = require 'entity' :new {
+local collectable = entity:new {
+  [3] = 1/2,
+  [4] = 1/4,
   item = 'drumstick',
   __type = 'collectable'
 }
@@ -21,5 +24,10 @@ function collectable:on_death ()
   audio:playSFX('Get')
   hump.signal.emit('entity_death', self)
 end
+
+function collectable:draw ()
+  entity.draw(self) -- call entity draw
+end
+
 
 return collectable

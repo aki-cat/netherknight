@@ -3,10 +3,10 @@ local dungeon_player = require 'controller' :new {}
 
 local sprites = basic.pack 'database.sprites'
 
-local slash_entity = require 'attack' :new { 0, 0, 1/3 }
+local slash_entity = require 'attack' :new { 0, 0, 1/2, 1/2 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
 
-local player_speed = globals.frameunit * 2/4
+local player_speed = globals.frameunit * 3/4
 
 local function getplayer()
   return hump.gamestate.current():getentity('player')
