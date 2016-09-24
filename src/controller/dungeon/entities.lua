@@ -76,10 +76,10 @@ function dungeon_entities:__init ()
     },
     {
       signal = 'entity_immunity',
-      func = function (entity)
+      func = function (entity, time)
         local name = find_entity(entity)
         if name then
-          hump.signal.emit('shine_sprite', name, globals.stagger)
+          hump.signal.emit('shine_sprite', name, time or globals.stagger)
         end
       end
     },
@@ -94,6 +94,28 @@ function dungeon_entities:__init ()
             hump.signal.emit('flip_horizontal', name, true)
           end
         end
+      end
+    },
+    {
+      signal = 'drop_money',
+      func = function (strength, pos)
+        -- 50% chance of dropping money or nothing
+        local quantity = love.math.random() > .5 and love.math.random(math.floor(0.5*strength), math.floor(1.5*strength))
+        if quantity then
+          local drop = module.money:new {
+            pos.x,
+            pos.y,
+            ammount = quantity }
+          drop:drop()
+        end
+      end
+    },
+    {
+      signal = 'monster_slay',
+      func = function (monster)
+        local name = find_entity(monster)
+        hump.signal.emit('freeze_animation', name)
+        hump.signal.emit('turn_white', name)
       end
     }
   }

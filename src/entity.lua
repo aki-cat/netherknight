@@ -22,7 +22,7 @@ end
 function entity:stagger (time)
   self.invincible = true
   self.timer:after(time, function() self.invincible = false end)
-  hump.signal.emit('entity_immunity', self, true)
+  hump.signal.emit('entity_immunity', self)
 end
 
 function entity:on_death ()

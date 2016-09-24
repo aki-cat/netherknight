@@ -19,6 +19,7 @@ function sprite:__init ()
   self.drawable = {}
   self.qid = 1
   self.brightness = 0
+  self.alpha = 255
   self.timer = hump.timer.new()
   for i,attr in ipairs(resource) do self.drawable[i] = attr end
   self:playanimation()
@@ -26,12 +27,22 @@ end
 
 function sprite:playanimation ()
   local animation = self.animations[self.state]
-  self.timer:every(
-    animation.step,
-    function ()
-      self.qid = self.qid % #animation.quads + 1
-    end
-  )
+  if animation.oneshot then
+    self.timer:every(
+      animation.step,
+      function ()
+        self.qid = self.qid + 1
+      end,
+      #animation.quads - 1
+    )
+  else
+    self.timer:every(
+      animation.step,
+      function ()
+        self.qid = self.qid % #animation.quads + 1
+      end
+    )
+  end
 end
 
 function sprite:setanimation (animation)
@@ -41,6 +52,10 @@ function sprite:setanimation (animation)
     self.timer:clear()
     self:playanimation()
   end
+end
+
+function sprite:freezeanimation ()
+  self.timer:clear()
 end
 
 function sprite:setquad (i)
@@ -91,7 +106,7 @@ end
 
 function sprite:draw ()
   -- set color effect
-  module.color:setHSLA(0, 0, 255 + self.brightness * 80)
+  module.color:setHSLA(0, 0, 255 + self.brightness * 80, self.alpha)
 
   love.graphics.draw(unpack(self.drawable))
 

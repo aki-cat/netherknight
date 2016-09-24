@@ -1,5 +1,6 @@
 
 local dungeon_sprites = require 'controller' :new {}
+local sprites_db = basic.pack 'database.sprites'
 
 local dungeon = hump.gamestate.current()
 local sprites = { __length = 0 }
@@ -35,6 +36,12 @@ function dungeon_sprites:get (name)
   return sprites[name]
 end
 
+local function find_sprite (sprite)
+  for name, s in pairs(sprites) do
+    if sprite == s then return name end
+  end
+end
+
 function dungeon_sprites:__init ()
   self.actions = {
     {
@@ -65,8 +72,28 @@ function dungeon_sprites:__init ()
     {
       signal = 'shine_sprite',
       func = function (name, time)
-        if sprites[name] then
-          sprites[name]:shine(time)
+        local sprite = sprites[name] or find_sprite(name)
+        if sprite then
+          sprite:shine(time)
+        end
+      end
+    },
+    {
+      signal = 'turn_white',
+      func = function (name)
+        local sprite = sprites[name] or find_sprite(name)
+        if sprite then
+          sprite.alpha = 200
+          sprite.brightness = 100
+        end
+      end
+    },
+    {
+      signal = 'freeze_animation',
+      func = function (name)
+        local sprite = sprites[name] or find_sprite(name)
+        if sprite then
+          sprite:freezeanimation()
         end
       end
     },
@@ -86,6 +113,20 @@ function dungeon_sprites:__init ()
         end
       end
     },
+    {
+      signal = 'monster_slay',
+      func = function (monster)
+        local death = module.sprite:new { sprites_db.death }
+        death.pos = monster.pos
+        hump.signal.emit('add_sprite', death, death)
+        hump.timer.after(
+          0.0666*10,
+          function ()
+            hump.signal.emit('remove_sprite', death)
+          end
+        )
+      end
+    }
   }
 end
 
