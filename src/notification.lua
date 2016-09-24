@@ -13,7 +13,6 @@ function notification:__init ()
   if self:__super() == basic.prototype then return end
   self.kind = self[1]
   self.pos = basic.vector:new { self[2], self[3] }
-  self.target = basic.vector:new { self[2], self[3] - 7/8 }
   self.alpha = 255
   self.intensity = 1
   if self.value >= 100 then
@@ -24,14 +23,12 @@ function notification:__init ()
     self.intensity = 4
   end
 
-  print('movement size: ', (self.target - self.pos):size())
-
   hump.signal.emit('add_text', self)
   hump.timer.during(
     self.time,
     function ()
-      self.pos = self.pos + (self.target - self.pos) * delta * .25
-      self.alpha = self.alpha - 2
+      self.pos.y = self.pos.y - .5/globals.unit
+      self.alpha = self.alpha - 3
     end,
     function ()
       hump.signal.emit('remove_text', self)
