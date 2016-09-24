@@ -1,7 +1,5 @@
 
-local entity = require 'entity'
-
-local player = entity:new {
+local player = module.entity:new {
   __type = 'player'
 }
 
@@ -37,12 +35,12 @@ function player:unlock ()
 end
 
 function player:update ()
-  entity.update(self) -- call entity update
+  module.entity.update(self) -- call entity update
   hump.signal.emit('check_player_position', self.pos)
 end
 
 function player:draw ()
-  entity.draw(self) -- call entity draw
+  module.entity.draw(self) -- call entity draw
 end
 
 return player

@@ -1,5 +1,5 @@
 
-local dungeon_rooms = require 'controller' :new {}
+local dungeon_rooms = module.controller:new {}
 
 local sprites = basic.pack 'database.sprites'
 local rooms_datatbase = basic.pack 'database.rooms'
@@ -66,12 +66,12 @@ local function load_room (room_id)
       local entity, sprite = element[1], element[2]
       if id == room_id then
         if not entity:isdead() then
-          hump.signal.emit('add_entity', entity:get_type() .. tostring(e_id), entity)
-          hump.signal.emit('add_sprite', entity:get_type() .. tostring(e_id), sprite)
+          hump.signal.emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
+          hump.signal.emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
         end
       else
-        hump.signal.emit('remove_entity', entity:get_type() .. tostring(e_id))
-        hump.signal.emit('remove_sprite', entity:get_type() .. tostring(e_id))
+        hump.signal.emit('remove_entity', entity:get_type() .. tostring(entity):sub(-7))
+        hump.signal.emit('remove_sprite', entity:get_type() .. tostring(entity):sub(-7))
       end
     end
   end

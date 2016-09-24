@@ -1,20 +1,18 @@
 
-local sfx = require 'sfx'
-
 local audio = basic.prototype:new {
   __type = 'audio'
 }
 
 function audio:__init ()
   self.SE = {
-    Die = sfx:new { 'Die.wav' },
-    Get = sfx:new { 'Get.wav' },
-    Grow = sfx:new { 'Grow.wav' },
-    Heal = sfx:new { 'Heal.wav' },
-    Hit = sfx:new { 'Hit.wav' },
-    Hurt = sfx:new { 'Hurt.wav' },
-    Ok = sfx:new { 'Ok.wav' },
-    Slash = sfx:new { 'Slash.wav' },
+    Die = module.sfx:new { 'Die.wav' },
+    Get = module.sfx:new { 'Get.wav' },
+    Grow = module.sfx:new { 'Grow.wav' },
+    Heal = module.sfx:new { 'Heal.wav' },
+    Hit = module.sfx:new { 'Hit.wav' },
+    Hurt = module.sfx:new { 'Hurt.wav' },
+    Ok = module.sfx:new { 'Ok.wav' },
+    Slash = module.sfx:new { 'Slash.wav' },
   }
 end
 

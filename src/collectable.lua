@@ -1,8 +1,7 @@
 
 local sprites = basic.pack 'database.sprites'
-local entity = require 'entity'
 
-local collectable = entity:new {
+local collectable = module.entity:new {
   [3] = 1/2,
   [4] = 1/4,
   item = 'drumstick',
@@ -11,6 +10,13 @@ local collectable = entity:new {
 
 function collectable:__init ()
   self.maxhp = 1
+end
+
+function collectable:drop ()
+  hump.signal.emit('add_entity', self:get_type() .. tostring(self):sub(-7), self)
+  hump.signal.emit('add_sprite', self:get_type() .. tostring(self):sub(-7),
+    require 'sprite' :new { sprites[self.item] }
+  )
 end
 
 function collectable:on_collision (somebody)
@@ -26,7 +32,7 @@ function collectable:on_death ()
 end
 
 function collectable:draw ()
-  entity.draw(self) -- call entity draw
+  module.entity.draw(self) -- call entity draw
 end
 
 

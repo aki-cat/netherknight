@@ -1,5 +1,5 @@
 
-local dungeon_entities = require 'controller' :new {}
+local dungeon_entities = module.controller:new {}
 
 local dungeon = hump.gamestate.current()
 local entities = {}

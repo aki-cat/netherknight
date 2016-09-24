@@ -1,5 +1,5 @@
 
-local attack = require 'entity' :new {
+local attack = module.entity:new {
   __type = 'attack'
 }
 

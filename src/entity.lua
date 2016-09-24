@@ -1,6 +1,4 @@
 
-local notification = require 'notification'
-
 local entity = physics.dynamic_body :new {
   __type = 'entity'
 }
@@ -15,7 +13,7 @@ end
 function entity:take_damage (dmg, dir)
   if self.invincible then return end
   audio:playSFX('Hurt')
-  notification:new{ 'damage', self.pos.x, self.pos.y, value = dmg, }
+  module.notification:new{ 'damage', self.pos.x, self.pos.y, value = dmg, }
   self.damage = self.damage + dmg
   self:stagger(globals.stagger)
   self:repulse(dir)

@@ -1,14 +1,16 @@
 
 -- libs
-globals     = require 'globals'
 basic       = require 'lib.basic.pack' 'lib.basic'
-gamedata    = require 'gamedata'
-audio       = require 'audio'
-fonts       = require 'fonts'
-color       = require 'color'
+module      = basic.pack ''
 hump        = basic.pack 'lib.hump'
 controllers = basic.pack 'controller'
 physics     = basic.pack 'physics'
+
+globals     = module.globals
+gamedata    = module.gamedata
+audio       = module.audio
+fonts       = module.fonts
+color       = module.color
 delta       = 0
 frameid     = {}
 
@@ -105,6 +107,7 @@ function love.draw ()
   fps_draw:update(delta)
   fps_draw:tick()
   hump.gamestate.draw()
+  fonts:set(1)
   love.graphics.printf('LOGIC FPS: ' .. tostring(fps_update.fps), 32, 32, 640-64, 'left')
   love.graphics.printf('RENDER FPS: ' .. tostring(fps_draw.fps), 32, 48, 640-64, 'left')
 end

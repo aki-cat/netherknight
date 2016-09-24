@@ -1,6 +1,5 @@
 
-local afixes = require 'afixes'
-local prefixes, suffixes = afixes.prefixes, afixes.suffixes
+local prefixes, suffixes = module.afixes.prefixes, module.afixes.suffixes
 
 local weapon = basic.prototype:new {
   name = 'sord',

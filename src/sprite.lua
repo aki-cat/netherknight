@@ -1,6 +1,5 @@
 
 local sprites = basic.pack 'database.sprites'
-local color = require 'color'
 
 local sprite = basic.prototype:new {
   sprites.dummy,
@@ -92,11 +91,11 @@ end
 
 function sprite:draw ()
   -- set color effect
-  color:setHSLA(0, 0, 255 + self.brightness * 80)
+  module.color:setHSLA(0, 0, 255 + self.brightness * 80)
 
   love.graphics.draw(unpack(self.drawable))
 
-  color:reset()
+  module.color:reset()
 end
 
 return sprite
