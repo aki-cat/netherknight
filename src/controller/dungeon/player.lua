@@ -100,7 +100,9 @@ function dungeon_player:__init ()
       signal = 'get_money',
       func = function (ammount)
         local player = getplayer()
-        audio:playSFX('Get')
+        hump.timer.every(.1, function ()
+          audio:playSFX('Coin')
+        end, ammount)
         gamedata.money = gamedata.money + ammount
         module.notification:new {
           'money',

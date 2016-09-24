@@ -14,12 +14,11 @@ function monster:__init ()
 end
 
 function monster:on_death ()
-  hump.signal.emit('entity_dying', self)
   audio:playSFX('Die')
-  self.timer:after(0.4, function()
+  hump.signal.emit('monster_slay', self)
+  self.timer:after(0.05*8, function()
     local strength = (self.maxhp + self.attack) * gamedata.level
-    local drop = require 'money' :new { self.pos.x, self.pos.y, ammount = love.math.random(math.floor(0.5*strength), math.floor(1.5*strength)) }
-    drop:drop()
+    hump.signal.emit('drop_money', strength, self.pos)
     hump.signal.emit('entity_death', self)
   end)
 end
@@ -35,7 +34,7 @@ function monster:on_collision (somebody, h, v)
 end
 
 function monster:update (args)
-  if self.think and type(self.think) == 'function' then self:think() end
+  if not self:isdead() and self.think and type(self.think) == 'function' then self:think() end
   hump.signal.emit('entity_turn', self, self.dir)
   module.entity.update(self)
 end
