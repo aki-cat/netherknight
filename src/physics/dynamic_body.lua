@@ -45,7 +45,13 @@ end
 
 function dynamic_body:repulse (point)
   local antigravity = self.pos - point
-  self:move(0.5 * antigravity:normalized())
+  antigravity:normalize()
+  local sqrmag = antigravity * antigravity
+  if sqrmag == math.huge or sqrmag ~= sqrmag then
+    local angle = math.pi * love.math.random(0,7) / 4
+    antigravity = basic.vector:new { math.cos(angle), math.sin(angle) }
+  end
+  self:move(0.4 * antigravity)
 end
 
 --function dynamic_body:checkandcollide (somebody)

@@ -111,9 +111,9 @@ function dungeon_entities:__init ()
       end
     },
     {
-      signal = 'monster_slay',
-      func = function (monster)
-        local name = find_entity(monster)
+      signal = 'entity_slain',
+      func = function (entity)
+        local name = find_entity(entity)
         hump.signal.emit('freeze_animation', name)
         hump.signal.emit('turn_white', name)
       end

@@ -15,6 +15,7 @@ end
 
 function monster:on_death ()
   audio:playSFX('Die')
+  hump.signal.emit('entity_slain', self)
   hump.signal.emit('monster_slay', self)
   self.timer:after(0.05*8, function()
     local strength = (self.maxhp + self.attack) * gamedata.level

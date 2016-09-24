@@ -10,13 +10,13 @@ function entity:__init ()
   self.dead = false
 end
 
-function entity:take_damage (dmg, dir)
+function entity:take_damage (dmg, frompos)
   if self.invincible then return end
   audio:playSFX('Hurt')
-  module.notification:new{ 'damage', self.pos.x, self.pos.y, value = dmg, }
+  module.notification:new { 'damage', self.pos.x, self.pos.y, value = dmg }
   self.damage = self.damage + dmg
   self:stagger(globals.stagger)
-  self:repulse(dir)
+  self:repulse(frompos)
 end
 
 function entity:stagger (time)
