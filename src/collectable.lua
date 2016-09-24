@@ -26,8 +26,7 @@ function collectable:on_collision (somebody)
 end
 
 function collectable:on_death ()
-  table.insert(gamedata.inventory, self.item)
-  audio:playSFX('Get')
+  hump.signal.emit('get_item', self.item)
   hump.signal.emit('entity_death', self)
 end
 

@@ -8,9 +8,8 @@ local money = require 'collectable' :new {
 }
 
 function money:on_death ()
-  gamedata.money = gamedata.money + self.ammount
   print('Got ', self.ammount, 'gp!')
-  audio:playSFX('Get')
+  hump.signal.emit('get_money', self.ammount)
   hump.signal.emit('entity_death', self)
 end
 

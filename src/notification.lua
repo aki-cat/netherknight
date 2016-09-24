@@ -10,6 +10,7 @@ local notification = basic.prototype:new {
 local boxsize = 256
 
 function notification:__init ()
+  if self:__super() == basic.prototype then return end
   self.kind = self[1]
   self.pos = basic.vector:new { self[2], self[3] }
   self.target = basic.vector:new { self[2], self[3] - 7/8 }
@@ -40,7 +41,7 @@ function notification:draw ()
   -- setting up params
   love.graphics.scale(1/globals.unit)
   local pos = self.pos * globals.unit
-  local displaytext = (self.text and (self.text .. 'x ') or '') .. self.value * gamedata.blinglvl
+  local displaytext = (self.text and (self.text .. ' x ') or '') .. self.value
 
   -- set color and font
   if self.kind == 'damage' then

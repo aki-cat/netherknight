@@ -86,10 +86,31 @@ function dungeon_player:__init ()
     {
       signal = 'get_item',
       func = function (item)
+        local player = getplayer()
         audio:playSFX('Get')
         table.insert(gamedata.inventory, item)
+        module.notification:new {
+          'item',
+          player.pos.x, player.pos.y,
+          value = 1,
+          text = item
+        }
       end
-    }
+    },
+    {
+      signal = 'get_money',
+      func = function (ammount)
+        local player = getplayer()
+        audio:playSFX('Get')
+        gamedata.money = gamedata.money + ammount
+        module.notification:new {
+          'money',
+          player.pos.x, player.pos.y,
+          value = ammount,
+          text = 'gold'
+        }
+      end
+    },
   }
 end
 
