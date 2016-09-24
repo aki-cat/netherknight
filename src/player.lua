@@ -21,6 +21,7 @@ function player:on_collision (somebody, h, v)
 end
 
 function player:on_death ()
+  self:lock(2)
   hump.signal.emit('entity_slain', self)
   self.timer:after(1, function ()
     audio:silent()

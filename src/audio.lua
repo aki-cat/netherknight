@@ -11,6 +11,7 @@ function audio:__init ()
     Heal = module.sfx:new { 'Heal.wav' },
     Hit = module.sfx:new { 'Hit.wav' },
     Hurt = module.sfx:new { 'Hurt.wav' },
+    Hurt2 = module.sfx:new { 'Hurt2.wav' },
     Ok = module.sfx:new { 'Ok.wav' },
     Slash = module.sfx:new { 'Slash.wav' },
     Coin = module.sfx:new { 'Coin.wav', poolsize = 60 },

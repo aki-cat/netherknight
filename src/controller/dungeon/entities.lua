@@ -117,7 +117,14 @@ function dungeon_entities:__init ()
         hump.signal.emit('freeze_animation', name)
         hump.signal.emit('turn_white', name)
       end
-    }
+    },
+    {
+      signal = 'take_damage',
+      func = function (entity)
+        if entity:get_type() ~= 'player' then audio:playSFX('Hurt')
+        else audio:playSFX('Hurt2') end
+      end
+    },
   }
 end
 
