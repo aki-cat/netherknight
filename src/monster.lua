@@ -17,7 +17,7 @@ function monster:on_death ()
   hump.signal.emit('entity_dying', self)
   audio:playSFX('Die')
   self.timer:after(0.4, function()
-    local strength = self.maxhp + self.attack
+    local strength = (self.maxhp + self.attack) * gamedata.level
     local drop = require 'money' :new { self.pos.x, self.pos.y, ammount = love.math.random(math.floor(0.5*strength), math.floor(1.5*strength)) }
     drop:drop()
     hump.signal.emit('entity_death', self)
@@ -29,7 +29,7 @@ function monster:on_collision (somebody, h, v)
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'player' then
     somebody:take_damage(self.attack, self.pos)
-  else
+  elseif somebody:get_type() == 'collision_body' then
     self:stop(h, v)
   end
 end

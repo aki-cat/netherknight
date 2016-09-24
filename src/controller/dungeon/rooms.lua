@@ -46,6 +46,14 @@ local room_elements = {
   },
   [2] = {
     {
+      require 'monster' :new {
+        globals.width  / 2,
+        globals.height / 4,
+        species = 'eye'
+      },
+      require 'sprite' :new { sprites.eye }
+    },
+    {
       require 'collectable' :new {
         item = 'drumstick',
         globals.width  / 2,

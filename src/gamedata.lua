@@ -2,7 +2,7 @@
 return {
   name      = "knight",
   money     = 0,
-  level     = 0,
+  level     = 1,
   killcount = 0,
   damage    = 0,
   blinglvl  = 1,

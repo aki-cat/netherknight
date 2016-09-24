@@ -14,8 +14,8 @@ end
 
 local function animateslash (player, direction)
   slash_sprite:setrotation(math.atan2(direction.y, direction.x))
-  direction.y = direction.y -1/4
-  slash_entity.pos:set((player.pos + direction/4):unpack())
+  direction.y = direction.y --1/4
+  slash_entity.pos:set((player.pos + direction/2):unpack())
   hump.signal.emit('add_entity', 'slash', slash_entity)
   hump.signal.emit('add_sprite', 'slash', slash_sprite)
   hump.signal.emit('update_position', 'slash', slash_entity.pos)
@@ -23,7 +23,7 @@ local function animateslash (player, direction)
   hump.timer.during(
     0.2,
     function()
-      slash_entity.pos:set((player.pos + direction/4):unpack())
+      slash_entity.pos:set((player.pos + direction/2):unpack())
     end,
     function()
       hump.signal.emit('remove_entity', 'slash')
@@ -55,9 +55,8 @@ local presskey = {
     local player = getplayer()
     for key, item in pairs(gamedata.inventory) do
       if item == 'drumstick' then
-        audio:playSFX('Heal')
-        player.damage = 0
         gamedata.inventory[key] = nil
+        hump.signal.emit('heal_player', 5)
         return
       end
     end
@@ -111,6 +110,19 @@ function dungeon_player:__init ()
         }
       end
     },
+    {
+      signal = 'heal_player',
+      func = function (ammount)
+        local player = getplayer()
+        audio:playSFX('Heal')
+        player.damage = (player.damage - ammount) >= 0 and player.damage - ammount or 0
+        module.notification:new {
+          'heal',
+          player.pos.x, player.pos.y,
+          value = ammount,
+        }
+      end
+    }
   }
 end
 

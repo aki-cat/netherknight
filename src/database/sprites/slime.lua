@@ -1,5 +1,4 @@
 
-local globals = require 'globals'
 local slime = {}
 
 slime[1]  = love.graphics.newImage('assets/images/slime.png')
@@ -18,19 +17,12 @@ slime.animations = {
   default = {
     default = true,
     quads = {
-      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
       love.graphics.newQuad(1*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
       love.graphics.newQuad(2*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
     },
     step = 0.2
-  },
-  moving = {
-    quads = {
-      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(1*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(2*64, 0, 64, 96, w, h),
-    },
-    step = 0.1
   },
 }
 

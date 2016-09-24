@@ -1,5 +1,4 @@
 
-local globals = require 'globals'
 local money = {}
 
 money[1]  = love.graphics.newImage('assets/images/objects.png')

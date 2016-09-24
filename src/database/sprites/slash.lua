@@ -1,5 +1,4 @@
 
-local globals = require 'globals'
 local slash = {}
 
 slash[1]  = love.graphics.newImage('assets/images/slash.png')
@@ -11,7 +10,7 @@ slash[4]  = 0
 slash[5]  = 0
 slash[6]  = 1 / globals.unit
 slash[7]  = 1 / globals.unit
-slash[8]  = 32
+slash[8]  = 48
 slash[9]  = 32
 
 slash.animations = {

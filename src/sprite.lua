@@ -8,7 +8,7 @@ local sprite = basic.prototype:new {
 
 function sprite:__init ()
   local resource = self[1]
-  self.pos = basic.vector:new { resource[3], resource[4] }
+  self.pos = basic.vector:new { -8000, -8000 }
   self.offset = basic.vector:new { resource[8], resource[9] }
   self.scale = (resource[6] + resource[7]) / 2
   self.rotation = 0

@@ -15,6 +15,14 @@ function notification:__init ()
   self.pos = basic.vector:new { self[2], self[3] }
   self.target = basic.vector:new { self[2], self[3] - 7/8 }
   self.alpha = 255
+  self.intensity = 1
+  if self.value >= 100 then
+    self.intensity = 2
+  elseif self.value >= 1000 then
+    self.intensity = 3
+  elseif self.value >= 9999 then
+    self.intensity = 4
+  end
 
   print('movement size: ', (self.target - self.pos):size())
 
@@ -46,10 +54,12 @@ function notification:draw ()
   -- set color and font
   if self.kind == 'damage' then
     color:setRGBA(255,0,0,self.alpha)
+  elseif self.kind == 'heal' then
+    color:setRGBA(50,255,50,self.alpha)
   else
     color:setRGBA(255,255,255,self.alpha)
   end
-  fonts:set(1)
+  fonts:set(self.intensity)
 
   -- print text
   love.graphics.printf( displaytext, pos.x - boxsize/2, pos.y, boxsize, 'center')
