@@ -22,7 +22,7 @@ eye.animations = {
       love.graphics.newQuad(2*64, 0, 64, 96, w, h),
       love.graphics.newQuad(0*64, 0, 64, 96, w, h),
     },
-    step = 0.2
+    step = 0.15
   },
 }
 
