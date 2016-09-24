@@ -27,8 +27,11 @@ death.animations = {
       love.graphics.newQuad(06*128, 0, 128, 128, w, h),
       love.graphics.newQuad(07*128, 0, 128, 128, w, h),
       love.graphics.newQuad(08*128, 0, 128, 128, w, h),
+      love.graphics.newQuad(09*128, 0, 128, 128, w, h),
+      love.graphics.newQuad(10*128, 0, 128, 128, w, h),
+      love.graphics.newQuad(11*128, 0, 128, 128, w, h),
     },
-    step = 0.0666
+    step = 0.050
   },
 }
 
