@@ -48,7 +48,7 @@ end
 function entity:draw ()
   color:setRGBA(255,255,255,128)
   local x, y = (self.pos - self.size/2):unpack()
-  love.graphics.rectangle('fill', x, y, self.size.x, self.size.y)
+  --love.graphics.rectangle('fill', x, y, self.size.x, self.size.y)
   color:reset()
 end
 
