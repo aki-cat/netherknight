@@ -6,7 +6,7 @@ local entity = physics.dynamic_body :new {
 function entity:__init ()
   self.maxhp = 1
   self.damage = 0
-  self.timer = hump.timer.new()
+  self.timer = basic.timer.new(globals.framerate)
   self.dead = false
 end
 

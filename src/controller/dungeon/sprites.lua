@@ -120,7 +120,7 @@ function dungeon_sprites:__init ()
         local death = module.sprite:new { sprites_db.death }
         death.pos = monster.pos
         hump.signal.emit('add_sprite', death, death)
-        hump.timer.after(
+        basic.timer:after(
           0.6,
           function ()
             hump.signal.emit('remove_sprite', death)

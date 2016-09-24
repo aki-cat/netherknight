@@ -20,7 +20,7 @@ function sprite:__init ()
   self.qid = 1
   self.brightness = 0
   self.alpha = 255
-  self.timer = hump.timer.new()
+  self.timer = basic.timer.new(globals.framerate)
   for i,attr in ipairs(resource) do self.drawable[i] = attr end
   self:playanimation()
 end

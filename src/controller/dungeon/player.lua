@@ -20,7 +20,7 @@ local function animateslash (player, direction)
   hump.signal.emit('add_sprite', 'slash', slash_sprite)
   hump.signal.emit('update_position', 'slash', slash_entity.pos)
   audio:playSFX('Slash')
-  hump.timer.during(
+  basic.timer:during(
     0.2,
     function()
       slash_entity.pos:set((player.pos + direction/2):unpack())
@@ -100,7 +100,7 @@ function dungeon_player:__init ()
       signal = 'get_money',
       func = function (ammount)
         local player = getplayer()
-        hump.timer.every(.1, function ()
+        basic.timer:every(.1, function ()
           audio:playSFX('Coin')
         end, ammount)
         gamedata.money = gamedata.money + ammount

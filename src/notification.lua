@@ -24,7 +24,7 @@ function notification:__init ()
   end
 
   hump.signal.emit('add_text', self)
-  hump.timer.during(
+  basic.timer:during(
     self.time,
     function ()
       self.pos.y = self.pos.y - .5/globals.unit

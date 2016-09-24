@@ -98,7 +98,7 @@ function love.update (dt)
     -- update modules
     fps_update:tick()
     input:update()
-    hump.timer.update(dt)
+    basic.timer:update()
     hump.gamestate.update()
   end
 end
