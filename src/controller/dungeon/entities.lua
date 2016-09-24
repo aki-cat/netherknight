@@ -100,7 +100,7 @@ function dungeon_entities:__init ()
       signal = 'drop_money',
       func = function (strength, pos)
         -- 50% chance of dropping money or nothing
-        local quantity = love.math.random() > .5 and love.math.random(math.floor(0.5*strength), math.floor(1.5*strength))
+        local quantity = love.math.random() > .2 and love.math.random(math.floor(0.5*strength), math.floor(1.5*strength))
         if quantity then
           local drop = module.money:new {
             pos.x,
