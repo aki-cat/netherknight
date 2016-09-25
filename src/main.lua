@@ -81,6 +81,11 @@ function love.load ()
   -- set default filter drawing mode
   love.graphics.setDefaultFilter('nearest', 'nearest', 5)
 
+
+  -- set timer framerate
+  basic.timer:setfps(globals.framerate)
+
+
   -- set current gamestate
   hump.gamestate.switch(gamestate.dungeon)
 end

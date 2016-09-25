@@ -6,7 +6,7 @@ local entity = physics.dynamic_body :new {
 function entity:__init ()
   self.maxhp = 1
   self.damage = 0
-  self.timer = basic.timer.new(globals.framerate)
+  self.timer = basic.timer:new {}
   self.dead = false
 end
 
@@ -22,7 +22,7 @@ end
 function entity:stagger (time)
   self.invincible = true
   self.timer:after(time, function() self.invincible = false end)
-  hump.signal.emit('entity_immunity', self)
+  hump.signal.emit('entity_immunity', self, time)
 end
 
 function entity:on_death ()
@@ -41,7 +41,7 @@ end
 
 function entity:update ()
   physics.dynamic_body.update(self) -- call dynamic body update
-  self.timer:update(delta)
+  self.timer:update()
   if self:isdead() then self:die() end
 end
 

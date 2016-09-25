@@ -98,11 +98,4 @@ function timer_manager:during (s, func_during, func_after)
   return timer_id
 end
 
-
-local tm = timer_manager:new {}
-function tm.new (fps)
-  assert(type(fps) == 'number', "Must give an integer framerate value (i.e. 60)")
-  return timer_manager:new { framerate = math.floor(fps) }
-end
-
-return tm
+return timer_manager:new {}

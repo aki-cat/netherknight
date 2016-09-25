@@ -127,6 +127,20 @@ function dungeon_sprites:__init ()
           end
         )
       end
+    },
+    {
+      signal = 'player_walk',
+      func = function ()
+        local playersprite = sprites['player']
+        playersprite:setanimation('walking')
+      end
+    },
+    {
+      signal = 'player_idle',
+      func = function ()
+        local playersprite = sprites['player']
+        playersprite:setanimation('default')
+      end
     }
   }
 end

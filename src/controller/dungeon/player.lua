@@ -70,10 +70,14 @@ function dungeon_player:__init ()
       func = function (action)
         local player = getplayer()
         local direction = physics.dynamic_body.direction[action]
-        if not direction then return end
+        if action == 'idle' or not direction then
+          hump.signal.emit('player_idle')
+          return
+        end
         if player.locked then return end
         player:face(action)
         player:move(direction * player_speed)
+        hump.signal.emit('player_walk')
       end
     },
     {

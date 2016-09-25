@@ -49,6 +49,7 @@ function input:handlerelease (action)
 end
 
 local function handle_direction (dir)
+  local is_direction = false
   if dir.up and dir.down then
     dir.up, dir.down = false, false
   end
@@ -75,12 +76,15 @@ end
 
 function input:handlehold (actions)
   handle_direction(actions)
+  local idle = true
   for action,acting in pairs(actions) do
     if acting then
+      idle = false
       --print("held:", action)
       hump.signal.emit('holdkey', action)
     end
   end
+  if idle then hump.signal.emit('holdkey', 'idle') end
 end
 
 function input:update ()
