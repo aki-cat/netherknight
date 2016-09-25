@@ -3,7 +3,7 @@ local dungeon_player = require 'controller' :new {}
 
 local sprites = basic.pack 'database.sprites'
 
-local slash_entity = require 'attack' :new { 0, 0, 1/2, 1/2 }
+local slash_entity = require 'attack' :new { 0, 0, 2/3, 2/3 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
 
 local player_speed = globals.frameunit * 3/4
@@ -14,7 +14,7 @@ end
 
 local function animateslash (player, direction)
   slash_sprite:setrotation(math.atan2(direction.y, direction.x))
-  direction.y = direction.y --1/4
+  direction.y = direction.y -1/4
   slash_entity.pos:set((player.pos + direction/2):unpack())
   hump.signal.emit('add_entity', 'slash', slash_entity)
   hump.signal.emit('add_sprite', 'slash', slash_sprite)

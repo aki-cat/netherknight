@@ -9,7 +9,7 @@ slash[3]  = 0
 slash[4]  = 0
 slash[5]  = 0
 slash[6]  = 1 / globals.unit
-slash[7]  = 1 / globals.unit
+slash[7]  = 2 / globals.unit
 slash[8]  = 48
 slash[9]  = 32
 
