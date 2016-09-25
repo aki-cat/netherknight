@@ -41,6 +41,7 @@ end
 
 function entity:update ()
   physics.dynamic_body.update(self) -- call dynamic body update
+  hump.signal.emit('entity_turn', self, self.dir)
   self.timer:update()
   if self:isdead() then self:die() end
 end
