@@ -5,8 +5,8 @@ local sprites = basic.pack 'database.sprites'
 local dungeon = {}
 local camera = require 'camera' :new {}
 
-local player_entity = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/4 }
-local player_sprite = require 'sprite' :new { sprites.slime }
+local player_entity = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/2 }
+local player_sprite = require 'sprite' :new { sprites.knight }
 
 function dungeon:init ()
 end
