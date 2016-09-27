@@ -5,16 +5,24 @@ local sprites = basic.pack 'database.sprites'
 local rooms_datatbase = basic.pack 'database.rooms'
 
 local rooms = {
-  [1] = require 'room' :new { tilemap = rooms_datatbase.default },
-  [2] = require 'room' :new { tilemap = rooms_datatbase.empty },
+  [1] = require 'room' :new { tilemap = rooms_datatbase.up_right },
+  [2] = require 'room' :new { tilemap = rooms_datatbase.up_left },
+  [3] = require 'room' :new { tilemap = rooms_datatbase.down_left },
+  [4] = require 'room' :new { tilemap = rooms_datatbase.down_right },
+}
+
+local current =  basic.vector:new { 1, 1 }
+
+local move_room = {
+  up    = basic.vector:new { -1,  0 },
+  right = basic.vector:new {  0,  1 },
+  down  = basic.vector:new {  1,  0 },
+  left  = basic.vector:new {  0, -1 },
 }
 
 local map = {
-  current = 1,
-  up      = 2,
-  right   = 2,
-  down    = 2,
-  left    = 2,
+  { 4, 3 },
+  { 1, 2 },
 }
 
 local room_elements = {
@@ -47,7 +55,7 @@ local room_elements = {
   [2] = {
     {
       require 'monster' :new {
-        globals.width  / 2,
+        globals.width / 2,
         globals.height / 4,
         species = 'eye'
       },
@@ -56,43 +64,90 @@ local room_elements = {
     {
       require 'collectable' :new {
         item = 'drumstick',
-        globals.width  / 2,
+        globals.width / 2,
         globals.height / 2,
       },
       require 'sprite' :new { sprites.drumstick }
+    },
+  },
+  [3] = {
+    {
+      require 'monster' :new {
+        globals.width / 2,
+        globals.height / 4,
+        species = 'eye'
+      },
+      require 'sprite' :new { sprites.eye }
+    },
+    {
+      require 'monster' :new {
+        globals.width / 2,
+        3 * globals.height / 4,
+        species = 'eye'
+      },
+      require 'sprite' :new { sprites.eye }
+    },
+    {
+      require 'monster' :new {
+        globals.width / 4,
+        globals.height / 2,
+        species = 'eye'
+      },
+      require 'sprite' :new { sprites.eye }
+    },
+    {
+      require 'monster' :new {
+        3 * globals.width / 4,
+        globals.height / 2,
+        species = 'eye'
+      },
+      require 'sprite' :new { sprites.eye }
+    },
+  },
+  [4] = {
+    {
+      require 'monster' :new {
+        1 * globals.width / 4,
+        love.math.random(1,3) * globals.height / 4,
+        species = 'slime'
+      },
+      require 'sprite' :new { sprites.slime }
+    },
+    {
+      require 'monster' :new {
+        3 * globals.width / 4,
+        love.math.random(1,3) * globals.height / 4,
+        species = 'slime'
+      },
+      require 'sprite' :new { sprites.slime }
     },
   }
 }
 
 local function current_room ()
-  return rooms[map.current]
+  return rooms[map[current.x][current.y]]
 end
 
-local function load_room (room_id)
-  for id, elements in ipairs(room_elements) do
-    for e_id,element in ipairs(elements) do
-      local entity, sprite = element[1], element[2]
-      if id == room_id then
-        if not entity:isdead() then
-          hump.signal.emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
-          hump.signal.emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
-        end
-      else
-        hump.signal.emit('remove_entity', entity:get_type() .. tostring(entity):sub(-7))
-        hump.signal.emit('remove_sprite', entity:get_type() .. tostring(entity):sub(-7))
-      end
+local function current_room_id ()
+  return map[current.x][current.y]
+end
+
+local function load_room ()
+  local room_id = current_room_id()
+  for id, element in ipairs(room_elements[room_id]) do
+    local entity, sprite = element[1], element[2]
+    if not entity:isdead() then
+      hump.signal.emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
+      hump.signal.emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
     end
   end
 end
 
-function dungeon_rooms:goto_room (id)
-  map.current = id
-  map.up =    id % #rooms + 1
-  map.down =  id % #rooms + 1
-  map.left =  id % #rooms + 1
-  map.right = id % #rooms + 1
-  load_room(map.current)
+function dungeon_rooms:goto_room (direction)
+  current:add(move_room[direction])
   hump.signal.emit('clear_notifications')
+  hump.signal.emit('clear_entities')
+  load_room()
 end
 
 function dungeon_rooms:update ()
@@ -108,33 +163,37 @@ function dungeon_rooms:__init ()
     {
       signal = 'check_player_position',
       func = function (pos)
+        local direction = false
         if pos.x < current_room().pos.x then
-          self:goto_room(map.left)
+          direction = 'left'
           pos:set(
             current_room().pos.x + current_room().size.x - 1/2,
             current_room().pos.y + pos.y
           )
         end
         if pos.x > current_room().pos.x + current_room().size.x then
-          self:goto_room(map.right)
+          direction = 'right'
           pos:set(
             current_room().pos.x + 1/2,
             current_room().pos.y + pos.y
           )
         end
         if pos.y < current_room().pos.y then
-          self:goto_room(map.up)
+          direction = 'up'
           pos:set(
             current_room().pos.x + pos.x,
             current_room().pos.y + current_room().size.y - 1/2
           )
         end
         if pos.y > current_room().pos.y + current_room().size.y then
-          self:goto_room(map.down)
+          direction = 'down'
           pos:set(
             current_room().pos.x + pos.x,
             current_room().pos.y + 1/2
           )
+        end
+        if direction then
+          self:goto_room(direction)
         end
       end
     },
@@ -145,6 +204,7 @@ function dungeon_rooms:__init ()
       end
     }
   }
+  load_room ()
 end
 
 return dungeon_rooms:new {}

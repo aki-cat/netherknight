@@ -111,6 +111,16 @@ function dungeon_entities:__init ()
       end
     },
     {
+      signal = 'clear_entities',
+      func = function ()
+        for name, entity in pairs(entities) do
+          if name ~= 'player' then
+            hump.signal.emit('remove_entity', name)
+          end
+        end
+      end
+    },
+    {
       signal = 'entity_slain',
       func = function (entity)
         local name = find_entity(entity)

@@ -27,11 +27,11 @@ function dungeon:enter ()
   -- connect every controller so they are loaded by pack
   controllers.player:connect()
   controllers.entities:connect()
-  controllers.rooms:connect()
   controllers.sprites:connect()
   controllers.notifications:connect()
+  controllers.rooms:connect()
   -- load room and player
-  controllers.rooms:goto_room(1)
+  --controllers.rooms:goto_room(1)
   load_player()
   camera:set_target(player_entity)
 end
