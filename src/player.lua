@@ -15,7 +15,7 @@ function player:on_collision (somebody, h, v)
     end
   elseif somebody:get_type() == 'collectable' or somebody:get_type() == 'money' then
     somebody:on_collision(self)
-  elseif somebody:get_type() ~= 'attack' then
+  elseif somebody:get_type() == 'static_body' then
     self:stop(h, v)
   end
 end

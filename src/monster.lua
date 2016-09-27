@@ -29,7 +29,7 @@ function monster:on_collision (somebody, h, v)
     self:take_damage(somebody.attack, somebody.pos)
   elseif somebody:get_type() == 'player' then
     somebody:take_damage(self.attack, self.pos)
-  elseif somebody:get_type() == 'collision_body' then
+  elseif somebody:get_type() == 'static_body' then
     self:stop(h, v)
   end
 end

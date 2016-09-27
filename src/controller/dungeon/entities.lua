@@ -14,7 +14,7 @@ end
 function dungeon_entities:update ()
   for name, entity in pairs(entities) do
     for bname, body in other(entities, name) do
-      entity:checkandcollide(body)
+      entity:check_collision_by_axis(body)
     end
     entity:update()
     hump.signal.emit('check_tilemap_collision', entity)

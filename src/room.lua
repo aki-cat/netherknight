@@ -58,7 +58,7 @@ local function get_obstacles (tilemap, blacklist, tilesize)
   local obstacles = {}
   for layer, tile, i, j in iterate_tiles(tilemap) do
     if blacklist[tile] then
-      local o = physics.collision_body:new {
+      local o = physics.static_body:new {
         (j - 1),
         (i - 1),
         tilesize / globals.unit,
@@ -92,7 +92,7 @@ end
 
 function room:check_collision (body)
   for i, tile in ipairs(self.obstacles) do
-    body:checkandcollide(tile)
+    body:check_collision_by_axis(tile)
   end
 end
 

@@ -1,21 +1,5 @@
 
---[[ Dynamic Body (extends from Collision Body)
-new -> {
-  [1]: x
-  [2]: y
-  [3]: width
-  [4]: height
-  centred: true | false
-}
-
-Call `move()` and pass acceleration vector to move body.
-Call `update()` to update position and speed.
-
-]]
-
-local dynamic_body = physics.collision_body:new {
-  [3] = 1/2,
-  [4] = 1/2,
+local dynamic_body = physics.collision_area:new {
   centred = true,
   direction = {
     right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
@@ -29,6 +13,11 @@ local dynamic_body = physics.collision_body:new {
   },
   __type = 'dynamic_body'
 }
+
+function dynamic_body:__newindex (k, v)
+  if k == 'direction' then return error "Don't change class static values!"
+  else rawset(self, k, v) end
+end
 
 function dynamic_body:__init ()
   self.speed = basic.vector:new {}
@@ -52,13 +41,6 @@ function dynamic_body:repulse (point)
     antigravity = basic.vector:new { math.cos(angle), math.sin(angle) }
   end
   self:move(0.4 * antigravity)
-end
-
---function dynamic_body:checkandcollide (somebody)
---end
-
-function dynamic_body:on_collision (somebody)
-  -- do stuff
 end
 
 function dynamic_body:move (acc)
@@ -105,6 +87,27 @@ end
 
 function dynamic_body:getdirection ()
   return self.direction[self.dir] * 1
+end
+
+function dynamic_body:check_collision_by_axis (somebody)
+  local speedx, speedy = self.speed * 1, self.speed * 1
+  speedx.y, speedy.x = 0, 0
+
+  local posh, posv = self.pos + speedx, self.pos + speedy
+  local bodyh = { pos = posh, size = self.size, centred = self.centred }
+  local bodyv = { pos = posv, size = self.size, centred = self.centred }
+
+  local h, v = self.rectangle_collision(bodyh, somebody), self.rectangle_collision(bodyv, somebody)
+  local actor_self, actor_other = self:layer_collision(somebody)
+
+  if h or v then
+    if actor_self then self:on_collision(somebody, h, v) end
+    if actor_other then somebody:on_collision(self, h, v) end
+  end
+end
+
+function dynamic_body:on_collision (somebody, h, v)
+  self:stop(h, v)
 end
 
 return dynamic_body
