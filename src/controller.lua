@@ -6,7 +6,6 @@ local controller = basic.prototype:new {
 
 function controller:connect()
   for _,action in pairs(self.actions) do
-    print('connecting...', action.signal)
     hump.signal.register(action.signal, action.func)
   end
 end

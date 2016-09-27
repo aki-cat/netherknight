@@ -1,7 +1,6 @@
 
 local dungeon_sprites = require 'controller' :new {}
 local sprites_db = basic.pack 'database.sprites'
-print(sprites_db.death)
 
 local dungeon = hump.gamestate.current()
 local sprites = { __length = 0 }
