@@ -3,7 +3,7 @@ local dungeon_player = require 'controller' :new {}
 
 local sprites = basic.pack 'database.sprites'
 
-local slash_entity = require 'attack' :new { 0, 0, 1/2, 1/2 }
+local slash_entity = require 'attack' :new { 0, 0, 2/3, 2/3 }
 local slash_sprite = require 'sprite' :new { sprites.slash }
 
 local player_speed = globals.frameunit * 3/4
@@ -14,7 +14,7 @@ end
 
 local function animateslash (player, direction)
   slash_sprite:setrotation(math.atan2(direction.y, direction.x))
-  direction.y = direction.y --1/4
+  direction.y = direction.y -1/4
   slash_entity.pos:set((player.pos + direction/2):unpack())
   hump.signal.emit('add_entity', 'slash', slash_entity)
   hump.signal.emit('add_sprite', 'slash', slash_sprite)
@@ -47,7 +47,7 @@ local function attack (long)
   animateslash(player, direction)
 end
 
-local presskey = {
+local press_actions = {
   maru = function() attack(false) end,
   batsu = function() attack(true) end,
   quit = function() hump.signal.emit('quit_game') end,
@@ -66,20 +66,21 @@ local presskey = {
 function dungeon_player:__init ()
   self.actions = {
     {
-      signal = 'holdkey',
-      func = function (action)
+      signal = 'hold_direction',
+      func = function (direction)
         local player = getplayer()
-        local direction = physics.dynamic_body.direction[action]
-        if not direction then return end
-        if player.locked then return end
-        player:face(action)
-        player:move(direction * player_speed)
+        if player.locked or player:isdead() then return end
+        if direction == 'none' then hump.signal.emit('player_idle') return end
+        local movement = physics.dynamic_body.direction[direction] * player_speed
+        player:face(direction)
+        player:move(movement)
+        hump.signal.emit('player_walk')
       end
     },
     {
-      signal = 'presskey',
+      signal = 'press_action',
       func = function (action)
-        if presskey[action] then presskey[action]() end
+        if press_actions[action] then press_actions[action]() end
       end
     },
     {

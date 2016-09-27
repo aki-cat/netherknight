@@ -1,5 +1,5 @@
 
-local stack = basic.prototype :new {
+local stack = basic.prototype:new {
   __type = 'stack'
 }
 

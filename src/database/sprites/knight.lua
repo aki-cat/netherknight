@@ -24,6 +24,16 @@ knight.animations = {
     },
     step = 0.15
   },
+  walking = {
+    default = false,
+    quads = {
+      love.graphics.newQuad(3*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(4*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(5*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(6*64, 0, 64, 96, w, h),
+    },
+    step = 0.15
+  },
 }
 
 return knight

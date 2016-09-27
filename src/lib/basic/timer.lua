@@ -44,18 +44,17 @@ function timer_manager:clear ()
   end
 end
 
-function timer_manager:cancel (timer_id)
-  assert(timer_id, "TimerManager method 'cancel' must receive 'timer_id' argument")
-  self.timers[timer_id] = nil
+function timer_manager:cancel (t)
+  assert(t, "TimerManager method 'cancel' must receive timer handle as argument.")
+  self.timers[t] = nil
 end
 
 function timer_manager:update ()
-  for id, __timer in pairs(self.timers) do
-    local unfinished, status = coroutine.resume(__timer.update, __timer)
-    if status then print(status) end
+  for t in pairs(self.timers) do
+    local unfinished, status = coroutine.resume(t.update, t)
+    --if status then print(status) end
     if not unfinished then
-      print(unfinished)
-      self.timers[id] = nil
+      self.timers[t] = nil
     end
   end
 end
@@ -67,9 +66,8 @@ function timer_manager:after (s, func)
     target = s * self.framerate,
     handle_period = func,
   }
-  local timer_id = tostring(t):sub(-7)
-  self.timers[timer_id] = t
-  return timer_id
+  self.timers[t] = t
+  return t
 end
 
 function timer_manager:every (s, func, times)
@@ -80,9 +78,8 @@ function timer_manager:every (s, func, times)
     handle_period = func,
     loop = times or -1,
   }
-  local timer_id = tostring(t):sub(-7)
-  self.timers[timer_id] = t
-  return timer_id
+  self.timers[t] = t
+  return t
 end
 
 function timer_manager:during (s, func_during, func_after)
@@ -93,16 +90,8 @@ function timer_manager:during (s, func_during, func_after)
     handle_frame = func_during,
     handle_period = func_after or function () end,
   }
-  local timer_id = tostring(t):sub(-7)
-  self.timers[timer_id] = t
-  return timer_id
+  self.timers[t] = t
+  return t
 end
 
-
-local tm = timer_manager:new {}
-function tm.new (fps)
-  assert(type(fps) == 'number', "Must give an integer framerate value (i.e. 60)")
-  return timer_manager:new { framerate = math.floor(fps) }
-end
-
-return tm
+return timer_manager:new {}

@@ -20,7 +20,7 @@ function sprite:__init ()
   self.qid = 1
   self.brightness = 0
   self.alpha = 255
-  self.timer = basic.timer.new(globals.framerate)
+  self.timer = basic.timer:new {}
   for i,attr in ipairs(resource) do self.drawable[i] = attr end
   self:playanimation()
 end
@@ -80,13 +80,12 @@ function sprite:setrotation (r)
 end
 
 function sprite:shine (time)
-  local shinelevel = 100
-  local step = shinelevel/time
-  self.timer:during(
+  self.brightness = 100
+  local step = self.brightness / (time * globals.framerate)
+  local during = basic.timer:during(
     time,
     function()
-      shinelevel = shinelevel - step * delta
-      self.brightness = shinelevel
+      self.brightness = self.brightness - step
     end,
     function()
       self.brightness = 0
@@ -95,7 +94,7 @@ function sprite:shine (time)
 end
 
 function sprite:update ()
-  self.timer:update(delta)
+  self.timer:update()
   self.drawable[2] = self:getquad()
   self.drawable[3], self.drawable[4] = self.pos:unpack()
   self.drawable[5] = self.rotation

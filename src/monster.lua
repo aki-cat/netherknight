@@ -36,7 +36,6 @@ end
 
 function monster:update (args)
   if not self:isdead() and self.think and type(self.think) == 'function' then self:think() end
-  hump.signal.emit('entity_turn', self, self.dir)
   module.entity.update(self)
 end
 

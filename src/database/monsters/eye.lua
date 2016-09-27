@@ -34,7 +34,6 @@ end
 function eye:update()
   if not self.behaviour then
     self.behaviour = coroutine.create(action)
-    print("new coroutine!")
   end
   local status, info = coroutine.resume(self.behaviour, self)
   if not status then print(info) end

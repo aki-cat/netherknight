@@ -1,7 +1,6 @@
 
 local dungeon_sprites = require 'controller' :new {}
 local sprites_db = basic.pack 'database.sprites'
-print(sprites_db.death)
 
 local dungeon = hump.gamestate.current()
 local sprites = { __length = 0 }
@@ -126,6 +125,20 @@ function dungeon_sprites:__init ()
             hump.signal.emit('remove_sprite', death)
           end
         )
+      end
+    },
+    {
+      signal = 'player_walk',
+      func = function ()
+        local playersprite = sprites['player']
+        playersprite:setanimation('walking')
+      end
+    },
+    {
+      signal = 'player_idle',
+      func = function ()
+        local playersprite = sprites['player']
+        playersprite:setanimation('default')
       end
     }
   }
