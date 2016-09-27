@@ -164,35 +164,26 @@ function dungeon_rooms:__init ()
       signal = 'check_player_position',
       func = function (pos)
         local direction = false
-        if pos.x < current_room().pos.x then
+        local newpos = basic.vector:new {}
+        local roompos = current_room().pos
+        if pos.x < roompos.x then
           direction = 'left'
-          pos:set(
-            current_room().pos.x + current_room().size.x - 1/2,
-            current_room().pos.y + pos.y
-          )
+          newpos:set(roompos.x + current_room().size.x - 1/2, roompos.y + pos.y)
         end
-        if pos.x > current_room().pos.x + current_room().size.x then
+        if pos.x > roompos.x + current_room().size.x then
           direction = 'right'
-          pos:set(
-            current_room().pos.x + 1/2,
-            current_room().pos.y + pos.y
-          )
+          newpos:set( roompos.x + 1/2, roompos.y + pos.y)
         end
-        if pos.y < current_room().pos.y then
+        if pos.y < roompos.y then
           direction = 'up'
-          pos:set(
-            current_room().pos.x + pos.x,
-            current_room().pos.y + current_room().size.y - 1/2
-          )
+          newpos:set(roompos.x + pos.x,roompos.y + current_room().size.y - 1/2)
         end
-        if pos.y > current_room().pos.y + current_room().size.y then
+        if pos.y > roompos.y + current_room().size.y then
           direction = 'down'
-          pos:set(
-            current_room().pos.x + pos.x,
-            current_room().pos.y + 1/2
-          )
+          newpos:set(roompos.x + pos.x,roompos.y + 1/2)
         end
         if direction then
+          pos:set(newpos.x, newpos.y)
           self:goto_room(direction)
         end
       end
@@ -204,6 +195,7 @@ function dungeon_rooms:__init ()
       end
     }
   }
+
   load_room ()
 end
 
