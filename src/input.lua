@@ -1,98 +1,110 @@
 
 local input = basic.prototype:new {
-  keymap = {
+  action_keymap = {
     quit        = 'f8',
     maru        = 'z',
     batsu       = 'x',
     inventory   = 'c',
     pause       = 'escape',
+    marco       = 'm',
+  },
+  direction_keymap = {
     up          = 'up',
     right       = 'right',
     down        = 'down',
     left        = 'left',
-    marco       = 'm',
   },
   __type = 'input'
 }
 
+local function handle_action_press (action)
+  hump.signal.emit('press_action', action)
+end
+
+local function handle_action_release (action)
+  hump.signal.emit('release_action', action)
+end
+
+local function handle_action_hold (actions)
+  for action, is_held in pairs(actions) do
+    if is_held then
+      hump.signal.emit('hold_action', action)
+    end
+  end
+end
+
+local function handle_direction_press (direction)
+  hump.signal.emit('press_direction', direction)
+end
+
+local function handle_direction_release (direction)
+  hump.signal.emit('release_direction', direction)
+end
+
+local function handle_direction_hold (directions)
+  if directions.up and directions.down then
+    directions.up, directions.down = false, false
+  end
+  if directions.left and directions.right then
+    directions.left, directions.right = false, false
+  end
+  if directions.up and directions.left then
+    directions.up, directions.left = false, false
+    directions.up_left = true
+  end
+  if directions.up and directions.right then
+    directions.up, directions.right = false, false
+    directions.up_right = true
+  end
+  if directions.down and directions.left then
+    directions.down, directions.left = false, false
+    directions.down_left = true
+  end
+  if directions.down and directions.right then
+    directions.down, directions.right = false, false
+    directions.down_right = true
+  end
+  for direction, is_held in pairs(directions) do
+    if is_held then
+      hump.signal.emit('hold_direction', direction)
+      return
+    end
+  end
+  hump.signal.emit('hold_direction', 'none')
+end
+
 function input:checkpress (k)
-  for action,key in pairs(self.keymap) do
-    if key == k then input:handlepress(action) end
+  for action,key in pairs(self.action_keymap) do
+    if key == k then handle_action_press(action) end
+  end
+  for direction,key in pairs(self.direction_keymap) do
+    if key == k then handle_direction_press(direction) end
   end
 end
 
 function input:checkrelease (k)
-  for action,key in pairs(self.keymap) do
-    if key == k then input:handlerelease(action) end
+  for action,key in pairs(self.action_keymap) do
+    if key == k then handle_action_release(action) end
+  end
+  for direction,key in pairs(self.direction_keymap) do
+    if key == k then handle_direction_release(direction) end
   end
 end
 
 function input:checkhold ()
-  local held = {
-    quit = false, maru = false, batsu = false,
-    up = false, right = false, down = false, left = false,
-  }
-  for action,key in pairs(self.keymap) do
-    if love.keyboard.isDown(key) then held[action] = true end
+  local held_actions, held_directions = {}, {}
+  for action,key in pairs(self.action_keymap) do
+    held_actions[action] = love.keyboard.isDown(key)
   end
-  self:handlehold(held)
-end
-
-function input:handlepress (action)
-  --print("pressed:", action)
-  hump.signal.emit('presskey', action)
-end
-
-function input:handlerelease (action)
-  --print("released:", action)
-  hump.signal.emit('releasekey', action)
-end
-
-local function handle_direction (dir)
-  local is_direction = false
-  if dir.up and dir.down then
-    dir.up, dir.down = false, false
+  for direction,key in pairs(self.direction_keymap) do
+    held_directions[direction] = love.keyboard.isDown(key)
   end
-  if dir.left and dir.right then
-    dir.left, dir.right = false, false
-  end
-  if dir.up and dir.left then
-    dir.up, dir.left = false, false
-    dir.up_left = true
-  end
-  if dir.up and dir.right then
-    dir.up, dir.right = false, false
-    dir.up_right = true
-  end
-  if dir.down and dir.left then
-    dir.down, dir.left = false, false
-    dir.down_left = true
-  end
-  if dir.down and dir.right then
-    dir.down, dir.right = false, false
-    dir.down_right = true
-  end
-end
-
-function input:handlehold (actions)
-  handle_direction(actions)
-  local idle = true
-  for action,acting in pairs(actions) do
-    if acting then
-      idle = false
-      --print("held:", action)
-      hump.signal.emit('holdkey', action)
-    end
-  end
-  if idle then hump.signal.emit('holdkey', 'idle') end
+  handle_action_hold(held_actions)
+  handle_direction_hold(held_directions)
 end
 
 function input:update ()
   self:checkhold()
-end
-
-function input:__index (k)
-  return getmetatable(self)[k]
 end
 
 return input:new {}

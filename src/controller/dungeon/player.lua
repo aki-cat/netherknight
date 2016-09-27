@@ -47,7 +47,7 @@ local function attack (long)
   animateslash(player, direction)
 end
 
-local presskey = {
+local press_actions = {
   maru = function() attack(false) end,
   batsu = function() attack(true) end,
   quit = function() hump.signal.emit('quit_game') end,
@@ -66,24 +66,21 @@ local presskey = {
 function dungeon_player:__init ()
   self.actions = {
     {
-      signal = 'holdkey',
-      func = function (action)
+      signal = 'hold_direction',
+      func = function (direction)
+        if direction == 'none' then hump.signal.emit('player_idle') return end
         local player = getplayer()
-        local direction = physics.dynamic_body.direction[action]
-        if action == 'idle' or not direction then
-          hump.signal.emit('player_idle')
-          return
-        end
         if player.locked then return end
-        player:face(action)
-        player:move(direction * player_speed)
+        local movement = physics.dynamic_body.direction[direction] * player_speed
+        player:face(direction)
+        player:move(movement)
         hump.signal.emit('player_walk')
       end
     },
     {
-      signal = 'presskey',
+      signal = 'press_action',
       func = function (action)
-        if presskey[action] then presskey[action]() end
+        if press_actions[action] then press_actions[action]() end
       end
     },
     {
