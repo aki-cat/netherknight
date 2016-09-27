@@ -89,6 +89,18 @@ function dungeon_sprites:__init ()
       end
     },
     {
+      signal = 'blink',
+      func = function (name, speed, time)
+        local sprite = sprites[name] or find_sprite(name)
+        if sprite then
+          local s = .15
+          if     speed == 'fast' then s = .1
+          elseif speed == 'slow' then s = .2 end
+          basic.timer:every(s, function () sprite.alpha = sprite.alpha == 128 and 255 or 128 end, time/s)
+        end
+      end
+    },
+    {
       signal = 'freeze_animation',
       func = function (name)
         local sprite = sprites[name] or find_sprite(name)

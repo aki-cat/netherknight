@@ -1,5 +1,6 @@
 
 local sprites = basic.pack 'database.sprites'
+local sprite = require 'sprite'
 
 local collectable = module.entity:new {
   [3] = 1/2,
@@ -13,20 +14,27 @@ function collectable:__init ()
 end
 
 function collectable:drop ()
-  hump.signal.emit('add_entity', self:get_type() .. tostring(self):sub(-7), self)
-  hump.signal.emit('add_sprite', self:get_type() .. tostring(self):sub(-7),
-    require 'sprite' :new { sprites[self.item] }
+  local name = self:get_type() .. tostring(self):sub(-7)
+  hump.signal.emit('add_entity', name, self)
+  hump.signal.emit('add_sprite', name, sprite:new { sprites[self.item] })
+  basic.timer:after(
+    4,
+    function ()
+      hump.signal.emit('blink', name, 'slow', 1)
+      basic.timer:after(1, function () hump.signal.emit('blink', name, 'fast', 1) end)
+      basic.timer:after(2, function () self.damage = 999 end)
+    end
   )
 end
 
 function collectable:on_collision (somebody)
   if somebody:get_type() == 'player' then
     self.damage = 999
+    hump.signal.emit('get_item', self.item)
   end
 end
 
 function collectable:on_death ()
-  hump.signal.emit('get_item', self.item)
   hump.signal.emit('entity_death', self)
 end
 
