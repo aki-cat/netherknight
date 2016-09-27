@@ -52,7 +52,7 @@ end
 function timer_manager:update ()
   for t in pairs(self.timers) do
     local unfinished, status = coroutine.resume(t.update, t)
-    if status then print(status) end
+    --if status then print(status) end
     if not unfinished then
       self.timers[t] = nil
     end

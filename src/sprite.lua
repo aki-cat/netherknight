@@ -82,18 +82,15 @@ end
 function sprite:shine (time)
   self.brightness = 100
   local step = self.brightness / (time * globals.framerate)
-  print('BRIGHTNESS HERE')
   local during = basic.timer:during(
     time,
     function()
-      print(during, self.brightness)
-      self.brightness = self.brightness - 1
+      self.brightness = self.brightness - step
     end,
     function()
       self.brightness = 0
     end
   )
-  print('BRIGHTNESS HERE: '..tostring(during))
 end
 
 function sprite:update ()
