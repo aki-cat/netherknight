@@ -13,7 +13,7 @@ end
 function entity:take_damage (dmg, frompos)
   if self.invincible then return end
   hump.signal.emit('take_damage', self, dmg)
-  self.damage = self.damage + dmg
+  self.damage = math.min(self.damage + dmg, self.maxhp)
   self:stagger(globals.stagger)
   self:repulse(frompos)
 end
