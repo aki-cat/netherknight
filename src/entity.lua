@@ -12,8 +12,7 @@ end
 
 function entity:take_damage (dmg, frompos)
   if self.invincible then return end
-  module.notification:new { 'damage', self.pos.x, self.pos.y, value = dmg }
-  hump.signal.emit('take_damage', self)
+  hump.signal.emit('take_damage', self, dmg)
   self.damage = self.damage + dmg
   self:stagger(globals.stagger)
   self:repulse(frompos)

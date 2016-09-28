@@ -14,13 +14,16 @@ function notification:__init ()
   self.kind = self[1]
   self.pos = basic.vector:new { self[2], self[3] }
   self.alpha = 255
-  self.intensity = 1
-  if self.value >= 100 then
-    self.intensity = 2
-  elseif self.value >= 1000 then
-    self.intensity = 3
-  elseif self.value >= 9999 then
-    self.intensity = 4
+  self.intensity = (self.kind == 'level') and 2 or 1
+
+  if self.value then
+    if self.value >= 100 then
+      self.intensity = 2
+    elseif self.value >= 1000 then
+      self.intensity = 3
+    elseif self.value >= 9999 then
+      self.intensity = 4
+    end
   end
 
   hump.signal.emit('add_text', self)
@@ -46,7 +49,7 @@ function notification:draw ()
   -- setting up params
   love.graphics.scale(1/globals.unit)
   local pos = self.pos * globals.unit
-  local displaytext = (self.text and (self.text .. ' x ') or '') .. self.value
+  local displaytext = (self.value and self.value or '') .. (self.text and (' '..self.text) or '')
 
   -- set color and font
   if self.kind == 'damage' then

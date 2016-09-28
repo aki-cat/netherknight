@@ -63,6 +63,46 @@ local press_actions = {
   end,
 }
 
+function dungeon_player:update ()
+  if gamedata.exp >= math.floor(.5 + 10 + 1.05 ^ gamedata.level) then
+    local player = getplayer()
+    gamedata.exp = 0
+    gamedata.level = gamedata.level + 1
+    audio:playSFX('Grow')
+    module.notification:new {
+      'level',
+      player.pos.x, player.pos.y,
+      value = false,
+      text = 'level up!'
+    }
+    hump.signal.emit('rise_the_bling', gamedata.level)
+  end
+end
+
+function dungeon_player:draw ()
+  local player = getplayer()
+  love.graphics.push()
+  love.graphics.scale(1/globals.unit)
+  fonts:set(1)
+  love.graphics.printf(
+    'LV '..tostring(gamedata.level),
+    globals.unit * (player.pos.x - 1),
+    globals.unit * (player.pos.y - 1),
+    globals.unit * 2,
+    'center'
+  )
+  local currenthp = (player.maxhp - player.damage) * gamedata.level
+  local maxhp = player.maxhp * gamedata.level
+  love.graphics.printf(
+    'HP '..tostring(currenthp) .. ' / ' .. tostring(maxhp),
+    globals.unit * (player.pos.x - 1),
+    globals.unit * (player.pos.y - 1 - 1/4),
+    globals.unit * 2,
+    'center'
+  )
+  love.graphics.pop()
+end
+
 function dungeon_player:__init ()
   self.actions = {
     {
@@ -101,7 +141,7 @@ function dungeon_player:__init ()
       signal = 'get_money',
       func = function (ammount)
         local player = getplayer()
-        basic.timer:every(.1, function ()
+        basic.timer:every(.05, function ()
           audio:playSFX('Coin')
         end, ammount)
         gamedata.money = gamedata.money + ammount
@@ -122,8 +162,16 @@ function dungeon_player:__init ()
         module.notification:new {
           'heal',
           player.pos.x, player.pos.y,
-          value = ammount,
+          value = ammount * gamedata.level,
         }
+      end
+    },
+    {
+      signal = 'gain_exp',
+      func = function (monster)
+        local exp = math.floor((monster.attack + monster.maxhp) * (0.75 + love.math.random() * 0.5))
+        gamedata.exp = gamedata.exp + exp
+        module.notification:new { 'expgain', monster.pos.x, monster.pos.y, value = exp, text = 'xp' }
       end
     }
   }
