@@ -14,4 +14,24 @@ function money:on_collision (somebody)
   end
 end
 
+function money:draw ()
+  local x, y = (self.pos - self.size/2):unpack()
+  fonts:set(1)
+  love.graphics.push()
+
+  love.graphics.scale(1/globals.unit)
+  color:setRGBA(255, 255, 255, 200)
+
+  love.graphics.printf(
+    tostring(self.ammount) .. ' gp',
+    globals.unit * (x-.9), globals.unit * (y + 1/3),
+    globals.unit * 2,
+    'center'
+  )
+
+  color:reset()
+
+  love.graphics.pop()
+end
+
 return money

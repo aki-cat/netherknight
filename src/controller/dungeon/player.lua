@@ -149,7 +149,7 @@ function dungeon_player:__init ()
           'money',
           player.pos.x, player.pos.y,
           value = ammount,
-          text = 'gold'
+          text = 'gp'
         }
       end
     },
