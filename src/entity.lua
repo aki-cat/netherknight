@@ -12,7 +12,7 @@ end
 
 function entity:take_damage (dmg, frompos)
   if self.invincible then return end
-  hump.signal.emit('take_damage', self, dmg)
+  basic.signal:emit('take_damage', self, dmg)
   self.damage = math.min(self.damage + dmg, self.maxhp)
   self:stagger(globals.stagger)
   self:repulse(frompos)
@@ -21,7 +21,7 @@ end
 function entity:stagger (time)
   self.invincible = true
   self.timer:after(time, function() self.invincible = false end)
-  hump.signal.emit('entity_immunity', self, time)
+  basic.signal:emit('entity_immunity', self, time)
 end
 
 function entity:on_death ()
@@ -40,7 +40,7 @@ end
 
 function entity:update ()
   physics.dynamic_body.update(self) -- call dynamic body update
-  hump.signal.emit('entity_turn', self, self.dir)
+  basic.signal:emit('entity_turn', self, self.dir)
   self.timer:update()
   if self:isdead() then self:die() end
 end

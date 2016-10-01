@@ -18,8 +18,8 @@ function dungeon_entities:update ()
         entity:check_collision_by_axis(body)
       end
       entity:update()
-      hump.signal.emit('check_tilemap_collision', entity)
-      hump.signal.emit('update_position', name, entity.pos)
+      basic.signal:emit('check_tilemap_collision', entity)
+      basic.signal:emit('update_position', name, entity.pos)
     end
   end
 end
@@ -59,7 +59,7 @@ function dungeon_entities:__init ()
       signal = 'remove_entity',
       func = function (name)
         entities[name] = nil
-        hump.signal.emit('remove_sprite', name)
+        basic.signal:emit('remove_sprite', name)
       end
     },
     {
@@ -73,7 +73,7 @@ function dungeon_entities:__init ()
       func = function (entity)
         local name = find_entity(entity)
         if name then
-          hump.signal.emit('remove_entity', name)
+          basic.signal:emit('remove_entity', name)
           print("DEATH:", name)
         end
       end
@@ -83,7 +83,7 @@ function dungeon_entities:__init ()
       func = function (entity, time)
         local name = find_entity(entity)
         if name then
-          hump.signal.emit('shine_sprite', name, time or globals.stagger)
+          basic.signal:emit('shine_sprite', name, time or globals.stagger)
         end
       end
     },
@@ -93,9 +93,9 @@ function dungeon_entities:__init ()
         local name = find_entity(entity)
         if name then
           if dir == 'left' or dir == 'up_left' or dir == 'down_left' then
-            hump.signal.emit('flip_horizontal', name, false)
+            basic.signal:emit('flip_horizontal', name, false)
           elseif dir == 'right' or dir == 'up_right' or dir == 'down_right' then
-            hump.signal.emit('flip_horizontal', name, true)
+            basic.signal:emit('flip_horizontal', name, true)
           end
         end
       end
@@ -122,7 +122,7 @@ function dungeon_entities:__init ()
       func = function ()
         for name, entity in pairs(entities) do
           if name ~= 'player' then
-            hump.signal.emit('remove_entity', name)
+            basic.signal:emit('remove_entity', name)
           end
         end
       end
@@ -131,8 +131,8 @@ function dungeon_entities:__init ()
       signal = 'entity_slain',
       func = function (entity)
         local name = find_entity(entity)
-        hump.signal.emit('freeze_animation', name)
-        hump.signal.emit('turn_white', name)
+        basic.signal:emit('freeze_animation', name)
+        basic.signal:emit('turn_white', name)
       end
     },
     {

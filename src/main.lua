@@ -56,21 +56,29 @@ function love.load ()
   print("SEED: " .. tostring(seed))
 
   -- set quit and debug signals
-  hump.signal.register(
+  basic.signal:register(
     'save_game',
     function()
       save_game()
-      hump.signal.emit('quit_game')
+      basic.signal:emit('quit_game')
     end
   )
-  hump.signal.register(
+  basic.signal:register(
     'gameover',
     function()
       delete_game()
-      hump.signal.emit('quit_game')
+      basic.signal:emit('quit_game')
     end
   )
-  hump.signal.register(
+  basic.signal:register(
+    'press_action',
+    function (action)
+      if action == 'quit' then
+        basic.signal:emit('quit_game')
+      end
+    end
+  )
+  basic.signal:register(
     'quit_game',
     function()
       print "QUIT GAME"

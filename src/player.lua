@@ -22,10 +22,10 @@ end
 
 function player:on_death ()
   self:lock(2)
-  hump.signal.emit('entity_slain', self)
+  basic.signal:emit('entity_slain', self)
   self.timer:after(1, function ()
     audio:silent()
-    hump.signal.emit('gameover')
+    basic.signal:emit('gameover')
   end)
 end
 
@@ -40,7 +40,7 @@ end
 
 function player:update ()
   module.entity.update(self) -- call entity update
-  hump.signal.emit('check_player_position', self.pos)
+  basic.signal:emit('check_player_position', self.pos)
 end
 
 function player:draw ()

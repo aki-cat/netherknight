@@ -15,14 +15,14 @@ end
 
 function monster:on_death ()
   audio:playSFX('Die')
-  hump.signal.emit('entity_slain', self)
+  basic.signal:emit('entity_slain', self)
   gamedata.killcount = gamedata.killcount + 1
-  hump.signal.emit('monster_slay', self)
+  basic.signal:emit('monster_slay', self)
   self.timer:after(0.05*8, function()
     local strength = (self.maxhp + self.attack) * gamedata.level
-    hump.signal.emit('drop_money', strength, self.pos)
-    hump.signal.emit('gain_exp', self)
-    hump.signal.emit('entity_death', self)
+    basic.signal:emit('drop_money', strength, self.pos)
+    basic.signal:emit('gain_exp', self)
+    basic.signal:emit('entity_death', self)
   end)
 end
 

@@ -10,7 +10,7 @@ local money = require 'collectable' :new {
 function money:on_collision (somebody)
   if somebody:get_type() == 'player' then
     self.damage = 999
-    hump.signal.emit('get_money', self.ammount)
+    basic.signal:emit('get_money', self.ammount)
   end
 end
 

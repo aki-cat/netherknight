@@ -6,7 +6,7 @@ local controller = basic.prototype:new {
 
 function controller:connect()
   for _,action in pairs(self.actions) do
-    hump.signal.register(action.signal, action.func)
+    basic.signal:register(action.signal, action.func)
   end
 end
 
@@ -20,7 +20,7 @@ end
 
 function controller:disconnect()
   for _,action in pairs(self.actions) do
-    hump.signal.remove(action.signal, action.func)
+    basic.signal:remove(action.signal, action.func)
   end
 end
 

@@ -26,7 +26,7 @@ function notification:__init ()
     end
   end
 
-  hump.signal.emit('add_text', self)
+  basic.signal:emit('add_text', self)
   basic.timer:during(
     self.time,
     function ()
@@ -34,7 +34,7 @@ function notification:__init ()
       self.alpha = self.alpha - 3
     end,
     function ()
-      hump.signal.emit('remove_text', self)
+      basic.signal:emit('remove_text', self)
     end
   )
 end

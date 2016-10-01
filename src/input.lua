@@ -18,27 +18,27 @@ local input = basic.prototype:new {
 }
 
 local function handle_action_press (action)
-  hump.signal.emit('press_action', action)
+  basic.signal:emit('press_action', action)
 end
 
 local function handle_action_release (action)
-  hump.signal.emit('release_action', action)
+  basic.signal:emit('release_action', action)
 end
 
 local function handle_action_hold (actions)
   for action, is_held in pairs(actions) do
     if is_held then
-      hump.signal.emit('hold_action', action)
+      basic.signal:emit('hold_action', action)
     end
   end
 end
 
 local function handle_direction_press (direction)
-  hump.signal.emit('press_direction', direction)
+  basic.signal:emit('press_direction', direction)
 end
 
 local function handle_direction_release (direction)
-  hump.signal.emit('release_direction', direction)
+  basic.signal:emit('release_direction', direction)
 end
 
 local function handle_direction_hold (directions)
@@ -66,11 +66,11 @@ local function handle_direction_hold (directions)
   end
   for direction, is_held in pairs(directions) do
     if is_held then
-      hump.signal.emit('hold_direction', direction)
+      basic.signal:emit('hold_direction', direction)
       return
     end
   end
-  hump.signal.emit('hold_direction', 'none')
+  basic.signal:emit('hold_direction', 'none')
 end
 
 function input:checkpress (k)

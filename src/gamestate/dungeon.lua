@@ -14,13 +14,13 @@ end
 local function load_player ()
   print("loading player...")
   player_entity.damage = 0
-  hump.signal.emit('add_entity', 'player', player_entity)
-  hump.signal.emit('add_sprite', 'player', player_sprite)
+  basic.signal:emit('add_entity', 'player', player_entity)
+  basic.signal:emit('add_sprite', 'player', player_sprite)
 end
 
 local function unload_player ()
-  hump.signal.emit('remove_entity', player_entity)
-  hump.signal.emit('remove_sprite', player_sprite)
+  basic.signal:emit('remove_entity', player_entity)
+  basic.signal:emit('remove_sprite', player_sprite)
 end
 
 function dungeon:enter ()
@@ -33,7 +33,7 @@ function dungeon:enter ()
   -- load room and player
   --controllers.rooms:goto_room(1)
   load_player()
-  --hump.signal.emit('locate_player', player_entity)
+  --basic.signal:emit('locate_player', player_entity)
   print(player_entity.pos:unpack())
   camera:set_target(player_entity)
 end

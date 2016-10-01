@@ -15,13 +15,13 @@ end
 
 function collectable:drop ()
   local name = self:get_type() .. tostring(self):sub(-7)
-  hump.signal.emit('add_entity', name, self)
-  hump.signal.emit('add_sprite', name, sprite:new { sprites[self.item] })
+  basic.signal:emit('add_entity', name, self)
+  basic.signal:emit('add_sprite', name, sprite:new { sprites[self.item] })
   basic.timer:after(
     4,
     function ()
-      hump.signal.emit('blink', name, 'slow', 1)
-      basic.timer:after(1, function () hump.signal.emit('blink', name, 'fast', 1) end)
+      basic.signal:emit('blink', name, 'slow', 1)
+      basic.timer:after(1, function () basic.signal:emit('blink', name, 'fast', 1) end)
       basic.timer:after(2, function () self.damage = 999 end)
     end
   )
@@ -30,12 +30,12 @@ end
 function collectable:on_collision (somebody)
   if somebody:get_type() == 'player' then
     self.damage = 999
-    hump.signal.emit('get_item', self.item)
+    basic.signal:emit('get_item', self.item)
   end
 end
 
 function collectable:on_death ()
-  hump.signal.emit('entity_death', self)
+  basic.signal:emit('entity_death', self)
 end
 
 function collectable:draw ()

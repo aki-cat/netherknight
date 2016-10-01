@@ -137,16 +137,16 @@ local function load_room ()
   for id, element in ipairs(room_elements[room_id]) do
     local entity, sprite = element[1], element[2]
     if not entity:isdead() then
-      hump.signal.emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
-      hump.signal.emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
+      basic.signal:emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
+      basic.signal:emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
     end
   end
 end
 
 function dungeon_rooms:goto_room (direction)
   current:add(move_room[direction])
-  hump.signal.emit('clear_notifications')
-  hump.signal.emit('clear_entities')
+  basic.signal:emit('clear_notifications')
+  basic.signal:emit('clear_entities')
   load_room()
 end
 

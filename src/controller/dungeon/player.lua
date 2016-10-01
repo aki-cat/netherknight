@@ -16,9 +16,9 @@ local function animateslash (player, direction)
   slash_sprite:setrotation(math.atan2(direction.y, direction.x))
   direction.y = direction.y -1/4
   slash_entity.pos:set((player.pos + direction/2):unpack())
-  hump.signal.emit('add_entity', 'slash', slash_entity)
-  hump.signal.emit('add_sprite', 'slash', slash_sprite)
-  hump.signal.emit('update_position', 'slash', slash_entity.pos)
+  basic.signal:emit('add_entity', 'slash', slash_entity)
+  basic.signal:emit('add_sprite', 'slash', slash_sprite)
+  basic.signal:emit('update_position', 'slash', slash_entity.pos)
   audio:playSFX('Slash')
   basic.timer:during(
     0.2,
@@ -26,8 +26,8 @@ local function animateslash (player, direction)
       slash_entity.pos:set((player.pos + direction/2):unpack())
     end,
     function()
-      hump.signal.emit('remove_entity', 'slash')
-      hump.signal.emit('remove_sprite', 'slash')
+      basic.signal:emit('remove_entity', 'slash')
+      basic.signal:emit('remove_sprite', 'slash')
     end
   )
 end
@@ -50,13 +50,13 @@ end
 local press_actions = {
   maru = function() attack(false) end,
   batsu = function() attack(true) end,
-  quit = function() hump.signal.emit('quit_game') end,
+  quit = function() basic.signal:emit('quit_game') end,
   inventory = function()
     local player = getplayer()
     for key, item in pairs(gamedata.inventory) do
       if item == 'drumstick' then
         gamedata.inventory[key] = nil
-        hump.signal.emit('heal_player', 5)
+        basic.signal:emit('heal_player', 5)
         return
       end
     end
@@ -75,7 +75,7 @@ function dungeon_player:update ()
       value = false,
       text = 'level up!'
     }
-    hump.signal.emit('rise_the_bling', gamedata.level)
+    basic.signal:emit('rise_the_bling', gamedata.level)
   end
 end
 
@@ -110,11 +110,11 @@ function dungeon_player:__init ()
       func = function (direction)
         local player = getplayer()
         if player.locked or player:isdead() then return end
-        if direction == 'none' then hump.signal.emit('player_idle') return end
+        if direction == 'none' then basic.signal:emit('player_idle') return end
         local movement = physics.dynamic_body.direction[direction] * player_speed
         player:face(direction)
         player:move(movement)
-        hump.signal.emit('player_walk')
+        basic.signal:emit('player_walk')
       end
     },
     {
