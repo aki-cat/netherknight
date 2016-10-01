@@ -1,15 +1,46 @@
 
 local dungeon_rooms = module.controller:new {}
 
+local mapgen = require 'mapgen.mapgen'
+local iterate = require 'mapgen.iterate'
+
 local sprites = basic.pack 'database.sprites'
 local rooms_datatbase = basic.pack 'database.rooms'
 
-local rooms = {
-  [1] = require 'room' :new { tilemap = rooms_datatbase.up_right },
-  [2] = require 'room' :new { tilemap = rooms_datatbase.up_left },
-  [3] = require 'room' :new { tilemap = rooms_datatbase.down_left },
-  [4] = require 'room' :new { tilemap = rooms_datatbase.down_right },
-}
+-- generating world
+local world = mapgen(4, 4, globals.width, globals.height, 10000)
+
+-- creating world map
+local map = {}
+for i = 1, world.height do
+  map[i] = {}
+  for j = 1, world.width do
+    map[i][j] = 0
+  end
+end
+
+-- generating rooms and adding them to map
+local rooms = {}
+local rooms_map = world:getrooms()
+local k = 0
+for i, j, room in iterate.matrix(rooms_map) do
+  k = k + 1
+  room.tileset = 'default'
+  rooms[k] = module.room:new { 0, 0, room }
+  map[i][j] = k
+end
+
+-- creating room elements
+local room_elements = {}
+for r = 1, #rooms do
+  room_elements[r] = {} -- pretend we have something ok?
+end
+
+--[1] = require 'room' :new { tilemap = rooms_datatbase.up_right },
+--[2] = require 'room' :new { tilemap = rooms_datatbase.up_left },
+--[3] = require 'room' :new { tilemap = rooms_datatbase.down_left },
+--[4] = require 'room' :new { tilemap = rooms_datatbase.down_right },
+
 
 local current =  basic.vector:new { 1, 1 }
 
@@ -20,11 +51,12 @@ local move_room = {
   left  = basic.vector:new {  0, -1 },
 }
 
-local map = {
-  { 4, 3 },
-  { 1, 2 },
-}
+--local map = {
+--  { 4, 3 },
+--  { 1, 2 },
+--}
 
+--[[
 local room_elements = {
   [1] = {
     {
@@ -123,6 +155,8 @@ local room_elements = {
     },
   }
 }
+]]
+
 
 local function current_room ()
   return rooms[map[current.x][current.y]]

@@ -1,10 +1,10 @@
 
 local tilesets = basic.pack 'database.tilesets'
 local rooms = basic.pack 'database.rooms'
+local iterate = require 'mapgen.iterate'
 
 local room = basic.prototype:new {
-  pos = basic.vector:new {},
-  size = basic.vector:new {},
+  0, 0,
   tilemap = rooms.default,
   __type = 'room'
 }
@@ -56,11 +56,11 @@ end
 
 local function get_obstacles (tilemap, blacklist, tilesize)
   local obstacles = {}
-  for layer, tile, i, j in iterate_tiles(tilemap) do
+  for i, j, tile in iterate.matrix(tilemap) do
     if blacklist[tile] then
       local o = physics.static_body:new {
-        (j - 1),
-        (i - 1),
+        j - 1,
+        i - 1,
         tilesize / globals.unit,
         tilesize / globals.unit
       }
@@ -71,9 +71,11 @@ local function get_obstacles (tilemap, blacklist, tilesize)
 end
 
 function room:__init ()
-  self.name = self.tilemap.name
+  self.pos = basic.vector:new { self[1], self[2] }
+  self.tilemap = self[3]
+  self.name = self.name or self.tilemap.name or 'dummy'
   self.tileset = tilesets[self.tilemap.tileset]
-  self.size:set(#self.tilemap[1][1], #self.tilemap[1])
+  self.size = basic.vector:new { #self.tilemap[1], #self.tilemap }
   self.spritebatch = love.graphics.newSpriteBatch(self.tileset.img, 2048, 'stream')
   self.quads = get_quads(self.tileset.img, self.tileset.tilesize)
   self.obstacles = get_obstacles(self.tilemap, self.tileset.obstacles, self.tileset.tilesize)
@@ -83,7 +85,7 @@ end
 function room:setup_buffer ()
   local buffer = self.spritebatch
   buffer:clear()
-  for layer, tile, i, j in iterate_tiles(self.tilemap) do
+  for i, j, tile in iterate.matrix(self.tilemap) do
     if self.quads[tile] then
       buffer:add(self.quads[tile], j-1, i-1, 0, 1 / globals.unit, 1 / globals.unit)
     end
