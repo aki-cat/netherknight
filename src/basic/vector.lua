@@ -1,5 +1,5 @@
 
-local vector = basic.prototype:new {
+local vector = require 'basic.prototype' :new {
   0,
   0,
   0,

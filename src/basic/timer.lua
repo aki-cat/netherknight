@@ -1,6 +1,6 @@
 
 -- individual timer
-local timer = basic.prototype:new {
+local timer = require 'basic.prototype' :new {
   target = 1,
   loop = 1,
   handle_frame = function () end,
@@ -24,7 +24,7 @@ function timer:routine ()
 end
 
 -- timer manager
-local timer_manager = basic.prototype:new {
+local timer_manager = require 'basic.prototype' :new {
   framerate = 60,
   __type = 'timer_manager'
 }

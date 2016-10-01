@@ -1,6 +1,6 @@
 
 -- libs
-basic       = require 'lib.basic.pack' 'lib.basic'
+basic       = require 'basic.pack' 'basic'
 module      = basic.pack ''
 hump        = basic.pack 'lib.hump'
 controllers = basic.pack 'controller'

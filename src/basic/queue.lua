@@ -1,5 +1,5 @@
 
-local queue = basic.prototype:new {
+local queue = require 'basic.prototype' :new {
   256, -- basic size
   true,
   __type = 'queue'
