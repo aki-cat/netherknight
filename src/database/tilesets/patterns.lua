@@ -1,6 +1,4 @@
 
-local iterate = require 'basic.iterate'
-
 local dictionary = {
   idc = '*',
   nothing = 0,
@@ -99,9 +97,10 @@ function patterns.from_pattern_to_action (tilemap, pattern)
   local rows, columns = #pattern, #pattern[1]
   local halfw, halfh = math.floor(columns / 2) + 1, math.floor(rows / 2) + 1
   local actions = {}
+  local iterate = require 'basic.iterate'
 
   -- iterate through tilemap
-  for i, j, tile in iterate.matrix() do
+  for i, j, tile in iterate.matrix(tilemap) do
     -- assume there is potential in this tile
     local potential = true
     -- iterate through pattern
@@ -109,13 +108,13 @@ function patterns.from_pattern_to_action (tilemap, pattern)
       -- compare all adjacent tiles
       local di, dj = i + m - halfw, j + n - halfh
       -- existence condition (if not, we still assume it's not a pattern match)
-      if not map[di] or map[di][dj] == nil then
+      if not tilemap[di] or tilemap[di][dj] == nil then
         potential = false
       else
         -- check for special cases
-        if expected ~= '*' and expected + map[di][dj] ~= 0 then
+        if expected ~= '*' and expected + tilemap[di][dj] ~= 0 then
           -- check for specific case
-          if map[di][dj] ~= expected then
+          if tilemap[di][dj] ~= expected then
             potential = false
           end
         end

@@ -1,7 +1,7 @@
 
 local iterate = require 'basic.iterate'
 
-local matrix = basic.prototype:new {
+local matrix = require 'basic.prototype' :new {
   3, 3, 0,
   __type = 'matrix'
 }
@@ -41,5 +41,19 @@ function matrix:get_height ()
 end
 
 matrix.iterate = iterate.matrix
+
+function matrix:iteraterows ()
+  local t = { 0, m = self }
+  return function(s, row)
+    local m = s.m
+    local i
+    s[1] = s[1] + 1
+    i = s[1]
+    row = m[i]
+    return row and i, row
+  end,
+  t,
+  0
+end
 
 return matrix
