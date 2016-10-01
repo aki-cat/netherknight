@@ -4,6 +4,7 @@ local default = {}
 default.img = love.graphics.newImage('assets/images/tileset.png')
 default.tilesize = globals.unit
 default.obstacles = {
+  [1] = true,
   [5] = true,
   [6] = true,
   [7] = true,

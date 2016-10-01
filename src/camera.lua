@@ -5,6 +5,12 @@ local camera = physics.dynamic_body:new {
   __type = 'camera'
 }
 
+function camera:valid_entity (entity)
+  if (entity.pos - self.pos) * (entity.pos - self.pos) < (globals.width^2 + globals.height^2)/2 then
+    return true
+  end
+end
+
 function camera:__init()
   self.target = self.pos
   self.size:set(globals.width, globals.height)

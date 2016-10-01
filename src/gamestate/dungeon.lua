@@ -5,7 +5,7 @@ local sprites = basic.pack 'database.sprites'
 local dungeon = {}
 local camera = require 'camera' :new {}
 
-local player_entity = require 'player' :new { globals.width / 2, globals.height / 2, 1/2, 1/2 }
+local player_entity = require 'player' :new { 8, 5, 1/2, 1/2 }
 local player_sprite = require 'sprite' :new { sprites.knight }
 
 function dungeon:init ()
@@ -33,6 +33,8 @@ function dungeon:enter ()
   -- load room and player
   --controllers.rooms:goto_room(1)
   load_player()
+  --hump.signal.emit('locate_player', player_entity)
+  print(player_entity.pos:unpack())
   camera:set_target(player_entity)
 end
 
@@ -68,6 +70,10 @@ end
 
 function dungeon:getentity (name)
   return controllers.entities:get(name)
+end
+
+function dungeon:getcamera ()
+  return camera
 end
 
 return dungeon

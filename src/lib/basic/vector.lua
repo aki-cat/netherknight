@@ -7,15 +7,15 @@ local vector = basic.prototype:new {
 }
 
 function vector:__index (k)
-  if k == 'x' then return self[1] end
-  if k == 'y' then return self[2] end
+  if k == 'x' or k == 'j' then return self[1] end
+  if k == 'y' or k == 'i' then return self[2] end
   if k == 'z' then return self[3] end
   return vector[k]
 end
 
 function vector:__newindex (k, v)
-  if     k == 'x' then rawset(self, 1, v)
-  elseif k == 'y' then rawset(self, 2, v)
+  if     k == 'x' or k == 'j' then rawset(self, 1, v)
+  elseif k == 'y' or k == 'i' then rawset(self, 2, v)
   elseif k == 'z' then rawset(self, 3, v)
   else rawset(self, k, v) end
 end
