@@ -5,6 +5,7 @@ local room = basic.prototype:new {
 }
 
 function room:__init ()
+  self.width, self.height = self[1], self[2]
   self.tilemap = basic.matrix:new { self[1] + 4, self[2] + 4, self[3] }
   self:generate()
 end
@@ -37,6 +38,33 @@ function room:filter ()
   end
 end
 
+function room:open (side, offset)
+  local sides = {
+    left  = 2,
+    right = 2 + self.width + 1,
+    up    = 2,
+    down  = 2 + self.height + 1,
+  }
+  if side == 'up' or side == 'down' then
+    offset = offset < self.width and offset or self.width - 1
+    self.tilemap:set(sides[side],     2 + offset,     1)
+    self.tilemap:set(sides[side],     2 + offset + 1, 1)
+    self.tilemap:set(sides[side] + 1, 2 + offset,     1)
+    self.tilemap:set(sides[side] + 1, 2 + offset + 1, 1)
+    self.tilemap:set(sides[side] - 1, 2 + offset,     1)
+    self.tilemap:set(sides[side] - 1, 2 + offset + 1, 1)
+  elseif side == 'left' or side == 'right' then
+    offset = offset < self.height and offset or self.height - 1
+    self.tilemap:set(2 + offset,     sides[side],     1)
+    self.tilemap:set(2 + offset + 1, sides[side],     1)
+    self.tilemap:set(2 + offset,     sides[side] - 1, 1)
+    self.tilemap:set(2 + offset + 1, sides[side] - 1, 1)
+    self.tilemap:set(2 + offset,     sides[side] + 1, 1)
+    self.tilemap:set(2 + offset + 1, sides[side] + 1, 1)
+  end
+  self:filter()
+end
+
 function room:__tostring ()
   local str = ''
   for i, row in self.tilemap:iteraterows() do
@@ -47,6 +75,7 @@ function room:__tostring ()
       else
         s = s .. '#'
       end
+      --s = s .. tile
       s = s .. ' '
     end
     s = s .. ']\n'

@@ -21,73 +21,73 @@ local dictionary = {
 local patterns = {
   {
     { '*', '*', '*', },
-    {   2,  2,   2,  },
+    { '*', -1,  '*', },
     { '*',  1,  '*', },
     result = dictionary.wall_up
   },
   {
-    { '*',  2,  '*', },
-    {  1,   2,  '*', },
-    { '*',  2,  '*', },
+    { '*', '*', '*', },
+    {  1,  -1,  '*', },
+    { '*', '*', '*', },
     result = dictionary.wall_right
   },
   {
     { '*',  1,  '*', },
-    {  2,   2,   2,  },
+    { '*', -1,  '*', },
     { '*', '*', '*', },
     result = dictionary.wall_down
   },
   {
-    { '*',  2,  '*', },
-    { '*',  2,   1,  },
-    { '*',  2,  '*', },
+    { '*', '*', '*', },
+    { '*', -1,   1,  },
+    { '*', '*', '*', },
     result = dictionary.wall_left
   },
   {
     { '*', '*', '*', },
-    { '*',  2,   2,  },
-    { '*',  2,   1,  },
+    { '*', -1,  -1,  },
+    { '*', -1,   1,  },
     result = dictionary.wall_up_left
   },
   {
     { '*', '*', '*', },
-    {  2,   2,  '*', },
-    {  1,   2,  '*', },
+    { -1,  -1,  '*', },
+    {  1,  -1,  '*', },
     result = dictionary.wall_up_right
   },
   {
-    { '*',  2,   1,  },
-    { '*',  2,   2,  },
+    { '*', -1,   1,  },
+    { '*', -1,  -1,  },
     { '*', '*', '*', },
     result = dictionary.wall_down_left
   },
   {
-    {  1,   2,  '*', },
-    {  2,   2,  '*', },
+    {  1,  -1,  '*', },
+    { -1,  -1,  '*', },
     { '*', '*', '*', },
     result = dictionary.wall_down_right
   },
   {
     { '*',  1,   1,  },
-    {  2,   2,   1,  },
-    {  2,   2,  '*', },
+    { -1,  -1,   1,  },
+    { -1,  -1,  '*', },
     result = dictionary.wall_elbow_up_right
   },
   {
     {  1,   1,  '*', },
-    {  1,   2,   2,  },
-    { '*',  2,   2,  },
+    {  1,  -1,  -1,  },
+    { '*', -1,  -1,  },
     result = dictionary.wall_elbow_up_left
   },
   {
-    { '*',  2,   2,  },
-    {  1,   2,   2,  },
+    { '*', -1,  -1,  },
+    {  1,  -1,  -1,  },
     {  1,   1,  '*', },
     result = dictionary.wall_elbow_down_left
   },
   {
-    {  2,   2,  '*', },
-    {  2,   2,   1,  },
+    { -1,  -1,  '*', },
+    { -1,  -1,   1,  },
     { '*',  1,   1,  },
     result = dictionary.wall_elbow_down_right
   },
@@ -107,14 +107,18 @@ function patterns.from_pattern_to_action (tilemap, pattern)
     for m, n, expected in iterate.matrix(pattern) do
       -- compare all adjacent tiles
       local di, dj = i + m - halfw, j + n - halfh
-      -- existence condition (if not, we still assume it's not a pattern match)
-      if not tilemap[di] or tilemap[di][dj] == nil then
-        potential = false
-      else
-        -- check for special cases
-        if expected ~= '*' and expected + tilemap[di][dj] ~= 0 then
+      -- check for the "anything" case
+      if expected ~= '*' then
+        -- existence condition (if not, we still assume it's not a pattern match)
+        if not tilemap[di] or tilemap[di][dj] == nil then
+          potential = false
+        else
           -- check for specific case
-          if tilemap[di][dj] ~= expected then
+          if expected + tilemap[di][dj] == 0 then
+            -- if its negative and of same value
+            potential = false
+          elseif expected > 0 and tilemap[di][dj] ~= expected then
+            -- if it simply doesn't match
             potential = false
           end
         end
