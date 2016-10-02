@@ -5,7 +5,7 @@ local sprites = basic.pack 'database.sprites'
 local dungeon = {}
 local camera = require 'camera' :new {}
 
-local player_entity = require 'player' :new { 12, 12, 1/2, 1/2 }
+local player_entity = require 'player' :new { 0, 0, 1/2, 1/2 }
 local player_sprite = require 'sprite' :new { sprites.knight }
 
 function dungeon:init ()
@@ -14,6 +14,7 @@ end
 local function load_player ()
   print("loading player...")
   player_entity.damage = 0
+  basic.signal:emit('set_player_in_room', player_entity)
   basic.signal:emit('add_entity', 'player', player_entity)
   basic.signal:emit('add_sprite', 'player', player_sprite)
 end

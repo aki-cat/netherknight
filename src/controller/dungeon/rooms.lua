@@ -118,18 +118,10 @@ function load_room_elements (room)
   end
 end
 
-function unload_room_elements (room)
-  if not room or not room_elements[room] then return end
-  for _,element in ipairs(room_elements[room]) do
-    local entity, sprite = element[1], element[2]
-    basic.signal:emit('remove_entity', entity:get_type() .. tostring(entity):sub(-7))
-    basic.signal:emit('remove_sprite', entity:get_type() .. tostring(entity):sub(-7))
-  end
-end
-
 -- get first room data
 local function load_room(room)
-  unload_room_elements(current_room)
+  basic.signal:emit('clear_notifications')
+  basic.signal:emit('clear_entities')
   current_room = room
   walls, tilemap = current_room:deploy('default')
   load_room_elements(current_room)
@@ -175,6 +167,15 @@ function dungeon_rooms:__init ()
       signal = 'check_tilemap_collision',
       func = function (entity)
         if walls then walls:update_collisions(entity) end
+      end
+    },
+    {
+      signal = 'set_player_in_room',
+      func = function (player)
+        local walkable_space = current_room:get_walkable_tiles()
+        local k = math.random(1, #walkable_space)
+        local pos = basic.table.take(walkable_space, k)
+        player.pos:set(pos:unpack())
       end
     }
   }
