@@ -1,4 +1,4 @@
 
-# Everknight 2
+# Netherknight
 
-A remake of Everknight, with more mechanics, better sprites, and maybe even more!
+A dungeon crawler based on Everknight, with more mechanics, better sprites, and maybe even more!
