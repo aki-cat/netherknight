@@ -8,7 +8,7 @@ function walls:__init ()
   local tiles = self[1]
   self.bodylist = {}
   for i, j, tile in tiles:iterate() do
-    if tile ~= 1 then
+    if tile ~= 1 and tile ~= 2 then
       local body = physics.static_body:new{ j-1, i-1, 1, 1, centred = false }
       table.insert(self.bodylist, body)
     end

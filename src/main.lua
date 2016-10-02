@@ -98,13 +98,13 @@ function love.update (dt)
   framedelay = framedelay + dt
 
   fps_update:update(delta)
+  fps_update:tick()
   while framedelay >= globals.frameunit do
     framedelay = framedelay - globals.frameunit
     frameid = nil
     frameid = {}
 
     -- update modules
-    fps_update:tick()
     input:update()
     basic.timer:update()
     hump.gamestate.update()

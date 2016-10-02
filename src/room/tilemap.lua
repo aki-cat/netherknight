@@ -11,8 +11,9 @@ function tilemap:__init ()
   local tilesets_path = 'assets/images/tileset-'
   local image = love.graphics.newImage(tilesets_path .. self[1] .. '.png')
   self.tilemap = self[2]
-  self.spritebatch = love.graphics.newSpriteBatch(image, 1280, 'stream')
+  self.spritebatch = love.graphics.newSpriteBatch(image, 1280, 'static')
   self:getquads(image)
+  self:setup_buffer()
 end
 
 function tilemap:getquads (image)
@@ -32,7 +33,7 @@ function tilemap:getquads (image)
   end
 end
 
-function tilemap:update ()
+function tilemap:setup_buffer ()
   local buffer = self.spritebatch
   buffer:clear()
   for i, j, tile in self.tilemap:iterate() do

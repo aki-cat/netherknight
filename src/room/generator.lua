@@ -4,7 +4,7 @@ local room = basic.prototype:new {
   __type = 'room'
 }
 
-local margin = 10
+local margin = 2
 
 local directions = {
   [1] = 'up',
@@ -93,7 +93,9 @@ function room:open (side, offset)
   local pos = self:get_side(side, offset)
   for di = pos.i + starti, pos.i + endi do
     for dj = pos.j + startj, pos.j + endj do
-      self.tilemap:set(di, dj, 1)
+      if self.tilemap[di] and self.tilemap[di][dj] then
+        self.tilemap:set(di, dj, 1)
+      end
     end
   end
   self:set_spawn_point(side, offset)
@@ -116,6 +118,18 @@ function room:deploy (tileset)
   local walls = require 'room.walls' :new { self.tilemap }
   local tilemap = require 'room.tilemap' :new { tileset, self.tilemap }
   return walls, tilemap
+end
+
+function room:get_walkable_tiles ()
+  local walkables = {}
+  for i, j, tile in self.tilemap:iterate() do
+    if i > self.margin and i <= self.margin + self.height then
+      if j > self.margin and i <= self.margin + self.width then
+        if tile == 1 then table.insert(walkables, basic.vector:new {j - 1/2, i - 1/2}) end
+      end
+    end
+  end
+  return walkables
 end
 
 function room:__tostring ()

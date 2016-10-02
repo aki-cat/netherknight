@@ -1,22 +1,142 @@
 
 local dungeon_rooms = module.controller:new {}
 
+-- dependencies
+local sprites = basic.pack 'database.sprites'
+
+-- define no of rooms
+local dungeon_size = 9
+
 -- generate map with n rooms
-local map = require 'map' :new { 9 }
+local map = require 'map' :new { dungeon_size }
 
 -- room data
 local current_room, walls, tilemap
+local room_elements = {}
+
+-- randomly generates room elements
+local function new_room_elements (room)
+  local elements = {}
+  local walkable_space = room:get_walkable_tiles()
+  local room_type = math.random(1,6)
+  print("random room:", room_type)
+  if room_type == 1 then
+    -- three slime room
+    for i = 1, 3 do
+      local k = math.random(1, #walkable_space)
+      local pos = basic.table.take(walkable_space, k)
+      local e = {
+        module.monster:new { pos.x, pos.y, species = 'slime' },
+        module.sprite:new { sprites.slime },
+      }
+      elements[i] = e
+    end
+  elseif room_type == 2 then
+    -- 5 slime room
+    for i = 1, 5 do
+      local k = math.random(1, #walkable_space)
+      local pos = basic.table.take(walkable_space, k)
+      local e = {
+        module.monster:new { pos.x, pos.y, species = 'slime' },
+        module.sprite:new { sprites.slime },
+      }
+      elements[i] = e
+    end
+  elseif room_type == 3 then
+    -- 1 eye and 1 drumstick room
+    for i = 1, 2 do
+      local k = math.random(1, #walkable_space)
+      local pos = basic.table.take(walkable_space, k)
+      local e
+      if i == 1 then
+        e = {
+          module.monster:new { pos.x, pos.y, species = 'eye' },
+          module.sprite:new { sprites.eye },
+        }
+      else
+        e = {
+          module.collectable:new { pos.x, pos.y, item = 'drumstick' },
+          module.sprite:new { sprites.drumstick },
+        }
+      end
+      elements[i] = e
+    end
+  elseif room_type == 4 then
+    -- 3 eye and 1 drumstick room
+    for i = 1, 4 do
+      local k = math.random(1, #walkable_space)
+      local pos = basic.table.take(walkable_space, k)
+      local e
+      if i > 1 then
+        e = {
+          module.monster:new { pos.x, pos.y, species = 'eye' },
+          module.sprite:new { sprites.eye },
+        }
+      else
+        e = {
+          module.collectable:new { pos.x, pos.y, item = 'drumstick' },
+          module.sprite:new { sprites.drumstick },
+        }
+      end
+      elements[i] = e
+    end
+  elseif room_type == 5 then
+    -- 4 eye room
+    for i = 1, 4 do
+      local k = math.random(1, #walkable_space)
+      local pos = basic.table.take(walkable_space, k)
+      local e = {
+        module.monster:new { pos.x, pos.y, species = 'eye' },
+        module.sprite:new { sprites.eye },
+      }
+      elements[i] = e
+    end
+  elseif room_type == 6 then
+    -- drumstick only room
+    local k = math.random(1, #walkable_space)
+    local pos = basic.table.take(walkable_space, k)
+    local e = {
+      module.collectable:new { pos.x, pos.y, item = 'drumstick' },
+      module.sprite:new { sprites.drumstick },
+    }
+    elements[1] = e
+  end
+  return elements
+end
+
+-- loads room elements
+function load_room_elements (room)
+  if not room_elements[room] then
+    room_elements[room] = new_room_elements(room)
+  end
+  for _,element in ipairs(room_elements[room]) do
+    local entity, sprite = element[1], element[2]
+    if not entity:isdead() then
+      basic.signal:emit('add_entity', entity:get_type() .. tostring(entity):sub(-7), entity)
+      basic.signal:emit('add_sprite', entity:get_type() .. tostring(entity):sub(-7), sprite)
+    end
+  end
+end
+
+function unload_room_elements (room)
+  if not room or not room_elements[room] then return end
+  for _,element in ipairs(room_elements[room]) do
+    local entity, sprite = element[1], element[2]
+    basic.signal:emit('remove_entity', entity:get_type() .. tostring(entity):sub(-7))
+    basic.signal:emit('remove_sprite', entity:get_type() .. tostring(entity):sub(-7))
+  end
+end
 
 -- get first room data
-local function load_room(id)
-  current_room = map:get_room(id) or id
-  print('going to room: ')
-  print(current_room)
+local function load_room(room)
+  unload_room_elements(current_room)
+  current_room = room
   walls, tilemap = current_room:deploy('default')
+  load_room_elements(current_room)
 end
 
 function dungeon_rooms:update ()
-  tilemap:update()
+  --tilemap:update()
 end
 
 function dungeon_rooms:draw ()
@@ -59,7 +179,7 @@ function dungeon_rooms:__init ()
     }
   }
   -- start first room
-  load_room(1)
+  load_room(map:get_room(1))
 end
 
 return dungeon_rooms:new {}

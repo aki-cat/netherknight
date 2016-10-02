@@ -51,6 +51,7 @@ function dungeon_entities:__init ()
           return error("Can't add second entity " .. name)
         end
         if not entity:isdead() then
+          print('add entity:', name)
           entities[name] = entity
         end
       end
