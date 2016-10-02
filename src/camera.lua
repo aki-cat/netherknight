@@ -18,11 +18,14 @@ end
 
 function camera:set_target (body)
   self.target = body.pos
+  self.pos:set(body.pos:unpack())
 end
 
 function camera:update()
   physics.dynamic_body.update(self)
-  self:move( 0.5 * delta * (self.target - self.pos) )
+  local speed = 1/2
+  local distvec = self.target - self.pos
+  self:move( distvec * speed * delta )
 end
 
 function camera:draw()

@@ -4,7 +4,7 @@ local room = basic.prototype:new {
   __type = 'room'
 }
 
-local margin = 3
+local margin = 10
 
 local directions = {
   [1] = 'up',

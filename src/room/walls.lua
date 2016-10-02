@@ -18,7 +18,6 @@ end
 function walls:update_collisions (body)
   for i,tile in ipairs(self.bodylist) do
     body:check_collision_by_axis(tile)
-    print("checking collision: ".. body:get_type())
   end
 end
 
