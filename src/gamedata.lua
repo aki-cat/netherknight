@@ -8,6 +8,6 @@ return {
   damage    = 0,
   blinglvl  = 1,
   inventory = {},
-  weapon    = { name = "sord", __type = "sword" },
+  weapon    = require 'weapon' :new { 2, 2, 8, name = 'sord' },
   map       = { { id = 0, enemies = {}, items = {} } },
 }

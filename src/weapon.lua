@@ -2,16 +2,24 @@
 local prefixes, suffixes = module.afixes.prefixes, module.afixes.suffixes
 
 local weapon = basic.prototype:new {
+  0, 1, 4,
   name = 'sord',
-  level = 0,
   __type = 'weapon'
 }
 
 function weapon:__init ()
+  self.level = self[1]
+  self.dices = self[2]
+  self.sides = self[3]
   self.prefixes = {}
   self.suffixes = {}
   self:set_afixes()
   self:set_name()
+  -- formula = BASEPOWER + N * D(V) + PLAYERATK
+end
+
+function weapon:generate_dmg ()
+  return math.floor(gamedata.level * .25 * (self.level + basic.dice.throw(self.dices, self.sides)))
 end
 
 function weapon:set_afixes ()

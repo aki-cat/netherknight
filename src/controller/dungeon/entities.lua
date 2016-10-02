@@ -106,8 +106,17 @@ function dungeon_entities:__init ()
       func = function (strength, pos)
         -- 50% chance of dropping money or nothing
         local quantity
-        if love.math.random() > .2 then
-          quantity = math.floor(strength + 1.05 ^ gamedata.level * (0.5 + love.math.random()))
+        if love.math.random() < .75 then
+          local droplvl = love.math.random()
+          if droplvl < .5 then
+            quantity = 1
+          elseif droplvl < .75 then
+            quantity = 5
+          elseif droplvl < .85 and strength > 30 then
+            quantity = 20
+          elseif droplvl < .90 and strength > 30 then
+            quantity = 50
+          end
         end
         if quantity then
           local drop = module.money:new {
@@ -141,10 +150,8 @@ function dungeon_entities:__init ()
       func = function (entity, dmg)
         if entity:get_type() == 'player' then
           audio:playSFX('Hurt2')
-          dmg = dmg * gamedata.level
         elseif entity:get_type() == 'monster' then
           audio:playSFX('Hurt')
-          dmg = math.floor( 1 + .5 + dmg * 1.25 ^ gamedata.level * (0.75 + love.math.random() * 0.5) )
         end
         module.notification:new { 'damage', entity.pos.x, entity.pos.y, value = dmg }
       end

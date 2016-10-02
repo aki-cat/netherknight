@@ -1,8 +1,8 @@
 
 local slime = {
   size = basic.vector:new{ 1/2, 1/4 },
-  maxhp  = 3,
-  attack = 1,
+  maxhp  = 12,
+  attack = 3,
 }
 
 local function action(self)

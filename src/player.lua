@@ -4,14 +4,15 @@ local player = module.entity:new {
 }
 
 function player:__init ()
-  self.maxhp = 10
+  self.maxhp = 24
   self.locked = false
 end
 
 function player:on_collision (somebody, h, v)
   if somebody:get_type() == 'monster' then
     if not somebody.invincible then
-      self:take_damage(somebody.attack, somebody.pos)
+      local dmg = basic.dice.throw(2, somebody.attack)
+      self:take_damage(dmg, somebody.pos)
     end
   elseif somebody:get_type() == 'collectable' or somebody:get_type() == 'money' then
     somebody:on_collision(self)

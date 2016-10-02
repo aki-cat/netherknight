@@ -144,19 +144,19 @@ function dungeon_rooms:__init ()
       signal = 'check_player_position',
       func = function (pos)
         local room = map:get_room(room_id)
-        if pos.y < current_room.margin - 1/2 then
+        if pos.y < current_room.margin - 2 then
           local nextroom = current_room.connections[1]
           if nextroom ~= 0 then load_room(nextroom) end
           pos:set(nextroom.spawn[3]:unpack())
-        elseif pos.x > current_room.margin + current_room.width + 1/2 then
+        elseif pos.x > current_room.margin + current_room.width + 2 then
           local nextroom = current_room.connections[2]
           if nextroom ~= 0 then load_room(nextroom) end
           pos:set(nextroom.spawn[4]:unpack())
-        elseif pos.y > current_room.margin + current_room.height + 1/2 then
+        elseif pos.y > current_room.margin + current_room.height + 2 then
           local nextroom = current_room.connections[3]
           if nextroom ~= 0 then load_room(nextroom) end
           pos:set(nextroom.spawn[1]:unpack())
-        elseif pos.x < current_room.margin - 1/2 then
+        elseif pos.x < current_room.margin - 2 then
           local nextroom = current_room.connections[4]
           if nextroom ~= 0 then load_room(nextroom) end
           pos:set(nextroom.spawn[2]:unpack())

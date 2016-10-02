@@ -2,7 +2,7 @@
 
 cd "$(pwd)/src"
 
-rm ../everknight2.love
-zip -r9 ../everknight2.love *
+rm ../netherknight.love
+zip -r9 ../netherknight.love * -x test.*
 
 cd ..

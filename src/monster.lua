@@ -28,9 +28,11 @@ end
 
 function monster:on_collision (somebody, h, v)
   if somebody:get_type() == 'attack' then
-    self:take_damage(somebody.attack, somebody.pos)
+    local dmg = somebody.attack + gamedata.weapon:generate_dmg()
+    self:take_damage(dmg, somebody.pos)
   elseif somebody:get_type() == 'player' then
-    somebody:take_damage(self.attack, self.pos)
+    local dmg = basic.dice.throw(2, self.attack)
+    somebody:take_damage(dmg, self.pos)
   elseif somebody:get_type() == 'static_body' then
     self:stop(h, v)
   end

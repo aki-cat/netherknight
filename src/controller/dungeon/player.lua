@@ -56,7 +56,7 @@ local press_actions = {
     for key, item in pairs(gamedata.inventory) do
       if item == 'drumstick' then
         gamedata.inventory[key] = nil
-        basic.signal:emit('heal_player', 5)
+        basic.signal:emit('heal_player', math.floor(player.maxhp/2))
         return
       end
     end
@@ -64,11 +64,12 @@ local press_actions = {
 }
 
 function dungeon_player:update ()
-  if gamedata.exp >= math.floor(.5 + 10 + 1.05 ^ gamedata.level) then
+  if gamedata.exp >= math.floor((1 + gamedata.level) * (20 + 1.5 ^ gamedata.level)) then
     local player = getplayer()
     gamedata.exp = 0
     gamedata.level = gamedata.level + 1
     audio:playSFX('Grow')
+    player.maxhp = player.maxhp + gamedata.level * 5
     module.notification:new {
       'level',
       player.pos.x, player.pos.y,
@@ -88,15 +89,6 @@ function dungeon_player:draw ()
     'LV '..tostring(gamedata.level),
     globals.unit * (player.pos.x - 1),
     globals.unit * (player.pos.y - 1),
-    globals.unit * 2,
-    'center'
-  )
-  local currenthp = (player.maxhp - player.damage) * gamedata.level
-  local maxhp = player.maxhp * gamedata.level
-  love.graphics.printf(
-    'HP '..tostring(currenthp) .. ' / ' .. tostring(maxhp),
-    globals.unit * (player.pos.x - 1),
-    globals.unit * (player.pos.y - 1 - 1/4),
     globals.unit * 2,
     'center'
   )
@@ -158,18 +150,20 @@ function dungeon_player:__init ()
       func = function (ammount)
         local player = getplayer()
         audio:playSFX('Heal')
-        player.damage = (player.damage - ammount) >= 0 and player.damage - ammount or 0
+        player.damage = player.damage - ammount
+        if player.damage < 0 then player.damage = 0 end
         module.notification:new {
           'heal',
           player.pos.x, player.pos.y,
-          value = ammount * gamedata.level,
+          value = ammount,
         }
       end
     },
     {
       signal = 'gain_exp',
       func = function (monster)
-        local exp = math.floor((monster.attack + monster.maxhp) * (0.75 + love.math.random() * 0.5))
+        local strength = monster.attack + monster.maxhp
+        local exp = math.floor(1 + strength * (0.75 + love.math.random() * 0.5))
         gamedata.exp = gamedata.exp + exp
         module.notification:new { 'expgain', monster.pos.x, monster.pos.y, value = exp, text = 'xp' }
       end
