@@ -55,6 +55,9 @@ function love.load ()
   love.math.setRandomSeed(seed)
   print("SEED: " .. tostring(seed))
 
+  -- overwrite lua's math.random with love's math.random
+  math.random = love.math.random
+
   -- set quit and debug signals
   basic.signal:register(
     'save_game',
@@ -68,14 +71,6 @@ function love.load ()
     function()
       delete_game()
       basic.signal:emit('quit_game')
-    end
-  )
-  basic.signal:register(
-    'press_action',
-    function (action)
-      if action == 'quit' then
-        basic.signal:emit('quit_game')
-      end
     end
   )
   basic.signal:register(
