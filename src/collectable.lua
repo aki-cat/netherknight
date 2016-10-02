@@ -39,7 +39,7 @@ function collectable:on_death ()
 end
 
 function collectable:draw ()
-  module.entity.draw(self) -- call entity draw
+  --module.entity.draw(self) -- call entity draw
 end
 
 

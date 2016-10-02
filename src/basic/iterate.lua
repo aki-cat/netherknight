@@ -35,4 +35,11 @@ function iterate.matrix(t)
   0
 end
 
+-- find
+function iterate.find (t, item)
+  for k,v in pairs(t) do
+    if v == item then return k end
+  end
+end
+
 return iterate

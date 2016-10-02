@@ -1,8 +1,8 @@
 
 local eye = {
   size = basic.vector:new{ 1/2, 1/4 },
-  maxhp  = 5,
-  attack = 3,
+  maxhp  = 25,
+  attack = 7,
 }
 
 local function action(self)

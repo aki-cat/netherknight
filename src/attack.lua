@@ -9,13 +9,13 @@ end
 
 function attack:on_collision (somebody)
   if somebody:get_type() == 'monster' then
-    audio:playSFX('Hurt')
-    somebody:take_damage(self.attack, self.pos)
+    local dmg = self.attack + gamedata.weapon:generate_dmg()
+    somebody:take_damage(dmg, self.pos)
   end
 end
 
---function attack:draw ()
+function attack:draw ()
   -- deletes parent draw call
---end
+end
 
 return attack

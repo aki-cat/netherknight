@@ -46,10 +46,20 @@ function entity:update ()
 end
 
 function entity:draw ()
-  color:setRGBA(255,255,255,128)
-  local x, y = (self.pos - self.size/2):unpack()
+  love.graphics.push()
+  love.graphics.scale(1/globals.unit)
+  local x, y = (self.pos - self.size / 2):unpack()
+  local currenthp = self.maxhp - self.damage
+  local maxhp = self.maxhp
+  love.graphics.printf(
+    'HP '..tostring(currenthp) .. ' / ' .. tostring(maxhp),
+    globals.unit * (x - 2),
+    globals.unit * (y + 1/2),
+    globals.unit * 4,
+    'center'
+  )
   --love.graphics.rectangle('fill', x, y, self.size.x, self.size.y)
-  color:reset()
+  love.graphics.pop()
 end
 
 return entity
