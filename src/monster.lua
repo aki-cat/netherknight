@@ -11,6 +11,7 @@ function monster:__init ()
   self.maxhp = monsters[self.species].maxhp or self.maxhp
   self.attack = monsters[self.species].attack
   self.think = monsters[self.species].update
+  self.name = monsters[self.species].name
 end
 
 function monster:on_death ()

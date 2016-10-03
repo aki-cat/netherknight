@@ -1,5 +1,6 @@
 
 local player = module.entity:new {
+  name = gamedata.name,
   __type = 'player'
 }
 

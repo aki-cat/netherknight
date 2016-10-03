@@ -59,7 +59,7 @@ function notification:draw ()
   else
     color:setRGBA(255,255,255,self.alpha)
   end
-  fonts:set(self.intensity)
+  fonts:set(self.intensity + 1)
 
   -- print text
   love.graphics.printf( displaytext, pos.x - boxsize/2, pos.y, boxsize, 'center')

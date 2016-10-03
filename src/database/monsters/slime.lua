@@ -1,5 +1,6 @@
 
 local slime = {
+  name = 'Blue Slime',
   size = basic.vector:new{ 1/2, 1/4 },
   maxhp  = 12,
   attack = 3,

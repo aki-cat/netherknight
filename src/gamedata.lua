@@ -1,6 +1,6 @@
 
 return {
-  name      = "knight",
+  name      = "Knight",
   money     = 0,
   level     = 1,
   exp       = 0,

@@ -1,6 +1,7 @@
 
 local eye = {
-  size = basic.vector:new{ 1/2, 1/4 },
+  name = 'Evil Eye',
+  size = basic.vector:new{ 1/2, 1/2 },
   maxhp  = 25,
   attack = 7,
 }

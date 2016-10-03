@@ -1,5 +1,6 @@
 
 local entity = physics.dynamic_body :new {
+  name = 'Entity',
   __type = 'entity'
 }
 
@@ -48,17 +49,45 @@ end
 function entity:draw ()
   love.graphics.push()
   love.graphics.scale(1/globals.unit)
-  local x, y = (self.pos - self.size / 2):unpack()
+  local x, y = self.pos:unpack()
   local currenthp = self.maxhp - self.damage
   local maxhp = self.maxhp
-  love.graphics.printf(
-    'HP '..tostring(currenthp) .. ' / ' .. tostring(maxhp),
-    globals.unit * (x - 2),
-    globals.unit * (y + 1/2),
-    globals.unit * 4,
-    'center'
+  local red = 255 - 255 / (maxhp / currenthp)
+  local green = 255 * currenthp / maxhp
+  color:setRGBA(0, 0, 0, 255)
+  love.graphics.rectangle(
+    'fill',
+    globals.unit * (x - .5),
+    globals.unit * (y + self.size.y / 2 + 1/32),
+    globals.unit * (1),
+    globals.unit * 1/16
   )
-  --love.graphics.rectangle('fill', x, y, self.size.x, self.size.y)
+  color:setRGBA(red, green, 150, 200)
+  love.graphics.rectangle(
+    'fill',
+    globals.unit * (x - .5),
+    globals.unit * (y + self.size.y / 2 + 1/32),
+    globals.unit * (currenthp / maxhp),
+    globals.unit * 1/16
+  )
+  color:reset()
+  if self.name then
+    love.graphics.printf(
+      self.name,
+      globals.unit * (x - 2),
+      globals.unit * (y + self.size.y / 2 + 1/32),
+      globals.unit * 4,
+      'center'
+    )
+  end
+  color:setRGBA(255, 255, 255, 100)
+  love.graphics.rectangle(
+    'fill',
+    globals.unit * (x - self.size.x / 2),
+    globals.unit * (y - self.size.y / 2),
+    globals.unit * self.size.x,
+    globals.unit * self.size.y
+  )
   love.graphics.pop()
 end
 

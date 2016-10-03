@@ -22,7 +22,7 @@ SOFTWARE.
 
 ---
 
-Anything that isn't software in this repository is licensed under a  
+Anything that isn't software in this repository unless stated otherwise is licensed under a  
 [Creative Commons Attribution-NonCommercial 4.0 International License][CCL link]  
 [ ![Creative Commons License][CCL] ][CCL link]
 
