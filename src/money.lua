@@ -15,23 +15,21 @@ function money:on_collision (somebody)
 end
 
 function money:draw ()
-  local x, y = (self.pos - self.size/2):unpack()
-  fonts:set(1)
-  love.graphics.push()
+  local x, y = (self.pos * globals.unit):unpack()
+  --fonts:set(1)
 
-  love.graphics.scale(1/globals.unit)
   color:setRGBA(255, 255, 255, 200)
 
   love.graphics.printf(
     tostring(self.ammount) .. ' gp',
-    globals.unit * (x-.9), globals.unit * (y + 1/3),
-    globals.unit * 2,
+    x - 32,
+    y + 8,
+    64,
     'center'
   )
 
   color:reset()
 
-  love.graphics.pop()
 end
 
 return money

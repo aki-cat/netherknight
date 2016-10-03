@@ -29,7 +29,7 @@ function map:generate (size)
     if connectable then
       -- create new room
       local rangew, rangeh = 4, 3
-      local newroom = self:add_room(math.random(2 * rangew, 3 * rangew), math.random(2 * rangeh, 3 * rangeh))
+      local newroom = self:add_room(math.random(4 * rangew, 5 * rangew), math.random(2 * rangeh, 3 * rangeh))
 
       -- get random distance
       local dir = math.random(1,4)
@@ -58,7 +58,7 @@ end
 
 function map:__init ()
   self.rooms = {}
-  local firstroom = self:add_room(globals.width/2, globals.height/2)
+  local firstroom = self:add_room(12, 6)
   firstroom.connections[1] = 1 -- dont connect upward!
   self:generate(self[1])
   for k,v in ipairs(self.rooms) do

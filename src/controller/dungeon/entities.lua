@@ -13,22 +13,18 @@ end
 
 function dungeon_entities:update ()
   for name, entity in pairs(entities) do
-    if dungeon:getcamera():valid_entity(entity) then
-      for bname, body in other(entities, name) do
-        entity:check_collision_by_axis(body)
-      end
-      entity:update()
-      basic.signal:emit('check_tilemap_collision', entity)
-      basic.signal:emit('update_position', name, entity.pos)
+    for bname, body in other(entities, name) do
+      entity:check_collision_by_axis(body)
     end
+    entity:update()
+    basic.signal:emit('check_tilemap_collision', entity)
+    basic.signal:emit('update_position', name, entity.pos)
   end
 end
 
 function dungeon_entities:draw ()
   for name, entity in pairs(entities) do
-    if dungeon:getcamera():valid_entity(entity) then
-      entity:draw()
-    end
+    entity:draw()
   end
 end
 

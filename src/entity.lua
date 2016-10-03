@@ -58,12 +58,13 @@ function entity:draw ()
   love.graphics.rectangle('fill', x - 32, y + h / 2 + 2, globals.unit, 4)
   color:setRGBA(red, green, 150, 200)
   love.graphics.rectangle('fill', x - 32, y + h / 2 + 2, globals.unit * percentagehp, 4)
-  color:reset()
   if self.name then
+    color:reset()
     love.graphics.printf(self.name, x - 256, y + h / 2 + 2, 256 * 2, 'center')
   end
   color:setRGBA(255, 255, 255, 100)
-  love.graphics.rectangle('fill', x - w / 2, y - h / 2, w, h )
+  --love.graphics.rectangle('fill', x - w / 2, y - h / 2, w, h )
+  color:reset()
 end
 
 return entity

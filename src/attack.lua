@@ -1,5 +1,6 @@
 
 local attack = module.entity:new {
+  0, 0, 4/5, 4/5,
   __type = 'attack'
 }
 
@@ -15,7 +16,11 @@ function attack:on_collision (somebody)
 end
 
 function attack:draw ()
-  -- deletes parent draw call
+  local x, y = (self.pos * globals.unit):unpack()
+  local w, h = (self.size * globals.unit):unpack()
+  color:setRGBA(255, 255, 255, 100)
+  --love.graphics.rectangle('fill', x - w / 2, y - h / 2, w, h )
+  color:reset()
 end
 
 return attack

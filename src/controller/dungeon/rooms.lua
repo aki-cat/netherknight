@@ -1,6 +1,10 @@
 
 local dungeon_rooms = module.controller:new {}
 
+local function getcamera()
+  return hump.gamestate.current():getcamera()
+end
+
 -- dependencies
 local sprites = basic.pack 'database.sprites'
 
@@ -123,6 +127,7 @@ local function load_room(room)
   basic.signal:emit('clear_notifications')
   basic.signal:emit('clear_entities')
   current_room = room
+  getcamera():set_limits(current_room.margin - 2, current_room.margin - 2, current_room.margin + current_room.width + 2, current_room.margin + current_room.height + 2)
   walls, tilemap = current_room:deploy('default')
   load_room_elements(current_room)
 end
