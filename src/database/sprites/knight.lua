@@ -8,8 +8,8 @@ knight[2]  = love.graphics.newQuad(0, 0, w, h, w, h)
 knight[3]  = 0
 knight[4]  = 0
 knight[5]  = 0
-knight[6]  = 1 / globals.unit
-knight[7]  = 1 / globals.unit
+knight[6]  = 1
+knight[7]  = 1
 knight[8]  = 32
 knight[9]  = 72
 

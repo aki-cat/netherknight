@@ -47,7 +47,6 @@ function notification:draw ()
   love.graphics.push()
 
   -- setting up params
-  love.graphics.scale(1/globals.unit)
   local pos = self.pos * globals.unit
   local displaytext = (self.value and self.value or '') .. (self.text and (' '..self.text) or '')
 

@@ -47,48 +47,23 @@ function entity:update ()
 end
 
 function entity:draw ()
-  love.graphics.push()
-  love.graphics.scale(1/globals.unit)
-  local x, y = self.pos:unpack()
+  local x, y = (self.pos * globals.unit):unpack()
+  local w, h = (self.size * globals.unit):unpack()
   local currenthp = self.maxhp - self.damage
   local maxhp = self.maxhp
-  local red = 255 - 255 / (maxhp / currenthp)
-  local green = 255 * currenthp / maxhp
+  local percentagehp = currenthp / maxhp
+  local red = 255 - 255 / (1 / percentagehp)
+  local green = 255 * percentagehp
   color:setRGBA(0, 0, 0, 255)
-  love.graphics.rectangle(
-    'fill',
-    globals.unit * (x - .5),
-    globals.unit * (y + self.size.y / 2 + 1/32),
-    globals.unit * (1),
-    globals.unit * 1/16
-  )
+  love.graphics.rectangle('fill', x - 32, y + h / 2 + 2, globals.unit, 4)
   color:setRGBA(red, green, 150, 200)
-  love.graphics.rectangle(
-    'fill',
-    globals.unit * (x - .5),
-    globals.unit * (y + self.size.y / 2 + 1/32),
-    globals.unit * (currenthp / maxhp),
-    globals.unit * 1/16
-  )
+  love.graphics.rectangle('fill', x - 32, y + h / 2 + 2, globals.unit * percentagehp, 4)
   color:reset()
   if self.name then
-    love.graphics.printf(
-      self.name,
-      globals.unit * (x - 2),
-      globals.unit * (y + self.size.y / 2 + 1/32),
-      globals.unit * 4,
-      'center'
-    )
+    love.graphics.printf(self.name, x - 256, y + h / 2 + 2, 256 * 2, 'center')
   end
   color:setRGBA(255, 255, 255, 100)
-  love.graphics.rectangle(
-    'fill',
-    globals.unit * (x - self.size.x / 2),
-    globals.unit * (y - self.size.y / 2),
-    globals.unit * self.size.x,
-    globals.unit * self.size.y
-  )
-  love.graphics.pop()
+  love.graphics.rectangle('fill', x - w / 2, y - h / 2, w, h )
 end
 
 return entity

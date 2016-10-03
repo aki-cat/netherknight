@@ -8,8 +8,8 @@ eye[2]  = love.graphics.newQuad(0, 0, w, h, w, h)
 eye[3]  = 0
 eye[4]  = 0
 eye[5]  = 0
-eye[6]  = 1 / globals.unit
-eye[7]  = 1 / globals.unit
+eye[6]  = 1
+eye[7]  = 1
 eye[8]  = 32
 eye[9]  = 64
 

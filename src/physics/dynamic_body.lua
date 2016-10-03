@@ -11,6 +11,8 @@ local dynamic_body = physics.collision_area:new {
     up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), },
     up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), },
   },
+  speedlimit = 0.075,
+  epsilon = 1/512,
   __type = 'dynamic_body'
 }
 
@@ -57,7 +59,7 @@ end
 
 function dynamic_body:deaccelerate ()
   self.speed:mul(0.8)
-  if self.speed * self.speed < globals.epsilon then
+  if self.speed * self.speed < self.epsilon * self.epsilon then
     self.speed:set(0, 0)
   end
 end

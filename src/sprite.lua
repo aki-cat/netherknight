@@ -96,7 +96,7 @@ end
 function sprite:update ()
   self.timer:update()
   self.drawable[2] = self:getquad()
-  self.drawable[3], self.drawable[4] = self.pos:unpack()
+  self.drawable[3], self.drawable[4] = (self.pos * globals.unit):unpack()
   self.drawable[5] = self.rotation
   self.drawable[6] = self.fliph and -self.scale or self.scale
   self.drawable[7] = self.flipv and -self.scale or self.scale

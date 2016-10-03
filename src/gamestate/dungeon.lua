@@ -50,7 +50,6 @@ end
 
 function dungeon:draw ()
   love.graphics.push()
-  love.graphics.scale(globals.unit)
   camera:draw()
   controllers.rooms:draw()
   controllers.entities:draw()

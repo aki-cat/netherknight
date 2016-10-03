@@ -8,8 +8,8 @@ money[2]  = love.graphics.newQuad(0, 0, w, h, w, h)
 money[3]  = 0
 money[4]  = 0
 money[5]  = 0
-money[6]  = 1 / globals.unit
-money[7]  = 1 / globals.unit
+money[6]  = 1
+money[7]  = 1
 money[8]  = 16
 money[9]  = 20
 

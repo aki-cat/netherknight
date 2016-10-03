@@ -133,7 +133,6 @@ end
 
 function dungeon_rooms:draw ()
   love.graphics.push()
-  love.graphics.scale(1/globals.unit)
   tilemap:draw()
   love.graphics.pop()
 end

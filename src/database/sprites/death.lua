@@ -8,8 +8,8 @@ death[2]  = love.graphics.newQuad(0, 0, w, h, w, h)
 death[3]  = 0
 death[4]  = 0
 death[5]  = 0
-death[6]  = 1 / globals.unit
-death[7]  = 1 / globals.unit
+death[6]  = 1
+death[7]  = 1
 death[8]  = 64
 death[9]  = 64
 

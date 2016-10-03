@@ -22,21 +22,19 @@ function camera:set_target (body)
 end
 
 function camera:update()
-  physics.dynamic_body.update(self)
-  local speed = 1/2
-  local distvec = self.target - self.pos
-  self:move( distvec * speed * delta )
+  --physics.dynamic_body.update(self)
+  --local speed = 1/2
+  --local distvec = self.target - self.pos
+  --self:move( distvec * speed * delta )
+  self.pos = self.target * 1
 end
 
 function camera:draw()
-  love.graphics.scale(1/globals.unit)
   local translation = (self.pos - self.size/2) * globals.unit
-  translation:set(math.floor(translation.x), math.floor(translation.y))
+  translation:set(math.floor(.5 + translation.x), math.floor(.5 + translation.y))
   --print(self.pos:unpack())
   --print(translation:unpack())
   love.graphics.translate((-translation):unpack())
-  love.graphics.scale(globals.unit)
-
 end
 
 return camera
