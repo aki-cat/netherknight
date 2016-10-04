@@ -35,7 +35,7 @@ end
 local function attack (long)
   local player = getplayer()
   if not player or player.locked then return end
-  local direction = player:getdirection()
+  local direction = physics.dynamic_body.getdirection(player.dir)
   if long then
     print('long attack!')
     player:lock(0.5)
@@ -103,7 +103,7 @@ function dungeon_player:__init ()
         local player = getplayer()
         if player.locked or player:isdead() then return end
         if direction == 'none' then basic.signal:emit('player_idle') return end
-        local movement = physics.dynamic_body.direction[direction] * player_speed
+        local movement = physics.dynamic_body.getdirection(direction) * player_speed
         player:face(direction)
         player:move(movement)
         basic.signal:emit('player_walk')

@@ -1,6 +1,6 @@
 
 local prototype = {}
-prototype.__index = prototype
+--prototype.__index = prototype
 prototype.__type = 'prototype'
 
 local function recursive_construct (obj, super)
@@ -17,6 +17,22 @@ function prototype:new (object)
   setmetatable(object, self)
   recursive_construct(object, self)
   return object
+end
+
+function prototype:clone ()
+  local clone = {}
+  for k,v in pairs(self) do
+    if k ~= "__index" then
+      if type(v) ~= 'table' then
+        clone[k] = v
+      else
+        local t = prototype.clone(v)
+        clone[k] = t
+      end
+    end
+  end
+  setmetatable(clone, getmetatable(self))
+  return clone
 end
 
 function prototype:get_type (args)

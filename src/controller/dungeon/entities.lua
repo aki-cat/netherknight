@@ -14,7 +14,7 @@ end
 function dungeon_entities:update ()
   for name, entity in pairs(entities) do
     for bname, body in other(entities, name) do
-      entity:check_collision_by_axis(body)
+      entity:check_collision(body)
     end
     entity:update()
     basic.signal:emit('check_tilemap_collision', entity)

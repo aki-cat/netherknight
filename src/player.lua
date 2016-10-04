@@ -7,6 +7,8 @@ local player = module.entity:new {
 function player:__init ()
   self.maxhp = 24
   self.locked = false
+  self:unset_layer(2)
+  self:set_layer(4)
 end
 
 function player:on_collision (somebody, h, v)
@@ -17,7 +19,7 @@ function player:on_collision (somebody, h, v)
     end
   elseif somebody:get_type() == 'collectable' or somebody:get_type() == 'money' then
     somebody:on_collision(self)
-  elseif somebody:get_type() == 'static_body' then
+  elseif somebody:get_type() == 'obstacle' then
     self:stop(h, v)
   end
 end

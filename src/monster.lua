@@ -34,7 +34,7 @@ function monster:on_collision (somebody, h, v)
   elseif somebody:get_type() == 'player' then
     local dmg = basic.dice.throw(2, self.attack)
     somebody:take_damage(dmg, self.pos)
-  elseif somebody:get_type() == 'static_body' then
+  elseif somebody:get_type() == 'obstacle' then
     self:stop(h, v)
   end
 end

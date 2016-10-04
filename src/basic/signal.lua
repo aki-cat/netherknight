@@ -5,6 +5,7 @@ local signal = require 'basic.prototype' :new {
 
 function signal:__init ()
   self.signals = {}
+  self.queue = require 'basic.queue' :new { 2^10 }
 end
 
 function signal:register (n, f)
@@ -21,6 +22,19 @@ function signal:emit (n, ...)
     for f in pairs(self.signals[n]) do
       f(...)
     end
+  end
+end
+
+function signal:queue (n, ...)
+  self.queue:enqueue { n, ... }
+end
+
+function signal:update ()
+  self.queue:enqueue(-1)
+  local s = self.queue:dequeue()
+  while s ~= -1 do
+    self:emit(unpack(s))
+    s = self.queue:dequeue()
   end
 end
 

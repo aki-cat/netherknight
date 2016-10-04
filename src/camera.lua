@@ -4,8 +4,8 @@ local camera = basic.prototype:new {
 }
 
 function camera:__init()
+  self.target = false
   self.pos = basic.vector:new {}
-  self.target = basic.vector:new {}
   self.width = globals.width * globals.unit
   self.height = globals.height * globals.unit
   self.limits = {}
@@ -20,7 +20,7 @@ function camera:set_limits (x, y, w, h)
 end
 
 function camera:set_target (body)
-  self.target = body.pos
+  self.target = body
 end
 
 function camera:checklimits ()
@@ -29,15 +29,19 @@ function camera:checklimits ()
 end
 
 function camera:update()
-  local offset = basic.vector:new { self.width, self.height } / 2
-  self.pos = self.target * globals.unit - offset
-  self:checklimits()
+  if self.target then
+    local offset = basic.vector:new { self.width, self.height } / 2
+    self.pos = self.target:get_pos() * globals.unit - offset
+    self:checklimits()
+  end
 end
 
 function camera:draw()
-  local translation = self.pos * -1
-  translation:set(math.floor(.5 + translation.x), math.floor(.5 + translation.y))
-  love.graphics.translate((translation):unpack())
+  if self.target then
+    local translation = self.pos * -1
+    translation:set(math.floor(.5 + translation.x), math.floor(.5 + translation.y))
+    love.graphics.translate((translation):unpack())
+  end
 end
 
 return camera
