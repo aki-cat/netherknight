@@ -17,7 +17,9 @@ end
 
 function walls:update_collisions (body)
   for i,tile in ipairs(self.bodylist) do
-    body:check_collision(tile)
+    if basic.physics:rectangle_collision(body, tile) then
+      basic.physics:treat_collision(body, tile)
+    end
   end
 end
 

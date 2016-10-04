@@ -3,7 +3,7 @@ local physics = require 'basic.prototype' :new {
   __type = 'physics'
 }
 
-function physics.__init ()
+function physics:__init ()
   -- body...
   self.signals = require 'basic.signal' :new {}
   self.dynamic_bodies = {}
@@ -72,13 +72,17 @@ function physics:get_last_valid_position (dynamic_body, static_body)
       lastpos:set(nextpos:unpack())
     end
   end
-  return clone:get_pos()
+  if not self:rectangle_collision(clone, static_body) then
+    return clone:get_pos()
+  else
+    return dynamic_body:get_pos() - dynamic_body:get_speed()
+  end
 end
 
 function physics:get_axis_movement (dynamic_body, static_body)
   local clone = dynamic_body:clone() -- we assume it's not colliding
-  local vertical = clone.get_speed()
-  local horizontal = clone.get_speed()
+  local vertical = clone:get_speed()
+  local horizontal = clone:get_speed()
   vertical.x = 0
   horizontal.y = 0
   clone:set_pos((clone:get_pos() + horizontal):unpack())
@@ -102,7 +106,7 @@ function physics:treat_collision (dynamic_body, static_body)
   dynamic_body:set_pos(nextpos:unpack())
 
   -- try to move to each axis
-  local nextpos = self:get_axis_movement(dynamic_body, static_body))
+  local nextpos = self:get_axis_movement(dynamic_body, static_body)
   dynamic_body:set_pos(nextpos:unpack())
 end
 
