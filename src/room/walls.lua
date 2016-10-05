@@ -7,8 +7,6 @@ local walls = basic.prototype:new {
 function walls:__init ()
   local tiles = self[1]
   self.bodymap = require 'basic.physics.collision_map' :new { tiles:get_width(), tiles:get_height() }
-  print('base tilemap dimensions:', tiles:get_width(), tiles:get_height())
-  print('collision tilemap dimensions:', self.bodymap.map:get_width(), self.bodymap.map:get_height())
   for i, j, tile in tiles:iterate() do
     if tile ~= 1 then --and tile ~= 2 then
       self.bodymap:occupy_tile(j, i)
