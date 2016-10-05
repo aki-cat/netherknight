@@ -10,19 +10,10 @@ function walls:__init ()
   print('base tilemap dimensions:', tiles:get_width(), tiles:get_height())
   print('collision tilemap dimensions:', self.bodymap.map:get_width(), self.bodymap.map:get_height())
   for i, j, tile in tiles:iterate() do
-    if tile ~= 1 and tile ~= 2 then
+    if tile ~= 1 then --and tile ~= 2 then
       self.bodymap:occupy_tile(j, i)
     end
   end
-  --[[
-  self.bodylist = {}
-  for i, j, tile in tiles:iterate() do
-    if tile ~= 1 and tile ~= 2 then
-      local body = require 'obstacle' :new{ j-1, i-1, 1, 1, centred = false }
-      table.insert(self.bodylist, body)
-    end
-  end
-  ]]
 end
 
 function walls:update_collisions (body)
@@ -30,13 +21,6 @@ function walls:update_collisions (body)
   if self.bodymap:is_area_occupied(l, t, r - l, b - t) then
     basic.physics:treat_collision(body, self.bodymap)
   end
-  --[[
-  for i,tile in ipairs(self.bodylist) do
-    if basic.physics:rectangle_collision(body, tile) then
-      basic.physics:treat_collision(body, tile)
-    end
-  end
-  ]]
 end
 
 return walls

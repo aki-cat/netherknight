@@ -80,7 +80,7 @@ function entity:update ()
   if self:isdead() then
     self:die()
   else
-    --self:update_face()
+    self:update_face()
     basic.signal:emit('entity_turn', self, self.dir)
   end
 end

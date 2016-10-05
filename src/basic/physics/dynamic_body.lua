@@ -1,5 +1,5 @@
 
-local dynamic_body = require 'basic.physics.physical_body' :new {
+local dynamic_body = require 'basic.physics.collision_area' :new {
   centred = true,
   DIRECTION = {
     right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },

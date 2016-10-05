@@ -90,11 +90,24 @@ function collision_area:get_size ()
   return self.size * 1
 end
 
+function collision_area:get_top ()
+  return self.centred and self.pos.y - self.size.y / 2 or self.pos.y
+end
+
+function collision_area:get_right ()
+  return self.centred and self.pos.x + self.size.x / 2 or self.pos.x + self.size.x
+end
+
+function collision_area:get_bottom ()
+  return self.centred and self.pos.y + self.size.y / 2 or self.pos.y + self.size.y
+end
+
+function collision_area:get_left ()
+  return self.centred and self.pos.x - self.size.x / 2 or self.pos.x
+end
+
 function collision_area:get_edges ()
-  return self.centred and self.pos.y - self.size.y / 2 or self.pos.y,
-    self.centred and self.pos.x + self.size.x / 2 or self.pos.x + self.size.x,
-    self.centred and self.pos.y + self.size.y / 2 or self.pos.y + self.size.y,
-    self.centred and self.pos.x - self.size.x / 2 or self.pos.x
+  return self:get_top(), self:get_right(), self:get_bottom(), self:get_left()
 end
 
 return collision_area

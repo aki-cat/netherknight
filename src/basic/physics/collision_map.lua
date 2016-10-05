@@ -11,6 +11,7 @@ function collision_map:__init()
 end
 
 function collision_map:get_nine_poins (x, y, w, h)
+  -- we add 1 because most maps start from zero
   x = x + 1
   y = y + 1
   return

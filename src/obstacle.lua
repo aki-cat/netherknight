@@ -1,5 +1,5 @@
 
-local obstacle = physics.physical_body:new {
+local obstacle = physics.collision_area:new {
   __type = 'obstacle'
 }
 
