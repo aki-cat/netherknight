@@ -61,52 +61,57 @@ function physics:check_collision (b1, b2)
   end
 end
 
-function physics:get_last_valid_position (dynamic_body, static_body)
+function physics:get_last_valid_position (dynamic_body, collision_map)
   local clone = dynamic_body:clone()
   local lastpos = clone:get_pos() - clone:get_speed()
   for n = 1, 6 do
     local e = 2^n
     local nextpos = lastpos + clone:get_speed() / e
     clone:set_pos(nextpos:unpack())
-    if not self:rectangle_collision(clone, static_body) then
+    local t, r, b, l = clone:get_edges()
+    if not collision_map:is_area_occupied(l, t, r - l, b - t) then
       lastpos:set(nextpos:unpack())
     end
   end
-  if not self:rectangle_collision(clone, static_body) then
+  local t, r, b, l = clone:get_edges()
+  if not collision_map:is_area_occupied(l, t, r - l, b - t) then
     return clone:get_pos()
   else
     return dynamic_body:get_pos() - dynamic_body:get_speed()
   end
 end
 
-function physics:get_axis_movement (dynamic_body, static_body)
+function physics:get_axis_movement (dynamic_body, collision_map)
   local clone = dynamic_body:clone() -- we assume it's not colliding
   local vertical = clone:get_speed()
   local horizontal = clone:get_speed()
   vertical.x = 0
   horizontal.y = 0
   clone:set_pos((clone:get_pos() + horizontal):unpack())
-  if physics:rectangle_collision(clone, static_body) then
+  local t, r, b, l = clone:get_edges()
+  if collision_map:is_area_occupied(l, t, r - l, b - t) then
     clone:set_pos((clone:get_pos() - horizontal):unpack())
   end
   clone:set_pos((clone:get_pos() + vertical):unpack())
-  if physics:rectangle_collision(clone, static_body) then
+  local t, r, b, l = clone:get_edges()
+  if collision_map:is_area_occupied(l, t, r - l, b - t) then
     clone:set_pos((clone:get_pos() - vertical):unpack())
   end
-  if physics:rectangle_collision(clone, static_body) then
+  local t, r, b, l = clone:get_edges()
+  if collision_map:is_area_occupied(l, t, r - l, b - t) then
     return dynamic_body:get_pos()
   else
     return clone:get_pos()
   end
 end
 
-function physics:treat_collision (dynamic_body, static_body)
+function physics:treat_collision (dynamic_body, collision_map)
   -- get next closest movable position
-  local nextpos = self:get_last_valid_position(dynamic_body, static_body)
+  local nextpos = self:get_last_valid_position(dynamic_body, collision_map)
   dynamic_body:set_pos(nextpos:unpack())
 
   -- try to move to each axis
-  local nextpos = self:get_axis_movement(dynamic_body, static_body)
+  local nextpos = self:get_axis_movement(dynamic_body, collision_map)
   dynamic_body:set_pos(nextpos:unpack())
 end
 

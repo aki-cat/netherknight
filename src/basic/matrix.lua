@@ -27,9 +27,8 @@ function matrix:set (i, j, fill)
 end
 
 function matrix:get (i, j)
-  assert(self[i], "Invalid row: " .. i)
-  assert(self[i][j] ~= nil, "Invalid column: " .. j)
-  return self[i][j]
+  local dummy = {}
+  return (self[i] or dummy)[j]
 end
 
 function matrix:get_width ()
