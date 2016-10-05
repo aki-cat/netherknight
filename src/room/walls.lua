@@ -8,7 +8,7 @@ function walls:__init ()
   local tiles = self[1]
   self.bodymap = require 'basic.physics.collision_map' :new { tiles:get_width(), tiles:get_height() }
   for i, j, tile in tiles:iterate() do
-    if tile ~= 1 then --and tile ~= 2 then
+    if tile ~= 1 then
       self.bodymap:occupy_tile(j, i)
     end
   end
