@@ -6,6 +6,10 @@ local attack = module.entity:new {
 
 function attack:__init ()
   self.attack = 1
+  self:unset_layer(2)
+  self:unset_mask(1)
+  self:set_layer(3)
+  self:set_mask(2)
 end
 
 function attack:on_collision (somebody)

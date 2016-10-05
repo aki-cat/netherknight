@@ -9,6 +9,37 @@ function entity:__init ()
   self.damage = 0
   self.timer = basic.timer:new {}
   self.dead = false
+  self.dir = 'down'
+  self:set_layer(2)
+  self:set_mask(1)
+  self:set_mask(2)
+end
+
+function entity:face (dir)
+  self.dir = dir
+end
+
+function entity:update_face ()
+  -- check if worth it
+  local speed = self:get_speed()
+  if speed * speed == 0 then return end
+
+  local dir
+  local angle = math.atan2(speed.y, speed.x)
+  if angle >= 0 then
+    if     angle <= 1 * math.pi / 8 then dir = 'right'
+    elseif angle <= 3 * math.pi / 8 then dir = 'down_right'
+    elseif angle <= 5 * math.pi / 8 then dir = 'down'
+    elseif angle <= 7 * math.pi / 8 then dir = 'down_left'
+    else dir = 'left' end
+  else
+    if     angle >= -1 * math.pi / 8 then dir = 'right'
+    elseif angle >= -3 * math.pi / 8 then dir = 'up_right'
+    elseif angle >= -5 * math.pi / 8 then dir = 'up'
+    elseif angle >= -7 * math.pi / 8 then dir = 'up_left'
+    else dir = 'left' end
+  end
+  self.dir = dir
 end
 
 function entity:take_damage (dmg, frompos)
@@ -40,10 +71,18 @@ function entity:isdead ()
 end
 
 function entity:update ()
-  physics.dynamic_body.update(self) -- call dynamic body update
-  basic.signal:emit('entity_turn', self, self.dir)
+  -- call dynamic body update
+  physics.dynamic_body.update(self)
+
+  -- update timers
   self.timer:update()
-  if self:isdead() then self:die() end
+
+  if self:isdead() then
+    self:die()
+  else
+    self:update_face()
+    basic.signal:emit('entity_turn', self, self.dir)
+  end
 end
 
 function entity:draw ()

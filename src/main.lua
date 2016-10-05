@@ -1,10 +1,10 @@
 
 -- libs
 basic       = require 'basic.pack' 'basic'
+physics     = basic.pack 'basic.physics'
 module      = basic.pack ''
 hump        = basic.pack 'lib.hump'
 controllers = basic.pack 'controller'
-physics     = basic.pack 'physics'
 
 globals     = module.globals
 gamedata    = module.gamedata

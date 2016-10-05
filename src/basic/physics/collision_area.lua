@@ -1,5 +1,5 @@
 
-local collision_area = basic.prototype:new {
+local collision_area = require 'basic.prototype' :new {
   0, 0, 0, 0, -- x, y, w, h
   centred = false,
   __type = 'collision_area'
@@ -13,8 +13,7 @@ function collision_area:__init ()
   self.layers = {}
   self.masks = {}
   for i = 1, LAYERS_TOTAL do
-    if i == 1 then self.layers[i], self.masks[i] = true, true
-    else self.layers[i], self.masks[i] = false, false end
+    self.layers[i], self.masks[i] = false, false
   end
 end
 
@@ -37,11 +36,8 @@ end
 function collision_area:layer_collision (other)
   local this_collides, that_collides = false, false
   for i = 1, LAYERS_TOTAL do
-    if other.layers[i] and self.masks[i] then
-      this_collides = true
-    elseif other.masks[i] and self.layers[i] then
-      that_collides = true
-    end
+    if other.layers[i] and self.masks[i] then this_collides = true end
+    if other.masks[i] and self.layers[i] then that_collides = true end
   end
   return this_collides, that_collides
 end
@@ -76,6 +72,42 @@ end
 
 function collision_area:on_collision (somebody)
   -- implement on child
+end
+
+function collision_area:set_pos (x, y)
+  self.pos:set(x, y)
+end
+
+function collision_area:get_pos ()
+  return self.pos * 1
+end
+
+function collision_area:set_size (w, h)
+  self.size:set(w, h)
+end
+
+function collision_area:get_size ()
+  return self.size * 1
+end
+
+function collision_area:get_top ()
+  return self.centred and self.pos.y - self.size.y / 2 or self.pos.y
+end
+
+function collision_area:get_right ()
+  return self.centred and self.pos.x + self.size.x / 2 or self.pos.x + self.size.x
+end
+
+function collision_area:get_bottom ()
+  return self.centred and self.pos.y + self.size.y / 2 or self.pos.y + self.size.y
+end
+
+function collision_area:get_left ()
+  return self.centred and self.pos.x - self.size.x / 2 or self.pos.x
+end
+
+function collision_area:get_edges ()
+  return self:get_top(), self:get_right(), self:get_bottom(), self:get_left()
 end
 
 return collision_area

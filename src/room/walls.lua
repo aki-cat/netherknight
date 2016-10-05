@@ -6,18 +6,18 @@ local walls = basic.prototype:new {
 
 function walls:__init ()
   local tiles = self[1]
-  self.bodylist = {}
+  self.bodymap = require 'basic.physics.collision_map' :new { tiles:get_width(), tiles:get_height() }
   for i, j, tile in tiles:iterate() do
-    if tile ~= 1 and tile ~= 2 then
-      local body = physics.static_body:new{ j-1, i-1, 1, 1, centred = false }
-      table.insert(self.bodylist, body)
+    if tile ~= 1 then
+      self.bodymap:occupy_tile(j, i)
     end
   end
 end
 
 function walls:update_collisions (body)
-  for i,tile in ipairs(self.bodylist) do
-    body:check_collision_by_axis(tile)
+  local t, r, b, l = body:get_edges()
+  if self.bodymap:is_area_occupied(l, t, r - l, b - t) then
+    basic.physics:treat_collision(body, self.bodymap)
   end
 end
 
