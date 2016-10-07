@@ -28,8 +28,7 @@ function map:generate (size)
     -- if there are any then...
     if connectable then
       -- create new room
-      local rangew, rangeh = 4, 3
-      local newroom = self:add_room(math.random(4 * rangew, 5 * rangew), math.random(2 * rangeh, 3 * rangeh))
+      local newroom = self:add_room(math.random(12, 15), math.random(6, 9))
 
       -- get random distance
       local dir = math.random(1,4)

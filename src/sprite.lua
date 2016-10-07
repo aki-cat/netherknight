@@ -27,6 +27,8 @@ end
 
 function sprite:playanimation ()
   local animation = self.animations[self.state]
+  self.qid = 1
+  self.timer:clear()
   if animation.oneshot then
     self.timer:every(
       animation.step,
@@ -48,8 +50,6 @@ end
 function sprite:setanimation (animation)
   if self.state ~= animation and self.animations[animation] then
     self.state = animation
-    self.qid = 1
-    self.timer:clear()
     self:playanimation()
   end
 end

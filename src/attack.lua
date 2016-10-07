@@ -1,6 +1,6 @@
 
 local attack = module.entity:new {
-  0, 0, 4/5, 4/5,
+  0, 0, 1, 1,
   __type = 'attack'
 }
 

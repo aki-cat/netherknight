@@ -14,7 +14,8 @@ local function ordersprites(sprites)
   table.sort(
     indexed_sprites,
     function(a,b)
-      return sprites[a].pos.y < sprites[b].pos.y
+      local apos, bpos = sprites[a].pos, sprites[b].pos
+      return apos.z == bpos.z and apos.y < bpos.y or apos.z < bpos.z
     end
   )
 end
@@ -140,10 +141,10 @@ function dungeon_sprites:__init ()
       end
     },
     {
-      signal = 'player_walk',
-      func = function ()
+      signal = 'player_animation',
+      func = function (anim_name)
         local playersprite = sprites['player']
-        playersprite:setanimation('walking')
+        playersprite:setanimation(anim_name)
       end
     },
     {

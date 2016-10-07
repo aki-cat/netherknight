@@ -13,9 +13,27 @@ local function getplayer()
 end
 
 local function animateslash (player, direction)
-  slash_sprite:setrotation(math.atan2(direction.y, direction.x))
+  if direction.x < 0 then
+    slash_sprite:setrotation(math.atan2(-direction.y, 1))
+    slash_sprite:setflip('h', true)
+  elseif direction.x > 0 then
+    slash_sprite:setrotation(math.atan2(direction.y, 1))
+    slash_sprite:setflip('h', false)
+  end
+  if player.dir == 'down' then
+    slash_sprite:setrotation(math.pi / 2)
+    slash_sprite:setflip('v', true)
+  else
+    slash_sprite:setflip('v', false)
+  end
+  if player.dir == 'up' then
+    slash_sprite:setrotation(math.pi / 2)
+  end
+  print(player.dir)
+  slash_sprite:playanimation()
   direction.y = direction.y -1/4
-  slash_entity.pos:set((player.pos + direction/2):unpack())
+  local pos = player.pos + direction/2
+  slash_entity.pos:set(pos:unpack())
   basic.signal:emit('add_entity', 'slash', slash_entity)
   basic.signal:emit('add_sprite', 'slash', slash_sprite)
   basic.signal:emit('update_position', 'slash', slash_entity.pos)
@@ -23,7 +41,8 @@ local function animateslash (player, direction)
   basic.timer:during(
     0.2,
     function()
-      slash_entity.pos:set((player.pos + direction/2):unpack())
+      local pos = player.pos + direction/2
+      slash_entity.pos:set(pos:unpack())
     end,
     function()
       basic.signal:emit('remove_entity', 'slash')
@@ -35,14 +54,21 @@ end
 local function attack (long)
   local player = getplayer()
   if not player or player.locked then return end
+  basic.signal:emit('player_animation', 'attack')
   local direction = physics.dynamic_body.getdirection(player.dir)
   if long then
     print('long attack!')
-    player:lock(0.5)
     player:move(direction * 0.3)
+    player:lock(0.5)
+    basic.timer:after(0.5, function ()
+      basic.signal:emit('player_animation', 'default')
+    end)
   else
     print('short attack!')
     player:lock(0.3)
+    basic.timer:after(0.3, function ()
+      basic.signal:emit('player_animation', 'default')
+    end)
   end
   animateslash(player, direction)
 end
@@ -76,7 +102,6 @@ function dungeon_player:update ()
       value = false,
       text = 'level up!'
     }
-    basic.signal:emit('rise_the_bling', gamedata.level)
   end
 end
 
@@ -102,11 +127,11 @@ function dungeon_player:__init ()
       func = function (direction)
         local player = getplayer()
         if player.locked or player:isdead() then return end
-        if direction == 'none' then basic.signal:emit('player_idle') return end
+        if direction == 'none' then basic.signal:emit('player_animation', 'default') return end
         local movement = physics.dynamic_body.getdirection(direction) * player_speed
         player:face(direction)
         player:move(movement)
-        basic.signal:emit('player_walk')
+        basic.signal:emit('player_animation', 'walking')
       end
     },
     {

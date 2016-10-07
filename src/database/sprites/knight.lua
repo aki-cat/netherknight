@@ -34,6 +34,21 @@ knight.animations = {
     },
     step = 0.15
   },
+  attack = {
+    default = false,
+    oneshot = true,
+    quads = {
+      love.graphics.newQuad(7*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(7*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(8*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(8*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(9*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(9*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(10*64, 0, 64, 96, w, h),
+      love.graphics.newQuad(10*64, 0, 64, 96, w, h),
+    },
+    step = 0.0333
+  }
 }
 
 return knight
