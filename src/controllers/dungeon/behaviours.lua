@@ -24,7 +24,8 @@ function behaviours:__init ()
     local target = player_body:get_area():get_pos()
     local position = chaser_body:get_physics():get_pos()
     local movement = (target - position):normalized()
-    chaser_body:get_physics():move(speed * movement)
+    signal.broadcast('move', id, speed * movement)
+    --chaser_body:get_physics():move(speed * movement)
   end)
 
 end

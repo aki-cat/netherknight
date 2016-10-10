@@ -33,6 +33,10 @@ function player:__init ()
     if action == 'quit' then
       print("QUIT GAME")
       love.event.quit()
+    elseif action == 'maru' then
+      local player_element = player_model:get_player()
+      local id = player_element:get_id()
+      signal.broadcast('change_state', id, 'attack')
     end
   end)
 end

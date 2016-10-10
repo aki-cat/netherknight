@@ -48,6 +48,18 @@ function sprites:__init ()
       sprite:set_brightness(255)
     end)
   end)
+
+  self:register_action('move', function (id, acc)
+    local sprite = sprites_model:get_element(id)
+    if not sprite then return end
+
+    local EPSILON = (1/globals.unit)^2
+    if acc.x < -EPSILON then
+      sprite:set_flip_h(false)
+    elseif acc.x > EPSILON then
+      sprite:set_flip_h(true)
+    end
+  end)
 end
 
 return sprites:new {}
