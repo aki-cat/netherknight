@@ -4,7 +4,7 @@ return function (id)
     local vector = require 'basic.vector'
     local angle = math.pi * 2 * math.random()
     local idle = math.random()
-    local speed = globals.frameunit / 4
+    local speed = globals.frameunit / 5
     local acc = speed * vector:new { math.cos(angle), -math.sin(angle) }
 
     if idle <= .333 then
@@ -18,7 +18,6 @@ return function (id)
       end
     else
       for i=1, math.floor(globals.framerate * 1.0) do
-        print("CHASING!")
         signal.broadcast('chase', id, speed)
         coroutine.yield()
       end

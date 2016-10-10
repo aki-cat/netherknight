@@ -11,7 +11,6 @@ return function (id)
       end
     else
       for i=1, globals.framerate * 2.0 do
-        print("CHASING!")
         signal.broadcast('chase', id, speed)
         coroutine.yield()
       end
