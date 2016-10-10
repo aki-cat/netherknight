@@ -39,10 +39,10 @@ function sprites:__init ()
     local sprite = sprites_model:get_element(id)
     if not sprite then return end
 
-    local shine = 2048
+    local shine = 1280
     sprite:set_brightness(shine)
     self.timer:during(stagger, function ()
-      shine = shine - 25
+      shine = shine - 30
       sprite:set_brightness(shine)
     end, function ()
       sprite:set_brightness(255)

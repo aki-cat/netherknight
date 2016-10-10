@@ -15,9 +15,9 @@ function gameplay:load()
   signal.connect(self.controllers.behaviours)
   signal.connect(self.controllers.bodies)
   signal.connect(self.controllers.hitboxes)
-  signal.connect(self.controllers.sprites)
   signal.connect(self.controllers.camera)
   signal.connect(self.controllers.rooms)
+  signal.connect(self.controllers.sprites)
 
   -- create first elements
   factory.make_player(self.models)
