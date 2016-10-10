@@ -37,10 +37,10 @@ function player:__init ()
       local player_element = player_model:get_player()
       local id = player_element:get_id()
       if not player_element or player_element:is_locked() then return end
-      
+
       signal.broadcast('slash_attack', id)
       signal.broadcast('change_state', id, 'attack')
-      player_element:lock(.2)
+      player_element:lock(.3)
     end
   end)
 end
