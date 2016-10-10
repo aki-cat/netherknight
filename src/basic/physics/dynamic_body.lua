@@ -33,7 +33,7 @@ function dynamic_body:repulse (point)
     local angle = math.pi * love.math.random(0,7) / 4
     antigravity = vector:new { math.cos(angle), math.sin(angle) }
   end
-  self:move(0.4 * antigravity)
+  self:move(0.3 * antigravity)
 end
 
 function dynamic_body:move (acc)
