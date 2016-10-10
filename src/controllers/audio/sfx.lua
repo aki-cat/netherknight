@@ -18,6 +18,10 @@ function sfx:__init ()
     end
   end)
 
+  self:register_action('slash_attack', function (id)
+    audio:play('Slash')
+  end)
+
 end
 
 return sfx:new {}

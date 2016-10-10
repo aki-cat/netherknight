@@ -8,13 +8,16 @@ function sprites:death_animation (sprite, offset)
 
   -- setup death animaiton
   death:set_id(id)
-  death:set_pos((sprite:get_pos() + offset):unpack())
+  local deathpos = sprite:get_pos() + offset
+  deathpos.z = 1
+  death:set_pos(deathpos:unpack())
   self:add_element(death)
 
   -- setup animation duration
   self.timer:during(DEATH_TIME, function ()
-    print('death pos:', death:get_pos())
-    death:set_pos((sprite:get_pos() + offset):unpack())
+    local deathpos = sprite:get_pos() + offset
+    deathpos.z = 1
+    death:set_pos(deathpos:unpack())
   end, function ()
     self:remove_element(id)
     self:remove_element(sprite:get_id())
@@ -25,7 +28,7 @@ function sprites:sort_by_y ()
   local pool = self:get_pool()
   table.sort(pool, function(a,b)
     local apos, bpos = a:get_pos(), b:get_pos()
-    return apos.y < bpos.y
+    return apos.z == bpos.z and apos.y < bpos.y or apos.z < bpos.z
   end)
 end
 

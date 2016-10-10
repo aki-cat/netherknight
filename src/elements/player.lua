@@ -4,23 +4,23 @@ local player = require 'element' :new {
 }
 
 function player:__init ()
-  self.lock = false
+  self.locked = false
   self.timer = require 'basic.timer' :new {}
 end
 
 function player:is_locked ()
-  return self.lock
+  return self.locked
 end
 
 function player:lock (time)
-  self.lock = true
+  self.locked = true
   self.timer:after(time, function ()
-    self.lock = false
+    self.locked = false
   end)
 end
 
 function player:unlock (time)
-  self.lock = false
+  self.locked = false
   self.timer:clear()
 end
 

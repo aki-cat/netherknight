@@ -61,8 +61,8 @@ function sprite:freeze_animation ()
   self.timer:clear()
 end
 
-function sprite:set_pos (x, y)
-  self.pos:set(x, y)
+function sprite:set_pos (x, y, z)
+  self.pos:set(x, y, z)
 end
 
 function sprite:get_pos ()
