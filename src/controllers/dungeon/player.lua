@@ -22,6 +22,7 @@ function player:__init ()
     if dirname ~= 'none' then
       local movement = physics_util.get_direction(dirname)
       local speed = 1/globals.unit * 1/2
+      player_element:face(dirname)
       signal.broadcast('move', id, movement * speed)
       signal.broadcast('change_state', id, 'walking')
     else

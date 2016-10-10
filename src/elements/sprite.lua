@@ -62,7 +62,8 @@ function sprite:freeze_animation ()
 end
 
 function sprite:set_pos (x, y, z)
-  self.pos:set(x, y, z)
+  local UNIT = globals.unit
+  self.pos:set(x * UNIT, y * UNIT, z)
 end
 
 function sprite:get_pos ()

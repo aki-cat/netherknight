@@ -8,15 +8,19 @@ function sprites:death_animation (sprite, offset)
 
   -- setup death animaiton
   death:set_id(id)
-  local deathpos = sprite:get_pos() + offset
+  local deathpos = (sprite:get_pos() / globals.unit) + offset
   deathpos.z = 1
+  print("DEATH_POS UNTREATED", sprite:get_pos())
+  print("DEATH_POS", deathpos)
   death:set_pos(deathpos:unpack())
   self:add_element(death)
 
   -- setup animation duration
   self.timer:during(DEATH_TIME, function ()
-    local deathpos = sprite:get_pos() + offset
+    local deathpos = (sprite:get_pos() / globals.unit) + offset
     deathpos.z = 1
+    print("DEATH_POS UNTREATED", sprite:get_pos())
+    print("DEATHPOS", deathpos)
     death:set_pos(deathpos:unpack())
   end, function ()
     self:remove_element(id)

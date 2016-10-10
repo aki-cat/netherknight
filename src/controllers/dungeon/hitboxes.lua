@@ -11,6 +11,10 @@ function hitboxes:__init ()
     end)
   end)
 
+  self:register_action('done', function (id)
+    hitboxes_model:remove_element(id)
+  end)
+
   self:register_action('position', function (id, pos)
     local hitbox = hitboxes_model:get_element(id)
     if not hitbox then return end

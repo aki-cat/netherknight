@@ -9,4 +9,8 @@ hitboxes.slime = {
   6/10, 1/2, 0, -8/64
 }
 
+hitboxes.slash = {
+  1, 1, 0, 0
+}
+
 return hitboxes

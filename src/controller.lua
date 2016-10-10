@@ -10,7 +10,7 @@ local STOP = -1
 function controller:__init ()
   -- create a new list of actions
   self.actions = {}
-
+  
   -- get main model
   self.modelsection = self[1]
 

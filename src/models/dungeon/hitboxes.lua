@@ -23,7 +23,9 @@ function hitboxes:update ()
 end
 
 function hitboxes:draw ()
+  local colors = require 'effects.colors'
   local pool = self:get_pool()
+  colors.setRGBA(255,255,255,128)
   for index, body in ipairs(pool) do
     local area = body:get_area()
     local x, y = area:get_pos():unpack()
@@ -38,6 +40,7 @@ function hitboxes:draw ()
       h * globals.unit
     )
   end
+  colors.reset()
 end
 
 return hitboxes:new {}
