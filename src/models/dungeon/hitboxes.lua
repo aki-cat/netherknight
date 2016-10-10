@@ -28,17 +28,11 @@ function hitboxes:draw ()
   colors.setRGBA(255,255,255,128)
   for index, body in ipairs(pool) do
     local area = body:get_area()
-    local x, y = area:get_pos():unpack()
-    local w, h = area:get_size():unpack()
+    local x, y = (area:get_pos() * globals.unit):unpack()
+    local w, h = (area:get_size() * globals.unit):unpack()
     x = area.centred and x - w / 2 or x
     y = area.centred and y - h / 2 or y
-    love.graphics.rectangle(
-      'fill',
-      x * globals.unit,
-      y * globals.unit,
-      w * globals.unit,
-      h * globals.unit
-    )
+    love.graphics.rectangle('fill', x, y, w, h)
   end
   colors.reset()
 end
