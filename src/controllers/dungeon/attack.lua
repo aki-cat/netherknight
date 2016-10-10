@@ -47,7 +47,8 @@ function attack:__init ()
 
     basic_slash_hitbox:set_pos(pos + dir * 1.5)
     basic_slash_sprite:set_pos((pos + dir * 1.5):unpack())
-
+    basic_slash_sprite:play_animation()
+    
     attack_model:add_element(basic_slash_attack)
     hitbox_model:add_element(basic_slash_hitbox)
     sprite_model:add_element(basic_slash_sprite)
