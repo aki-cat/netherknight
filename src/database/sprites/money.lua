@@ -10,14 +10,12 @@ money[4]  = 0
 money[5]  = 0
 money[6]  = 1
 money[7]  = 1
-money[8]  = 16
-money[9]  = 20
 
 money.animations = {
   default = {
     default = true,
-    quads = {
-      love.graphics.newQuad(13*32, 0, 32, 32, w, h),
+    frames = {
+      { love.graphics.newQuad(13*32, 0, 32, 32, w, h), { 16, 20 } },
     },
     step = 1
   },

@@ -1,16 +1,8 @@
 
+local vector = require 'basic.vector'
+
 local dynamic_body = require 'basic.physics.collision_area' :new {
   centred = true,
-  DIRECTION = {
-    right      = basic.vector:new { math.cos(math.pi * 0/4), math.sin(math.pi * 0/4), },
-    down_right = basic.vector:new { math.cos(math.pi * 1/4), math.sin(math.pi * 1/4), },
-    down       = basic.vector:new { math.cos(math.pi * 2/4), math.sin(math.pi * 2/4), },
-    down_left  = basic.vector:new { math.cos(math.pi * 3/4), math.sin(math.pi * 3/4), },
-    left       = basic.vector:new { math.cos(math.pi * 4/4), math.sin(math.pi * 4/4), },
-    up_left    = basic.vector:new { math.cos(math.pi * 5/4), math.sin(math.pi * 5/4), },
-    up         = basic.vector:new { math.cos(math.pi * 6/4), math.sin(math.pi * 6/4), },
-    up_right   = basic.vector:new { math.cos(math.pi * 7/4), math.sin(math.pi * 7/4), },
-  },
   SPEEDLIMIT = 0.8,
   EPSILON = 1e-3,
   __type = 'dynamic_body'
@@ -25,7 +17,7 @@ function dynamic_body:__newindex (k, v)
 end
 
 function dynamic_body:__init ()
-  self.speed = basic.vector:new {}
+  self.speed = vector:new {}
 end
 
 function dynamic_body:update ()
@@ -39,7 +31,7 @@ function dynamic_body:repulse (point)
   local sqrmag = antigravity * antigravity
   if sqrmag == math.huge or sqrmag ~= sqrmag then
     local angle = math.pi * love.math.random(0,7) / 4
-    antigravity = basic.vector:new { math.cos(angle), math.sin(angle) }
+    antigravity = vector:new { math.cos(angle), math.sin(angle) }
   end
   self:move(0.4 * antigravity)
 end
@@ -62,10 +54,6 @@ end
 
 function dynamic_body:get_speed ()
   return self.speed * 1
-end
-
-function dynamic_body.getdirection (dirname)
-  return dynamic_body.DIRECTION[dirname] * 1
 end
 
 return dynamic_body

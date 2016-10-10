@@ -10,8 +10,6 @@ dummy[4]  = 0
 dummy[5]  = 0
 dummy[6]  = 1
 dummy[7]  = 1
-dummy[8]  = w / 2
-dummy[9]  = h / 2
 
 dummy.animations = {}
 

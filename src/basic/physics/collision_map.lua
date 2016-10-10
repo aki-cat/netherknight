@@ -7,7 +7,11 @@ local collision_map = require 'basic.prototype' :new {
 }
 
 function collision_map:__init()
-  self.map = require 'basic.matrix' :new { self[1], self[2], 0 }
+  self:generate(self[1], self[2])
+end
+
+function collision_map:generate(width, height)
+  self.map = require 'basic.matrix' :new { width, height, 0 }
 end
 
 function collision_map:get_nine_poins (x, y, w, h)
@@ -41,8 +45,9 @@ function collision_map:is_area_occupied (x, y, w, h)
   return occupied
 end
 
-function collision_map:occupy_tile (x, y)
-  self.map:set(y, x, 1)
+function collision_map:occupy_tile (x, y, value)
+  if value == nil then return end
+  self.map:set(y, x, value)
 end
 
 return collision_map

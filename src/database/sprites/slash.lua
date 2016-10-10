@@ -10,16 +10,14 @@ slash[4]  = 0
 slash[5]  = 0
 slash[6]  = 2
 slash[7]  = 3
-slash[8]  = 48
-slash[9]  = 32
 
 slash.animations = {
   default = {
     default = true,
-    quads = {
-      love.graphics.newQuad(0*64, 0, 64, 64, w, h),
+    frames = {
+      { love.graphics.newQuad(0*64, 0, 64, 64, w, h), { 48, 32 } }
     },
-    step = 0.1
+    step = 1
   },
 }
 

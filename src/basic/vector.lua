@@ -36,6 +36,10 @@ function vector.__sub (l, r)
   }
 end
 
+function vector:__eq (v)
+  return self[1] == v[1] and self[2] == v[2] and self[3] == v[3]
+end
+
 local function scalar_product (v, f)
   return vector:new{
     f * v[1],
@@ -64,6 +68,14 @@ end
 
 function vector:__unm ()
   return self * -1
+end
+
+function vector:__tostring ()
+  local s = "Vector: { "
+  s = s .. self[1] .. ", "
+  s = s .. self[2] .. ", "
+  s = s .. self[3] .. " }"
+  return s
 end
 
 function vector:set (x, y, z)

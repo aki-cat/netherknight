@@ -16,11 +16,11 @@ slime[9]  = 80
 slime.animations = {
   default = {
     default = true,
-    quads = {
-      love.graphics.newQuad(1*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(2*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
+    frames = {
+      { love.graphics.newQuad(1*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(0*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(2*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(0*64, 0, 64, 96, w, h), { 32, 80 } },
     },
     step = 0.15
   },

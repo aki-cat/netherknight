@@ -10,42 +10,40 @@ knight[4]  = 0
 knight[5]  = 0
 knight[6]  = 1
 knight[7]  = 1
-knight[8]  = 32
-knight[9]  = 72
 
 knight.animations = {
   default = {
     default = true,
-    quads = {
-      love.graphics.newQuad(0*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(1*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(2*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(1*64, 0, 64, 96, w, h),
+    frames = {
+      { love.graphics.newQuad(0*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(1*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(2*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(1*64, 0, 64, 96, w, h), { 32, 80 } },
     },
     step = 0.15
   },
   walking = {
     default = false,
-    quads = {
-      love.graphics.newQuad(3*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(4*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(5*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(6*64, 0, 64, 96, w, h),
+    frames = {
+      { love.graphics.newQuad(3*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(4*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(5*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(6*64, 0, 64, 96, w, h), { 32, 80 } },
     },
     step = 0.15
   },
   attack = {
     default = false,
     oneshot = true,
-    quads = {
-      love.graphics.newQuad(7*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(7*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(8*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(8*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(9*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(9*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(10*64, 0, 64, 96, w, h),
-      love.graphics.newQuad(10*64, 0, 64, 96, w, h),
+    frames = {
+      { love.graphics.newQuad(7*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(7*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(8*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(8*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(9*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(9*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(10*64, 0, 64, 96, w, h), { 32, 80 } },
+      { love.graphics.newQuad(10*64, 0, 64, 96, w, h), { 32, 80 } },
     },
     step = 0.0333
   }
