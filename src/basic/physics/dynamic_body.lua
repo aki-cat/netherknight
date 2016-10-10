@@ -36,6 +36,16 @@ function dynamic_body:repulse (point)
   self:move(0.3 * antigravity)
 end
 
+function dynamic_body:impulse (direction, strength)
+  direction:normalize()
+  local sqrmag = direction * direction
+  if sqrmag == math.huge or sqrmag ~= sqrmag then
+    local angle = math.pi * love.math.random(0,7) / 4
+    direction = vector:new { math.cos(angle), math.sin(angle) }
+  end
+  self:move(strength * direction)
+end
+
 function dynamic_body:move (acc)
   self.speed:add(acc)
 end

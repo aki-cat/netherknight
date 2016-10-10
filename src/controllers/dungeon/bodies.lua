@@ -4,6 +4,7 @@ local bodies = require 'controller' :new { 'dungeon' }
 function bodies:__init ()
   local DEATH_TIME = 0.6
   local physics_model = self:get_model('physics')
+  local hitboxes_model = self:get_model('hitboxes')
 
   -- initialise actions
   self:register_action('death', function (id)
@@ -17,8 +18,9 @@ function bodies:__init ()
     if not body then return end
 
     local physical_body = body:get_physics()
-    local attacker = physics_model:get_element(harmful_id):get_physics()
-    physical_body:repulse(attacker:get_pos())
+    local attacked = hitboxes_model:get_element(id):get_area()
+    local attacker = hitboxes_model:get_element(harmful_id):get_area()
+    physical_body:impulse(attacked:get_pos() - attacker:get_pos(), 0.2)
   end)
 
   self:register_action('move', function (id, acc)
